@@ -1,23 +1,59 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useCallback, useEffect, useState } from "react";
+import { LangProvider, dict } from "@/lib/i18n";
+import { Loader } from "@/components/peaq/Loader";
+import { Nav } from "@/components/peaq/Nav";
+import { Hero } from "@/components/peaq/Hero";
+import { Marquee } from "@/components/peaq/Marquee";
+import { Disciplines } from "@/components/peaq/Disciplines";
+import { AthleteBib } from "@/components/peaq/AthleteBib";
+import { Rankings } from "@/components/peaq/Rankings";
+import { Stats } from "@/components/peaq/Stats";
+import { Events } from "@/components/peaq/Events";
+import { AppReveal } from "@/components/peaq/AppReveal";
+import { Waitlist } from "@/components/peaq/Waitlist";
+import { Footer } from "@/components/peaq/Footer";
+import { Cursor, ScrollTrigger } from "@/components/peaq/core";
 
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: dict.it.meta.title },
+      { name: "description", content: dict.it.meta.description },
+      { property: "og:title", content: dict.it.meta.title },
+      { property: "og:description", content: dict.it.meta.description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [ready, setReady] = useState(false);
+  const done = useCallback(() => setReady(true), []);
+  useEffect(() => {
+    if (!ready) return;
+    const id = setTimeout(() => ScrollTrigger.refresh(), 300);
+    return () => clearTimeout(id);
+  }, [ready]);
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <LangProvider>
+      <Loader onDone={done} />
+      <Cursor />
+      <Nav />
+      <main>
+        <Hero ready={ready} />
+        <Marquee items={["Running", "Cycling", "Identity", "Ranking", "Progress", "Community"]} />
+        <Disciplines />
+        <AthleteBib />
+        <Rankings />
+        <Stats />
+        <Events />
+        <AppReveal />
+        <Waitlist />
+      </main>
+      <Footer />
+    </LangProvider>
   );
 }
