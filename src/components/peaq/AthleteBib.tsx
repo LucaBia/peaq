@@ -27,7 +27,7 @@ export function AthleteBib() {
   const shine = useRef<HTMLDivElement>(null);
   const { t, lang } = useLang();
   const [idx, setIdx] = useState(0);
-  const p = profiles[idx];
+  const p = profiles[idx] ?? profiles[0]!;
 
   useGsap(ref, () => {
     gsap.from("[data-word]", { yPercent: 110, duration: 1.1, stagger: 0.04, ease: "expo.out", scrollTrigger: { trigger: ref.current, start: "top 70%" } });

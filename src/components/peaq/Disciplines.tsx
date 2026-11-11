@@ -13,7 +13,7 @@ function Telemetry({ labels, values }: { labels: readonly string[]; values: stri
       {labels.map((l, i) => (
         <div key={l} className="bg-background/70 p-3 backdrop-blur">
           <div className="eyebrow text-[0.6rem] text-muted-foreground">{l}</div>
-          <div className="font-mono text-sm text-primary tabular-nums md:text-base">{values[i].replace("#", String((tick * (i + 3)) % 10))}</div>
+          <div className="font-mono text-sm text-primary tabular-nums md:text-base">{(values[i] ?? "").replace("#", String((tick * (i + 3)) % 10))}</div>
         </div>
       ))}
     </div>
