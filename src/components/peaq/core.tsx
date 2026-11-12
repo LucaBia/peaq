@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
@@ -22,21 +22,25 @@ export function useGsap(ref: RefObject<HTMLElement | null>, fn: (ctx: gsap.Conte
   }, deps);
 }
 
-/** Custom PEAQ wordmark: the Q's tail becomes a rising peak. */
+/** Custom PEAQ wordmark: the Q's tail is a twin mountain peak breaking through the ring. */
 export function Wordmark({ className, accent = true }: { className?: string; accent?: boolean }) {
+  const id = useId().replace(/:/g, "");
+  const peak = "M368 110L400 64L413 80L428 56L446 110Z";
   return (
-    <svg viewBox="0 0 420 110" className={cn("block", className)} role="img" aria-label="PEAQ">
+    <svg viewBox="0 0 446 110" className={cn("block", className)} role="img" aria-label="PEAQ">
+      <defs>
+        <mask id={`q${id}`} maskUnits="userSpaceOnUse" x="0" y="0" width="446" height="110">
+          <rect width="446" height="110" fill="white" />
+          <path d={peak} fill="black" stroke="black" strokeWidth="14" strokeLinejoin="round" />
+        </mask>
+      </defs>
       <g fill="currentColor">
-        {/* P */}
         <path d="M0 4h58c26 0 42 14 42 37s-16 37-42 37H30v28H0V4Zm30 26v22h24c9 0 14-4 14-11s-5-11-14-11H30Z" />
-        {/* E */}
         <path d="M110 4h86v26h-56v12h50v24h-50v14h58v26h-88V4Z" />
-        {/* A — apex replaced with a mountain peak, no crossbar */}
         <path d="M250 4h30l44 102h-32l-27-66-27 66h-32L250 4Z" />
+        <path mask={`url(#q${id})`} fillRule="evenodd" d="M386 4a51 51 0 1 1 0 102a51 51 0 1 1 0-102Zm0 27a24 24 0 1 0 0 48a24 24 0 1 0 0-48Z" />
       </g>
-      {/* Q */}
-      <path fill="currentColor" d="M372 2c27 0 48 22 48 52 0 13-4 25-11 34l-30 0c12-6 20-19 20-34 0-17-12-29-27-29s-27 12-27 29 12 29 27 29h2v25h-2c-28 0-50-23-50-54S344 2 372 2Z" />
-      <path className={accent ? "text-primary" : ""} fill="currentColor" d="M378 108l18-26 10 12 14-20v34h-42Z" />
+      <path className={accent ? "text-primary" : ""} fill="currentColor" d={peak} />
     </svg>
   );
 }
