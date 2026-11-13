@@ -33,6 +33,14 @@
   --color-graphite: var(--graphite);
   --color-steel: var(--steel);
   --color-lime: var(--lime);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-league-valle: var(--league-valle);
+  --color-league-collina: var(--league-collina);
+  --color-league-passo: var(--league-passo);
+  --color-league-cresta: var(--league-cresta);
+  --color-league-vetta: var(--league-vetta);
+  --color-league-peaq: var(--league-peaq);
 }
 
 :root {
@@ -61,7 +69,39 @@
   --lime: oklch(0.93 0.22 125);
   --gradient-metal: linear-gradient(135deg, oklch(0.28 0.006 200), oklch(0.18 0.004 160) 45%, oklch(0.3 0.008 220));
   --gradient-fade: linear-gradient(180deg, transparent, var(--background));
+  --success: oklch(0.62 0.17 150);
+  --warning: oklch(0.72 0.16 65);
+  --league-valle: oklch(0.62 0.16 150);
+  --league-collina: oklch(0.85 0.17 95);
+  --league-passo: oklch(0.72 0.18 55);
+  --league-cresta: oklch(0.6 0.22 27);
+  --league-vetta: oklch(0.75 0.12 230);
+  --league-peaq: oklch(0.5 0.2 265);
+  --gradient-peaq: linear-gradient(120deg, oklch(0.45 0.2 265), oklch(0.6 0.22 27));
   --shadow-lime: 0 0 60px -10px color-mix(in oklab, var(--lime) 55%, transparent);
+}
+
+/* Athlete app: white, restrained, iOS-like surface. Applied on the app shell and on portalled sheets. */
+.theme-app {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.16 0.004 160);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0.004 160);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0.004 160);
+  --primary: oklch(0.16 0.004 160);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.965 0.002 160);
+  --secondary-foreground: oklch(0.16 0.004 160);
+  --muted: oklch(0.965 0.002 160);
+  --muted-foreground: oklch(0.5 0.006 160);
+  --accent: oklch(0.93 0.22 125);
+  --accent-foreground: oklch(0.16 0.004 160);
+  --border: oklch(0.9 0.003 160);
+  --input: oklch(0.86 0.003 160);
+  --ring: oklch(0.16 0.004 160);
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 @layer base {
@@ -129,3 +169,7 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+@utility pt-safe { padding-top: max(env(safe-area-inset-top), 0.75rem); }
+@utility pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 1rem); }
+@utility bg-gradient-peaq { background: var(--gradient-peaq); }

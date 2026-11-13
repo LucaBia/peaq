@@ -14,6 +14,328 @@ export type Database = {
   }
   public: {
     Tables: {
+      athlete_documents: {
+        Row: {
+          card_number: string | null
+          created_at: string
+          doc_type: string
+          expires_on: string | null
+          id: string
+          organization: string | null
+          review_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          storage_path: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          card_number?: string | null
+          created_at?: string
+          doc_type: string
+          expires_on?: string | null
+          id?: string
+          organization?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          storage_path?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          card_number?: string | null
+          created_at?: string
+          doc_type?: string
+          expires_on?: string | null
+          id?: string
+          organization?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          storage_path?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      athlete_performance: {
+        Row: {
+          bike_wkg: number | null
+          run_distance_km: number | null
+          run_time_seconds: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          bike_wkg?: number | null
+          run_distance_km?: number | null
+          run_time_seconds?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          bike_wkg?: number | null
+          run_distance_km?: number | null
+          run_time_seconds?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "athlete_performance_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "athlete_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      athlete_private: {
+        Row: {
+          date_of_birth: string
+          gender: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          date_of_birth: string
+          gender: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          date_of_birth?: string
+          gender?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "athlete_private_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "athlete_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      athlete_profiles: {
+        Row: {
+          bib_number: number | null
+          bib_variant: string
+          city_id: string | null
+          created_at: string
+          discipline: string | null
+          nationality: string | null
+          onboarding_completed_at: string | null
+          updated_at: string
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          bib_number?: number | null
+          bib_variant?: string
+          city_id?: string | null
+          created_at?: string
+          discipline?: string | null
+          nationality?: string | null
+          onboarding_completed_at?: string | null
+          updated_at?: string
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          bib_number?: number | null
+          bib_variant?: string
+          city_id?: string | null
+          created_at?: string
+          discipline?: string | null
+          nationality?: string | null
+          onboarding_completed_at?: string | null
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "athlete_profiles_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      athlete_progression: {
+        Row: {
+          events_completed: number
+          level: number
+          updated_at: string
+          user_id: string
+          xp: number
+        }
+        Insert: {
+          events_completed?: number
+          level?: number
+          updated_at?: string
+          user_id: string
+          xp?: number
+        }
+        Update: {
+          events_completed?: number
+          level?: number
+          updated_at?: string
+          user_id?: string
+          xp?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "athlete_progression_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "athlete_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      athlete_ratings: {
+        Row: {
+          created_at: string
+          discipline: string
+          league: string
+          placement_races_completed: number
+          placement_races_required: number
+          provisional: boolean
+          rating: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          discipline: string
+          league?: string
+          placement_races_completed?: number
+          placement_races_required?: number
+          provisional?: boolean
+          rating?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          discipline?: string
+          league?: string
+          placement_races_completed?: number
+          placement_races_required?: number
+          provisional?: boolean
+          rating?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "athlete_ratings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "athlete_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      cities: {
+        Row: {
+          country_code: string
+          id: string
+          lat: number | null
+          lng: number | null
+          name: string
+          region: string | null
+        }
+        Insert: {
+          country_code: string
+          id: string
+          lat?: number | null
+          lng?: number | null
+          name: string
+          region?: string | null
+        }
+        Update: {
+          country_code?: string
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          name?: string
+          region?: string | null
+        }
+        Relationships: []
+      }
+      notification_preferences: {
+        Row: {
+          decided_at: string
+          lobby_opening: boolean
+          new_events: boolean
+          results: boolean
+          user_id: string
+        }
+        Insert: {
+          decided_at?: string
+          lobby_opening?: boolean
+          new_events?: boolean
+          results?: boolean
+          user_id?: string
+        }
+        Update: {
+          decided_at?: string
+          lobby_opening?: boolean
+          new_events?: boolean
+          results?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
+      onboarding_progress: {
+        Row: {
+          current_step: number
+          draft: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          current_step?: number
+          draft?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          current_step?: number
+          draft?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       waitlist: {
         Row: {
           consent: boolean
@@ -46,10 +368,44 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      bib_status: { Args: { _number: number }; Returns: string }
+      claim_bib: { Args: { _number: number }; Returns: number }
+      complete_onboarding: { Args: never; Returns: undefined }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      random_available_bib: { Args: never; Returns: number }
+      review_document: {
+        Args: { _id: string; _note?: string; _status: string }
+        Returns: undefined
+      }
+      save_performance: {
+        Args: {
+          _bike_wkg: number
+          _run_distance_km: number
+          _run_time_seconds: number
+        }
+        Returns: undefined
+      }
+      save_personal_info: {
+        Args: {
+          _city_id: string
+          _dob: string
+          _gender: string
+          _nationality: string
+          _username: string
+        }
+        Returns: undefined
+      }
+      set_discipline: { Args: { _discipline: string }; Returns: undefined }
+      username_available: { Args: { _username: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -176,6 +532,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const

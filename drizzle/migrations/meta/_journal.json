@@ -8,6 +8,13 @@
       "when": 1794438909355,
       "tag": "0000_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794528496253,
+      "tag": "0001_athlete_onboarding",
+      "breakpoints": true
     }
   ]
 }
