@@ -28,7 +28,7 @@ export function LangSwitch() {
   );
 }
 
-export function TopBar({ onBack, backTo, right, children }: { onBack?: () => void; backTo?: string; right?: ReactNode; children?: ReactNode }) {
+export function TopBar({ onBack, backTo, right, children }: { onBack?: (() => void) | undefined; backTo?: string | undefined; right?: ReactNode; children?: ReactNode }) {
   const { t } = useAppLang();
   const cls = "-ml-2 flex size-11 items-center justify-center rounded-full hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring";
   return (
@@ -146,7 +146,7 @@ export function Sheet({ open, onOpenChange, title, children }: { open: boolean; 
   );
 }
 
-export function OptionList<V extends string>({ options, value, onSelect }: { options: { value: V; label: ReactNode; sub?: ReactNode }[]; value?: V | null; onSelect: (v: V) => void }) {
+export function OptionList<V extends string>({ options, value, onSelect }: { options: { value: V; label: ReactNode; sub?: ReactNode }[]; value?: V | null | undefined; onSelect: (v: V) => void }) {
   const { t } = useAppLang();
   if (!options.length) return <p className="px-6 py-8 text-center text-muted-foreground">{t.common.noResults}</p>;
   return (

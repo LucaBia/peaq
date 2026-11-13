@@ -104,6 +104,8 @@
   color: var(--foreground);
 }
 
+.theme-app *, .theme-app { border-color: var(--border); }
+
 @layer base {
   * { border-color: var(--color-border); }
   html { scroll-behavior: smooth; }

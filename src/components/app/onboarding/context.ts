@@ -3,8 +3,8 @@ import type { athleteService } from "@/lib/app/athlete";
 
 export type OnboardingData = Awaited<ReturnType<typeof athleteService.loadAll>>;
 export type Draft = {
-  username?: string; dob?: string; gender?: string; nationality?: string; cityId?: string; cityLabel?: string;
-  runKm?: 5 | 10; runMin?: string; runSec?: string; wkg?: string; bibInput?: string;
+  username?: string | undefined; dob?: string | undefined; gender?: string | undefined; nationality?: string | undefined; cityId?: string | undefined; cityLabel?: string | undefined;
+  runKm?: 5 | 10 | undefined; runMin?: string | undefined; runSec?: string | undefined; wkg?: string | undefined; bibInput?: string | undefined;
 };
 
 export type Ctx = {
