@@ -2,6 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const origin = () => window.location.origin;
 
+const lang = () => { try { return localStorage.getItem("peaq-lang") === "en" ? "en" : "it"; } catch { return "it"; } };
 export type AuthErrorKey = "errCredentials" | "errNotConfirmed" | "errExists" | "errRate" | "errWeak" | "network";
 
 export function mapAuthError(e: { message?: string; code?: string; status?: number } | null): AuthErrorKey {
@@ -16,7 +17,7 @@ export function mapAuthError(e: { message?: string; code?: string; status?: numb
 
 export const authService = {
   async signUp(email: string, password: string) {
-    const { data, error } = await supabase.auth.signUp({ email: email.trim(), password, options: { emailRedirectTo: `${origin()}/confirm` } });
+    const { data, error } = await supabase.auth.signUp({ email: email.trim(), password, options: { emailRedirectTo: `${origin()}/confirm?lang=${lang()}` } });
     if (error) throw error;
     // Supabase hides existing accounts by returning a user with no identities.
     if (data.user && data.user.identities?.length === 0) throw { code: "user_already_exists" };
@@ -27,11 +28,11 @@ export const authService = {
     if (error) throw error;
   },
   async resendConfirmation(email: string) {
-    const { error } = await supabase.auth.resend({ type: "signup", email, options: { emailRedirectTo: `${origin()}/confirm` } });
+    const { error } = await supabase.auth.resend({ type: "signup", email, options: { emailRedirectTo: `${origin()}/confirm?lang=${lang()}` } });
     if (error) throw error;
   },
   async requestReset(email: string) {
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${origin()}/reset-password` });
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${origin()}/reset-password?lang=${lang()}` });
     if (error) throw error;
   },
   async updatePassword(password: string) {
