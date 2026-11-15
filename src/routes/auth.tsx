@@ -5,8 +5,10 @@ import { Body, BottomBar, Field, Notice, PasswordInput, PrimaryButton, TextInput
 import { useAppLang } from "@/lib/app/i18n";
 import { authService, mapAuthError } from "@/lib/app/auth";
 import { isEmail } from "@/lib/app/validation";
+import { z } from "zod";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: z.object({ email: z.string().optional() }),
   head: () => ({ meta: [
     { title: "Accedi — PEAQ" }, { name: "description", content: "Accedi al tuo profilo atleta PEAQ." },
     { property: "og:title", content: "Accedi — PEAQ" }, { property: "og:description", content: "Accedi al tuo profilo atleta PEAQ." },
@@ -18,7 +20,7 @@ export const Route = createFileRoute("/auth")({
 function Login() {
   const { t } = useAppLang();
   const nav = useNavigate();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(Route.useSearch().email ?? "");
   const [pw, setPw] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);

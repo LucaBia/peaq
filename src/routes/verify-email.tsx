@@ -41,6 +41,10 @@ function Verify() {
   }
   async function confirmed() {
     setBusy(true);
+    const { data: sess } = await supabase.auth.getSession();
+    // Link opened in another browser/app: this tab has no session, so go log in.
+    if (!sess.session) { setBusy(false); nav({ to: "/auth", search: { email }, replace: true }); return; }
+    await supabase.auth.refreshSession();
     const { data } = await supabase.auth.getUser();
     setBusy(false);
     if (data.user?.email_confirmed_at) nav({ to: "/onboarding", replace: true });
