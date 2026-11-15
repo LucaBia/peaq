@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLang } from "@/lib/i18n";
+import { sendWaitlistWelcome } from "@/lib/waitlist.functions";
 import { cn } from "@/lib/utils";
 import { gsap, Magnetic, useGsap, Wordmark } from "./core";
 
@@ -34,6 +35,8 @@ export function Waitlist() {
     }
     setStatus({ kind: "ok", msg: f.ok });
     setEmail(""); setDisc(""); setConsent(false);
+    // Fire-and-forget: a failed welcome email must not break the signup.
+    sendWaitlistWelcome({ data: { email: clean, locale: lang, discipline: disc || null } }).catch((e) => console.error("welcome email failed", e));
   }
 
   return (
