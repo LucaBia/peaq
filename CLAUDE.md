@@ -47,6 +47,12 @@ Quando Figma o Notion e questi file non sono d'accordo, valgono Figma (schermate
 ## Regole di lavoro
 
 - Git: si lavora solo sul branch `Giometto`. Mai fare commit, merge o push su `main`.
+- **Niente push senza richiesta.** Giovanni lavora in locale e non vuole ancora mostrare il lavoro: non fare `git push` (né aprire pull request) finché non lo chiede lui in modo esplicito. Se un'azione manderebbe qualcosa su GitHub o su Lovable, fermati e chiedi.
+- **Commit spesso, in locale.** Dopo ogni passo che funziona fai un commit sul branch `Giometto` con un messaggio chiaro in italiano, così si può sempre tornare indietro. Prima di una modifica grossa controlla che non ci siano modifiche non salvate.
+- **Il lavoro esiste solo su questo Mac** finché non si fa push. Non cancellare né riscrivere commit locali; se Giovanni chiede una copia di sicurezza, proponi un push del branch `Giometto` e spiega che da quel momento Luca lo vede.
+- **Tenersi aggiornati con `main`.** Quando Giovanni lo chiede (o prima di un lavoro lungo, proponendolo), scarica le novità con `git fetch origin` e portale dentro `Giometto` con `git merge origin/main`. Questo non mostra niente a Luca. Mai usare rebase o force push (regola di Lovable in `AGENTS.md`). Se ci sono conflitti, spiegali in parole semplici prima di risolverli.
+- **Attenzione al database.** L'app in locale può collegarsi allo stesso database online (Supabase) usato da Luca e dal sito pubblicato: i dati creati o cambiati in locale sarebbero visibili a tutti. Alla prima sessione verifica a quale database punta `.env` e dillo a Giovanni. Non creare utenti o dati di prova e non cambiare dati veri senza averlo avvisato; non mostrare mai le chiavi contenute in `.env`.
+- **Giovanni non è uno sviluppatore.** Spiega cosa stai per fare e cosa hai fatto in italiano semplice, senza dare per scontati termini tecnici (branch, commit, push, merge vanno spiegati la prima volta). Prima di comandi che cancellano o sovrascrivono qualcosa, chiedi conferma.
 - Il progetto è collegato a Lovable: rispettare le regole in `AGENTS.md` (niente riscrittura della cronologia già pubblicata, schema del database e migrazioni solo tramite Lovable).
 - `docs/03-modello-dati-e-admin.md` è una proposta di progetto: lo schema reale è quello in `supabase/` e `drizzle/`.
 - Non inventare regole di gioco: se una regola manca, chiedi o segnala come domanda aperta in `docs/06-decisioni-aperte.md`.
