@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/resend";
+const RESEND_URL = "https://api.resend.com";
 const FROM = "PEAQ <hello@updates.peaqrace.com>";
 
 const input = z.object({
@@ -47,26 +48,44 @@ export const sendWaitlistWelcome = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const lovableKey = process.env["LOVABLE_API_KEY"];
     const resendKey = process.env["RESEND_API_KEY"];
-    if (!lovableKey || !resendKey) throw new Error("Email service is not configured");
 
     const c = COPY[data.locale];
-    const response = await fetch(`${GATEWAY_URL}/emails`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${lovableKey}`,
-        "X-Connection-Api-Key": resendKey,
-      },
-      body: JSON.stringify({
-        from: FROM,
-        to: [data.email],
-        subject: c.subject,
-        html: html(data.locale, data.discipline),
-      }),
-    });
+    const payload = {
+      from: FROM,
+      to: [data.email],
+      subject: c.subject,
+      html: html(data.locale, data.discipline),
+    };
+
+    // On Lovable (prod) send through the connector gateway; locally (no Lovable
+    // key) call the Resend API directly with RESEND_API_KEY.
+    let response: Response;
+    if (lovableKey && resendKey) {
+      response = await fetch(`${GATEWAY_URL}/emails`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${lovableKey}`,
+          "X-Connection-Api-Key": resendKey,
+        },
+        body: JSON.stringify(payload),
+      });
+    } else if (resendKey) {
+      response = await fetch(`${RESEND_URL}/emails`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${resendKey}`,
+        },
+        body: JSON.stringify(payload),
+      });
+    } else {
+      throw new Error("Email service is not configured");
+    }
+
     if (!response.ok) {
       const errorBody = await response.text();
-      console.error(`Resend gateway failed [${response.status}]: ${errorBody}`);
+      console.error(`Waitlist email failed [${response.status}]: ${errorBody}`);
       throw new Error(`Email send failed [${response.status}]`);
     }
     return { ok: true };

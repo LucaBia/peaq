@@ -86,6 +86,41 @@ const it = {
     rankTitle: "Classifiche", rankEmpty: "La classifica della tua città sarà disponibile al lancio dell'ecosistema competitivo.",
     settings: "Impostazioni", city: "Città",
   },
+  admin: {
+    nav: { users: "Utenti", events: "Eventi", admins: "Admin", documents: "Documenti" },
+    backToApp: "Torna all'app",
+    loadError: "Errore di caricamento. Riprova.",
+    users: {
+      title: "Utenti registrati", sub: "{n} atleti", search: "Cerca per username o email",
+      user: "Utente", email: "Email", bib: "Pettorale", discipline: "Disciplina", city: "Città", onboarding: "Onboarding", joined: "Iscritto",
+      done: "Completo", pending: "In corso", empty: "Ancora nessun atleta registrato.",
+    },
+    events: {
+      title: "Eventi", sub: "Crea e gestisci le competizioni PEAQ.",
+      new: "Nuovo evento", edit: "Modifica evento", empty: "Nessun evento. Creane uno.",
+      colTitle: "Titolo", colDiscipline: "Disciplina", colDate: "Data", colStatus: "Stato", colActions: "Azioni",
+      publish: "Pubblica", unpublish: "Ritira", del: "Elimina", delConfirm: "Eliminare questo evento?",
+      fTitle: "Titolo", fDesc: "Descrizione", fDiscipline: "Disciplina", fDate: "Data e ora", fLocation: "Luogo", fCapacity: "Capienza", fStatus: "Stato",
+      save: "Salva modifiche", create: "Crea evento", saving: "Salvataggio…",
+      stDraft: "Bozza", stPublished: "Pubblicato", stCancelled: "Annullato",
+      errTitle: "Il titolo deve avere almeno 3 caratteri.", errDate: "Scegli data e ora.",
+    },
+    admins: {
+      title: "Amministratori", sub: "Chi può accedere a questo pannello.",
+      add: "Aggiungi admin", empty: "Nessun admin.", remove: "Rimuovi", removeConfirm: "Rimuovere i permessi di admin a questo utente?",
+      user: "Utente", email: "Email", actions: "Azioni",
+      pickTitle: "Assegna admin", pickSearch: "Cerca un atleta per username o email", grant: "Assegna admin",
+      lastAdmin: "Non puoi rimuovere l'ultimo admin.", noUsername: "(senza username)", granted: "Admin assegnato.",
+    },
+    documents: {
+      title: "Revisione documenti", sub: "Certificati medici e tessere caricati dagli atleti.", empty: "Nessun documento da revisionare.",
+      all: "Tutti", pending: "In attesa", approved: "Approvati", rejected: "Rifiutati",
+      user: "Atleta", type: "Tipo", org: "Ente", status: "Stato", actions: "Azioni",
+      view: "Apri file", approve: "Approva", reject: "Rifiuta", noFile: "Nessun file",
+      tMedical: "Certificato medico", tMembership: "Tessera",
+      stPending: "In attesa", stApproved: "Approvato", stRejected: "Rifiutato", stExpired: "Scaduto",
+    },
+  },
 };
 
 export type AppDict = typeof it;
@@ -173,6 +208,41 @@ const en: AppDict = {
     eventsTitle: "Events", eventsEmpty: "The first PEAQ competitions are being prepared. We'll let you know when registration opens.",
     rankTitle: "Rankings", rankEmpty: "Your city ranking will be available when the competitive ecosystem launches.",
     settings: "Settings", city: "City",
+  },
+  admin: {
+    nav: { users: "Users", events: "Events", admins: "Admins", documents: "Documents" },
+    backToApp: "Back to app",
+    loadError: "Failed to load. Try again.",
+    users: {
+      title: "Registered users", sub: "{n} athletes", search: "Search by username or email",
+      user: "User", email: "Email", bib: "Bib", discipline: "Discipline", city: "City", onboarding: "Onboarding", joined: "Joined",
+      done: "Done", pending: "In progress", empty: "No athletes registered yet.",
+    },
+    events: {
+      title: "Events", sub: "Create and manage PEAQ competitions.",
+      new: "New event", edit: "Edit event", empty: "No events. Create one.",
+      colTitle: "Title", colDiscipline: "Discipline", colDate: "Date", colStatus: "Status", colActions: "Actions",
+      publish: "Publish", unpublish: "Unpublish", del: "Delete", delConfirm: "Delete this event?",
+      fTitle: "Title", fDesc: "Description", fDiscipline: "Discipline", fDate: "Date & time", fLocation: "Location", fCapacity: "Capacity", fStatus: "Status",
+      save: "Save changes", create: "Create event", saving: "Saving…",
+      stDraft: "Draft", stPublished: "Published", stCancelled: "Cancelled",
+      errTitle: "Title must be at least 3 characters.", errDate: "Pick a date and time.",
+    },
+    admins: {
+      title: "Administrators", sub: "Who can access this panel.",
+      add: "Add admin", empty: "No admins.", remove: "Remove", removeConfirm: "Remove admin rights from this user?",
+      user: "User", email: "Email", actions: "Actions",
+      pickTitle: "Assign admin", pickSearch: "Search an athlete by username or email", grant: "Assign admin",
+      lastAdmin: "You can't remove the last admin.", noUsername: "(no username)", granted: "Admin assigned.",
+    },
+    documents: {
+      title: "Document review", sub: "Medical certificates and cards uploaded by athletes.", empty: "No documents to review.",
+      all: "All", pending: "Pending", approved: "Approved", rejected: "Rejected",
+      user: "Athlete", type: "Type", org: "Org", status: "Status", actions: "Actions",
+      view: "Open file", approve: "Approve", reject: "Reject", noFile: "No file",
+      tMedical: "Medical certificate", tMembership: "Membership card",
+      stPending: "Pending", stApproved: "Approved", stRejected: "Rejected", stExpired: "Expired",
+    },
   },
 };
 

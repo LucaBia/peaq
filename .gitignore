@@ -16,6 +16,12 @@ dist-ssr
 .nitro
 *.local
 
+# Env files — keep secrets and local config out of the repo.
+# Build/runtime values live in Cloudflare (see setup/README.md). .env.example documents them.
+.env
+.env.*
+!.env.example
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
