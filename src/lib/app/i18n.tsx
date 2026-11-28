@@ -129,6 +129,17 @@ const it = {
       title: "Le leghe", sub: "Sei leghe, dalla Valle a PEAQ. Le soglie sono uguali in tutta Italia.", range: "Rating {r}", here: "Sei qui",
       tag: { valle: "Chi inizia", collina: "Chi ha preso il ritmo", passo: "Chi si allena con un piano", cresta: "Chi corre per vincere", vetta: "I più forti della città", peaq: "I migliori in assoluto" },
     },
+    league: {
+      who: "Chi c'è", story: "Una storia",
+      items: {
+        valle: { who: ["Corre da poco, o ha ripreso dopo anni", "Punta a finire la sua prima gara", "Cerca un gruppo con cui partire"], name: "Sara, 34 anni", cap: "Ha iniziato tre mesi fa, due uscite a settimana.", body: "Si è iscritta per provare. Alla prima gara parte con persone del suo passo e al traguardo ha già scelto la prossima.", motto: "Ogni salita comincia dal fondovalle." },
+        collina: { who: ["Corre con regolarità, due o tre volte a settimana", "Ha già finito qualche gara", "Vuole abbassare il suo tempo"], name: "Marco, 41 anni", cap: "Corre prima del lavoro, ha fatto due 10 km.", body: "Ha scoperto che in gara va più forte che da solo. Adesso guarda il rating dopo ogni arrivo.", motto: "Il fiato c'è. Adesso si sale." },
+        passo: { who: ["Segue un programma di allenamento", "Conosce il suo passo e lo tiene", "Lotta per il podio della sua lega"], name: "Giulia, 29 anni", cap: "Ripetute il martedì, lungo la domenica.", body: "Le gare non sono più una prova: sono il motivo per cui si allena. Sa già chi deve battere per salire.", motto: "Dal passo si vede la cima." },
+        cresta: { who: ["Si allena quattro o cinque volte a settimana", "Sale spesso sul podio", "Conosce gli avversari per nome"], name: "Davide, 33 anni", cap: "Ex calciatore, corre da quattro anni.", body: "In Cresta le gare si decidono in volata: un secondo vale una posizione, e la Vetta è a pochi punti.", motto: "Qui il vento si sente. È il bello." },
+        vetta: { who: ["Si allenano quasi ogni giorno", "Vincono le gare della loro città", "Hanno la lega PEAQ nel mirino"], name: "Elena, 27 anni", cap: "Corre in una società da quando aveva 14 anni.", body: "In Vetta i posti sono pochi e li vogliono tutti. Chi ci arriva li deve difendere a ogni gara.", motto: "In cima non si resta per caso." },
+        peaq: { who: ["I rating più alti di tutta PEAQ", "Partono sempre per primi", "Il loro pettorale è blu, il colore di PEAQ"], name: "Lorenzo, 25 anni", cap: "È il nome che tutti cercano in classifica.", body: "PEAQ non è un traguardo: è un posto da tenere. A ogni gara qualcuno prova a prenderlo.", motto: "Hai raggiunto il tuo peaq. Adesso resta lassù." },
+      },
+    },
     stage: {
       title: "Tappa", yours: "La tua Tappa", toNext: "{n} XP alla Tappa {s}",
       intro: "Gli XP misurano quanto gareggi: salgono a ogni gara e non scendono mai. Sono un'altra cosa rispetto al rating.",
@@ -366,6 +377,17 @@ const en: AppDict = {
     leagues: {
       title: "The leagues", sub: "Six leagues, from Valle to PEAQ. The thresholds are the same everywhere in Italy.", range: "Rating {r}", here: "You are here",
       tag: { valle: "Just starting", collina: "Found their rhythm", passo: "Training with a plan", cresta: "Racing to win", vetta: "The strongest in town", peaq: "The best of all" },
+    },
+    league: {
+      who: "Who's here", story: "A story",
+      items: {
+        valle: { who: ["Started running recently, or came back after years", "Aims to finish a first race", "Looks for a group to start with"], name: "Sara, 34", cap: "She started three months ago, two runs a week.", body: "She signed up to give it a try. At her first race she starts with people at her pace, and at the finish she has already picked the next one.", motto: "Every climb starts from the valley floor." },
+        collina: { who: ["Runs regularly, two or three times a week", "Has already finished a few races", "Wants to bring their time down"], name: "Marco, 41", cap: "He runs before work and has done two 10 km races.", body: "He found out he's faster in a race than on his own. Now he checks his rating after every finish.", motto: "The lungs are there. Time to climb." },
+        passo: { who: ["Follows a training plan", "Knows their pace and holds it", "Fights for their league's podium"], name: "Giulia, 29", cap: "Intervals on Tuesday, long run on Sunday.", body: "Races are no longer a test: they are the reason she trains. She already knows who she has to beat to move up.", motto: "From the pass you can see the summit." },
+        cresta: { who: ["Trains four or five times a week", "Is often on the podium", "Knows their rivals by name"], name: "Davide, 33", cap: "A former footballer, running for four years.", body: "In Cresta races are decided in a sprint: one second is one position, and Vetta is a few points away.", motto: "You can feel the wind up here. That's the point." },
+        vetta: { who: ["They train almost every day", "They win the races in their city", "They have the PEAQ league in their sights"], name: "Elena, 27", cap: "She has run for a club since she was 14.", body: "In Vetta spots are few and everybody wants them. Whoever gets there has to defend them at every race.", motto: "Nobody stays at the top by chance." },
+        peaq: { who: ["The highest ratings in all of PEAQ", "They always start first", "Their bib is blue, the colour of PEAQ"], name: "Lorenzo, 25", cap: "He's the name everyone looks for in the rankings.", body: "PEAQ is not a finish line: it's a place to hold. At every race someone tries to take it.", motto: "You've reached your peaq. Now stay up there." },
+      },
     },
     stage: {
       title: "Stage", yours: "Your Stage", toNext: "{n} XP to Stage {s}",

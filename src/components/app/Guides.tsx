@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { fmt, useAppLang } from "@/lib/app/i18n";
 import { LEAGUES, leagueColorVar, leagueInk, leagueRange, XP_FOR_NEXT_LEVEL, type League } from "@/lib/app/rating";
 import { cn } from "@/lib/utils";
@@ -50,7 +50,20 @@ export function RatingGuide() {
   );
 }
 
-/** "The leagues": six coloured cards, with "you are here" on the athlete's league. */
+/** The ridge line of a league card: flatter for Valle, steeper up to PEAQ. */
+function Ridge({ i }: { i: number }) {
+  const line = `M0 ${58 - i * 2} L22 ${52 - i * 3} L38 ${58 - i * 2} L62 ${44 - i * 6} L80 ${54 - i * 3} L100 ${50 - i * 2}`;
+  return (
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 size-full" aria-hidden>
+      <path d={`${line} L100 100 L0 100Z`} fill="black" opacity="0.1" />
+      <path d={line} fill="none" stroke="white" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+    </svg>
+  );
+}
+
+const here = "whitespace-nowrap rounded-full bg-white px-2 py-0.5 text-black";
+
+/** "The leagues": six coloured cards, with "you are here" on the athlete's league. Each opens its own page. */
 export function LeaguesGuide({ current }: { current?: League | null | undefined }) {
   const { t } = useAppLang();
   const g = t.guide.leagues;
@@ -60,19 +73,67 @@ export function LeaguesGuide({ current }: { current?: League | null | undefined 
       <p className="px-5 text-[0.9375rem] text-muted-foreground">{g.sub}</p>
       <ul className="grid grid-cols-2 gap-3 px-4 pb-8 pt-4">
         {LEAGUES.map((l, i) => (
-          <li key={l} className="relative flex aspect-square flex-col justify-between overflow-hidden rounded-3xl p-4" style={{ background: leagueColorVar(l), color: leagueInk(l) }}>
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 size-full" aria-hidden>
-              <path d={`M0 100 L0 ${58 - i * 2} L22 ${52 - i * 3} L38 ${58 - i * 2} L62 ${44 - i * 6} L80 ${54 - i * 3} L100 ${50 - i * 2} L100 100Z`} fill="black" opacity="0.1" />
-              <path d={`M0 ${58 - i * 2} L22 ${52 - i * 3} L38 ${58 - i * 2} L62 ${44 - i * 6} L80 ${54 - i * 3} L100 ${50 - i * 2}`} fill="none" stroke="white" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-            </svg>
-            <div className="relative flex flex-col items-start gap-1.5">
-              <span className="whitespace-nowrap text-xs font-semibold">{fmt(g.range, { r: leagueRange(l) })}</span>
-              {current === l && <span className={cn(label, "whitespace-nowrap rounded-full bg-white px-2 py-0.5 text-black")}>{g.here}</span>}
-            </div>
-            <div className="relative"><h2 className="text-2xl font-bold leading-tight">{t.leagues[l]}</h2><p className="text-xs">{g.tag[l]}</p></div>
+          <li key={l}>
+            <Link to="/app/leagues/$league" params={{ league: l }} className="relative flex aspect-square flex-col justify-between overflow-hidden rounded-3xl p-4 transition-transform active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" style={{ background: leagueColorVar(l), color: leagueInk(l) }}>
+              <Ridge i={i} />
+              <div className="relative flex flex-col items-start gap-1.5">
+                <span className="whitespace-nowrap text-xs font-semibold">{fmt(g.range, { r: leagueRange(l) })}</span>
+                {current === l && <span className={cn(label, here)}>{g.here}</span>}
+              </div>
+              <div className="relative"><h2 className="text-2xl font-bold leading-tight">{t.leagues[l]}</h2><p className="text-xs">{g.tag[l]}</p></div>
+            </Link>
           </li>
         ))}
       </ul>
+    </main>
+  );
+}
+
+/** One league (Figma B2d): who is in it, a short story and its motto, with links to the leagues next to it. */
+export function LeagueGuide({ league, current }: { league: League; current?: League | null | undefined }) {
+  const { t } = useAppLang();
+  const g = t.guide.leagues, x = t.guide.league.items[league];
+  const i = LEAGUES.indexOf(league), prev = LEAGUES[i - 1], next = LEAGUES[i + 1];
+  const color = `var(--league-${league})`;
+  const nav = "inline-flex min-h-11 items-center gap-1 font-semibold underline-offset-4 hover:underline";
+  return (
+    <main className="flex flex-1 flex-col animate-in fade-in duration-300">
+      <BackHeader title={t.leagues[league]} to="/app/leagues" />
+      <div className="space-y-5 px-4 pb-8 pt-2">
+        <section className="relative overflow-hidden rounded-[1.75rem] p-5 pb-20" style={{ background: leagueColorVar(league), color: leagueInk(league) }}>
+          <Ridge i={i} />
+          <div className="relative flex items-center justify-between gap-2">
+            <span className="text-[0.8125rem] font-semibold">{fmt(g.range, { r: leagueRange(league) })}</span>
+            {current === league && <span className={cn(label, here)}>{g.here}</span>}
+          </div>
+          <h2 className="relative mt-1 text-[2rem] font-bold leading-[1.1]">{g.tag[league]}</h2>
+        </section>
+
+        <section>
+          <h3 className={cn(label, "px-4 text-muted-foreground")}>{t.guide.league.who}</h3>
+          <ul className="mt-2 space-y-3 rounded-3xl border p-5">
+            {x.who.map((w) => <li key={w} className="flex items-start gap-3 text-[0.9375rem]"><span className="mt-2 size-2 shrink-0 rounded-full" style={{ background: color }} aria-hidden />{w}</li>)}
+          </ul>
+        </section>
+
+        <section>
+          <h3 className={cn(label, "px-4 text-muted-foreground")}>{t.guide.league.story}</h3>
+          <div className="mt-2 rounded-3xl bg-muted p-5">
+            <div className="flex items-center gap-3">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 bg-background text-[0.9375rem] font-semibold" style={{ borderColor: color }} aria-hidden>{x.name[0]}</span>
+              <div><p className="font-medium">{x.name}</p><p className="text-sm text-muted-foreground">{x.cap}</p></div>
+            </div>
+            <p className="mt-4 text-[0.9375rem]">{x.body}</p>
+          </div>
+        </section>
+
+        <p className="ml-2 border-l-[5px] pl-4 text-[1.375rem] font-semibold leading-snug" style={{ borderColor: color }}>{x.motto}</p>
+
+        <nav className="flex items-center justify-between px-2 pt-2">
+          {prev ? <Link to="/app/leagues/$league" params={{ league: prev }} className={nav}><ChevronLeft className="size-4" aria-hidden />{t.leagues[prev]}</Link> : <span />}
+          {next ? <Link to="/app/leagues/$league" params={{ league: next }} className={nav}>{t.leagues[next]}<ChevronRight className="size-4" aria-hidden /></Link> : <span />}
+        </nav>
+      </div>
     </main>
   );
 }
