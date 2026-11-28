@@ -28,6 +28,7 @@ import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppEventsRouteImport } from './routes/_authenticated/app.events'
 import { Route as AuthenticatedAppRankingsRouteImport } from './routes/_authenticated/app.rankings'
+import { Route as AuthenticatedAppEventsEventIdRouteImport } from './routes/_authenticated/app.events_.$eventId'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 
@@ -129,6 +130,12 @@ const AuthenticatedAppRankingsRoute =
     path: '/rankings',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppEventsEventIdRoute =
+  AuthenticatedAppEventsEventIdRouteImport.update({
+    id: '/events_/$eventId',
+    path: '/events/$eventId',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
@@ -159,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/app/rankings': typeof AuthenticatedAppRankingsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/app/events/$eventId': typeof AuthenticatedAppEventsEventIdRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
@@ -179,6 +187,7 @@ export interface FileRoutesByTo {
   '/app/rankings': typeof AuthenticatedAppRankingsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/app/events/$eventId': typeof AuthenticatedAppEventsEventIdRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
@@ -203,6 +212,7 @@ export interface FileRoutesById {
   '/_authenticated/app/rankings': typeof AuthenticatedAppRankingsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/app/events_/$eventId': typeof AuthenticatedAppEventsEventIdRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
@@ -227,6 +237,7 @@ export interface FileRouteTypes {
     | '/app/rankings'
     | '/admin/'
     | '/app/'
+    | '/app/events/$eventId'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -247,6 +258,7 @@ export interface FileRouteTypes {
     | '/app/rankings'
     | '/admin'
     | '/app'
+    | '/app/events/$eventId'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
   id:
@@ -270,6 +282,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/rankings'
     | '/_authenticated/admin/'
     | '/_authenticated/app/'
+    | '/_authenticated/app/events_/$eventId'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
   fileRoutesById: FileRoutesById
@@ -422,6 +435,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRankingsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/events_/$eventId': {
+      id: '/_authenticated/app/events_/$eventId'
+      path: '/events/$eventId'
+      fullPath: '/app/events/$eventId'
+      preLoaderRoute: typeof AuthenticatedAppEventsEventIdRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/lovable/email/auth/preview': {
       id: '/lovable/email/auth/preview'
       path: '/lovable/email/auth/preview'
@@ -462,12 +482,14 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppEventsRoute: typeof AuthenticatedAppEventsRoute
   AuthenticatedAppRankingsRoute: typeof AuthenticatedAppRankingsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppEventsEventIdRoute: typeof AuthenticatedAppEventsEventIdRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppEventsRoute: AuthenticatedAppEventsRoute,
   AuthenticatedAppRankingsRoute: AuthenticatedAppRankingsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppEventsEventIdRoute: AuthenticatedAppEventsEventIdRoute,
 }
 
 const AuthenticatedAppRouteWithChildren =
