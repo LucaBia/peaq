@@ -59,9 +59,9 @@ export function Progress({ step, total }: { step: number; total: number }) {
   );
 }
 
-export function Title({ children, sub }: { children: ReactNode; sub?: ReactNode }) {
+export function Title({ children, sub, className }: { children: ReactNode; sub?: ReactNode; className?: string }) {
   return (
-    <div className="mb-8">
+    <div className={cn("mb-8", className)}>
       <h1 className="text-[2rem] font-bold leading-[1.05] tracking-tight">{children}</h1>
       {sub && <p className="mt-3 text-base text-muted-foreground">{sub}</p>}
     </div>

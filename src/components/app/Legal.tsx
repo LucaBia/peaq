@@ -42,29 +42,31 @@ function LegalBody({ doc, skipTitle }: { doc: LegalDoc; skipTitle?: boolean }) {
 }
 
 /**
- * "Terms · Privacy" for the sign-up screen. They open in a sheet over the form, so what has been typed stays there.
- * Renders nothing until the pages are published (see lib/legal.ts).
+ * The sentence of the sign-up checkbox ("I accept the Terms of Service and the Privacy Policy"). Once the pages are
+ * published (see lib/legal.ts) the two names open the text in a sheet over the form, so what has been typed stays there.
  */
-export function LegalLinks({ className }: { className?: string }) {
+export function TermsLabel() {
   const { t } = useAppLang();
   const [doc, setDoc] = useState<LegalDoc | null>(null);
   const [last, setLast] = useState<LegalDoc>("terms"); // keeps the text in place while the sheet slides away
-  if (!legalVisible) return null;
-  const open = (d: LegalDoc) => { setLast(d); setDoc(d); };
+  if (!legalVisible) return <>{t.auth.terms}</>;
   const first = legalBlocks(last)[0];
-  const title = first?.type === "h1" ? first.text : t.legal[last];
-  const link = "min-h-11 font-medium underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  const [before, terms, between, privacy, after] = t.legal.accept;
+  // preventDefault: the sentence sits inside the checkbox label, and opening the text must not tick the box.
+  const link = (d: LegalDoc, name: string | undefined) => (
+    <button type="button" onClick={(e) => { e.preventDefault(); setLast(d); setDoc(d); }} className="font-medium text-foreground underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">{name}</button>
+  );
   return (
-    <div className={cn("text-sm text-muted-foreground", className)}>
-      <button type="button" onClick={() => open("terms")} className={link}>{t.legal.terms}</button> · <button type="button" onClick={() => open("privacy")} className={link}>{t.legal.privacy}</button>
-      <Sheet open={doc !== null} onOpenChange={(o) => { if (!o) setDoc(null); }} title={title}>
+    <>
+      {before}{link("terms", terms)}{between}{link("privacy", privacy)}{after}
+      <Sheet open={doc !== null} onOpenChange={(o) => { if (!o) setDoc(null); }} title={first?.type === "h1" ? first.text : t.legal[last]}>
         <div className="space-y-4 px-6 text-[0.9375rem] leading-relaxed text-foreground">
           <LegalBody doc={last} skipTitle />
           {/* Sticks to the very bottom of the sheet, covering its safe-area padding so no text shows under the button. */}
           <div className="sticky bg-background pt-3" style={{ bottom: "calc(-1 * max(env(safe-area-inset-bottom), 1rem))", paddingBottom: "max(env(safe-area-inset-bottom), 1rem)" }}><PrimaryButton type="button" onClick={() => setDoc(null)}>{t.common.close}</PrimaryButton></div>
         </div>
       </Sheet>
-    </div>
+    </>
   );
 }
 

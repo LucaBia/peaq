@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { z } from "zod";
 import { AuthScreen } from "@/components/app/AuthScreen";
-import { LegalLinks } from "@/components/app/Legal";
+import { TermsLabel } from "@/components/app/Legal";
 import { SocialAuth } from "@/components/app/SocialAuth";
 import { Body, BottomBar, Checkbox, Field, Notice, PasswordInput, PrimaryButton, TextInput, Title } from "@/components/app/ui";
 import { useAppLang } from "@/lib/app/i18n";
@@ -58,9 +58,9 @@ function Signup() {
   return (
     <AuthScreen backTo="/welcome">
       <form onSubmit={submit} noValidate className="flex flex-1 flex-col">
-        <Body>
-          <Title sub={t.auth.signupSub}>{t.auth.signupTitle}</Title>
-          <div className="space-y-5">
+        <Body className="pb-4">
+          <Title sub={t.auth.signupSub} className="mb-5">{t.auth.signupTitle}</Title>
+          <div className="space-y-3">
             <Field id="email" label={t.auth.email} error={show("email") ? errs.email : null}>
               <TextInput id="email" type="email" inputMode="email" autoComplete="email" autoCapitalize="none" value={email} invalid={!!(show("email") && errs.email)}
                 onChange={(e) => setEmail(e.target.value)} onBlur={() => setTouched((s) => ({ ...s, email: true }))} />
@@ -72,8 +72,7 @@ function Signup() {
               <PasswordInput id="pw2" autoComplete="new-password" value={pw2} invalid={!!(show("pw2") && errs.pw2)} onChange={(e) => setPw2(e.target.value)} onBlur={() => setTouched((s) => ({ ...s, pw2: true }))} />
             </Field>
             <div>
-              <Checkbox id="terms" checked={terms} onChange={setTerms}>{t.auth.terms}</Checkbox>
-              <LegalLinks className="mt-2 pl-10" />
+              <Checkbox id="terms" checked={terms} onChange={setTerms}><TermsLabel /></Checkbox>
               {submitted && errs.terms && <p role="alert" className="mt-2 text-sm text-destructive">{errs.terms}</p>}
             </div>
             {err && <Notice tone="error">{err}</Notice>}
