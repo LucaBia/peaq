@@ -37,7 +37,7 @@ export function DisciplineStep() {
         </div>
         {err && <div className="mt-6"><Notice tone="error">{t.common.networkError}</Notice></div>}
       </Body>
-      <BottomBar><PrimaryButton onClick={next} disabled={!sel} loading={saving}>{t.common.continue}</PrimaryButton></BottomBar>
+      <BottomBar><PrimaryButton onClick={next} disabled={!sel} loading={saving}>{sel ? t.common.continue : t.ob.d.need}</PrimaryButton></BottomBar>
     </>
   );
 }

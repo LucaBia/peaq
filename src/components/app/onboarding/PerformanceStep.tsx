@@ -78,7 +78,7 @@ export function PerformanceStep() {
         </div>
       </Body>
       <BottomBar>
-        <PrimaryButton onClick={save} loading={saving} disabled={runErr || bikeErr}>{t.common.continue}</PrimaryButton>
+        <PrimaryButton onClick={save} loading={saving} disabled={runErr || bikeErr}>{runErr ? t.ob.perf.needRun : bikeErr ? t.ob.perf.needBike : t.common.continue}</PrimaryButton>
         <PrimaryButton variant="ghost" onClick={() => goTo(5)}>{t.ob.skip}</PrimaryButton>
       </BottomBar>
     </>

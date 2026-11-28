@@ -40,6 +40,9 @@ export function PersonalStep() {
 
   const dobOk = !!draft.dob && isAdult(draft.dob);
   const valid = uState === "ok" && dobOk && !!draft.gender && !!draft.nationality && !!draft.cityId;
+  // What the switched-off button says: the first thing still missing.
+  const need = t.ob.p.need;
+  const missing = uState === "checking" ? t.ob.p.checking : uState !== "ok" ? need.username : !draft.dob ? need.dob : !dobOk ? t.ob.p.dobErr.replace(/\.$/, "") : !draft.gender ? need.gender : !draft.nationality ? need.nationality : need.city;
 
   async function next() {
     if (!valid || saving) return;
@@ -87,7 +90,7 @@ export function PersonalStep() {
           {err && <Notice tone="error">{err}</Notice>}
         </div>
       </Body>
-      <BottomBar><PrimaryButton onClick={next} disabled={!valid} loading={saving}>{t.common.continue}</PrimaryButton></BottomBar>
+      <BottomBar><PrimaryButton onClick={next} disabled={!valid} loading={saving}>{valid ? t.common.continue : missing}</PrimaryButton></BottomBar>
 
       <Sheet open={sheet === "gender"} onOpenChange={(o) => !o && setSheet(null)} title={t.ob.p.gender}>
         <OptionList options={GENDERS.map((g) => ({ value: g, label: t.ob.p.genders[g] }))} value={draft.gender as never} onSelect={(v) => { setDraft({ gender: v }); setSheet(null); }} />

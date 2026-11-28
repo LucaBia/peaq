@@ -9,7 +9,7 @@ Pagine dell'app atleti prese da Figma, scritte con i tuoi componenti e il tuo st
 ## Cosa c'è
 
 - **Accesso:** pagina `/welcome`, Apple e Google, registrazione e passi dell'onboarding con l'aspetto di Figma.
-- **App:** Profilo nuovo, Eventi (gara pilota), Classifiche (montagna ed elenco), Impostazioni, Aiuto, FAQ, Regolamento, tutorial.
+- **App:** Profilo nuovo, Eventi (gara pilota), Classifiche (montagna ed elenco), Impostazioni (con documenti, notifiche e cambio password), Aiuto, FAQ, Regolamento, tutorial.
 - **Spiegazioni:** rating, leghe, Tappa.
 - **Pronte ma spente:** conferma presenza alla gara pilota (`PILOT_CONFIRM_OPEN`), seguire atleti (`SOCIAL_OPEN`), pagine legali (`LEGAL_PUBLISHED`).
 - **Aspetto:** Kanit, blu e colori delle leghe solo nell'app atleti (`.theme-athlete`). In `ui.tsx` campi e pulsanti nuovi valgono solo dentro `AppFrame`: l'admin resta com'era.
@@ -26,4 +26,4 @@ Pagine dell'app atleti prese da Figma, scritte con i tuoi componenti e il tuo st
 
 - Chi non è connesso arriva su `/welcome` invece che su `/auth`.
 - La foto della gara pilota viene dal prototipo Figma: va sostituita prima di pubblicare.
-- Non provati dal vivo: registrazione completa con un account nuovo, accesso con Apple e Google, pannello admin.
+- Non provati dal vivo: registrazione completa con un account nuovo, accesso con Apple e Google, pannello admin, e i salvataggi dalle Impostazioni (caricare un documento, cambiare una notifica, inviare il link per la password).

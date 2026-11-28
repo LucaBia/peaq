@@ -32,11 +32,13 @@ import { Route as AuthenticatedAdminEventsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppAthletesRouteImport } from './routes/_authenticated/app.athletes'
+import { Route as AuthenticatedAppDocumentsRouteImport } from './routes/_authenticated/app.documents'
 import { Route as AuthenticatedAppEventsRouteImport } from './routes/_authenticated/app.events'
 import { Route as AuthenticatedAppFaqRouteImport } from './routes/_authenticated/app.faq'
 import { Route as AuthenticatedAppHelpRouteImport } from './routes/_authenticated/app.help'
 import { Route as AuthenticatedAppLanguageRouteImport } from './routes/_authenticated/app.language'
 import { Route as AuthenticatedAppLeaguesRouteImport } from './routes/_authenticated/app.leagues'
+import { Route as AuthenticatedAppNotificationsRouteImport } from './routes/_authenticated/app.notifications'
 import { Route as AuthenticatedAppRankingsRouteImport } from './routes/_authenticated/app.rankings'
 import { Route as AuthenticatedAppRatingRouteImport } from './routes/_authenticated/app.rating'
 import { Route as AuthenticatedAppRulesRouteImport } from './routes/_authenticated/app.rules'
@@ -166,6 +168,12 @@ const AuthenticatedAppAthletesRoute =
     path: '/athletes',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppDocumentsRoute =
+  AuthenticatedAppDocumentsRouteImport.update({
+    id: '/documents',
+    path: '/documents',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppEventsRoute = AuthenticatedAppEventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -192,6 +200,12 @@ const AuthenticatedAppLeaguesRoute = AuthenticatedAppLeaguesRouteImport.update({
   path: '/leagues',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppNotificationsRoute =
+  AuthenticatedAppNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppRankingsRoute =
   AuthenticatedAppRankingsRouteImport.update({
     id: '/rankings',
@@ -269,11 +283,13 @@ export interface FileRoutesByFullPath {
   '/admin/events': typeof AuthenticatedAdminEventsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/app/athletes': typeof AuthenticatedAppAthletesRoute
+  '/app/documents': typeof AuthenticatedAppDocumentsRoute
   '/app/events': typeof AuthenticatedAppEventsRoute
   '/app/faq': typeof AuthenticatedAppFaqRoute
   '/app/help': typeof AuthenticatedAppHelpRoute
   '/app/language': typeof AuthenticatedAppLanguageRoute
   '/app/leagues': typeof AuthenticatedAppLeaguesRoute
+  '/app/notifications': typeof AuthenticatedAppNotificationsRoute
   '/app/rankings': typeof AuthenticatedAppRankingsRoute
   '/app/rating': typeof AuthenticatedAppRatingRoute
   '/app/rules': typeof AuthenticatedAppRulesRoute
@@ -306,11 +322,13 @@ export interface FileRoutesByTo {
   '/admin/events': typeof AuthenticatedAdminEventsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/app/athletes': typeof AuthenticatedAppAthletesRoute
+  '/app/documents': typeof AuthenticatedAppDocumentsRoute
   '/app/events': typeof AuthenticatedAppEventsRoute
   '/app/faq': typeof AuthenticatedAppFaqRoute
   '/app/help': typeof AuthenticatedAppHelpRoute
   '/app/language': typeof AuthenticatedAppLanguageRoute
   '/app/leagues': typeof AuthenticatedAppLeaguesRoute
+  '/app/notifications': typeof AuthenticatedAppNotificationsRoute
   '/app/rankings': typeof AuthenticatedAppRankingsRoute
   '/app/rating': typeof AuthenticatedAppRatingRoute
   '/app/rules': typeof AuthenticatedAppRulesRoute
@@ -347,11 +365,13 @@ export interface FileRoutesById {
   '/_authenticated/admin/events': typeof AuthenticatedAdminEventsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/app/athletes': typeof AuthenticatedAppAthletesRoute
+  '/_authenticated/app/documents': typeof AuthenticatedAppDocumentsRoute
   '/_authenticated/app/events': typeof AuthenticatedAppEventsRoute
   '/_authenticated/app/faq': typeof AuthenticatedAppFaqRoute
   '/_authenticated/app/help': typeof AuthenticatedAppHelpRoute
   '/_authenticated/app/language': typeof AuthenticatedAppLanguageRoute
   '/_authenticated/app/leagues': typeof AuthenticatedAppLeaguesRoute
+  '/_authenticated/app/notifications': typeof AuthenticatedAppNotificationsRoute
   '/_authenticated/app/rankings': typeof AuthenticatedAppRankingsRoute
   '/_authenticated/app/rating': typeof AuthenticatedAppRatingRoute
   '/_authenticated/app/rules': typeof AuthenticatedAppRulesRoute
@@ -388,11 +408,13 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/users'
     | '/app/athletes'
+    | '/app/documents'
     | '/app/events'
     | '/app/faq'
     | '/app/help'
     | '/app/language'
     | '/app/leagues'
+    | '/app/notifications'
     | '/app/rankings'
     | '/app/rating'
     | '/app/rules'
@@ -425,11 +447,13 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/users'
     | '/app/athletes'
+    | '/app/documents'
     | '/app/events'
     | '/app/faq'
     | '/app/help'
     | '/app/language'
     | '/app/leagues'
+    | '/app/notifications'
     | '/app/rankings'
     | '/app/rating'
     | '/app/rules'
@@ -465,11 +489,13 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/events'
     | '/_authenticated/admin/users'
     | '/_authenticated/app/athletes'
+    | '/_authenticated/app/documents'
     | '/_authenticated/app/events'
     | '/_authenticated/app/faq'
     | '/_authenticated/app/help'
     | '/_authenticated/app/language'
     | '/_authenticated/app/leagues'
+    | '/_authenticated/app/notifications'
     | '/_authenticated/app/rankings'
     | '/_authenticated/app/rating'
     | '/_authenticated/app/rules'
@@ -664,6 +690,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppAthletesRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/documents': {
+      id: '/_authenticated/app/documents'
+      path: '/documents'
+      fullPath: '/app/documents'
+      preLoaderRoute: typeof AuthenticatedAppDocumentsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/events': {
       id: '/_authenticated/app/events'
       path: '/events'
@@ -697,6 +730,13 @@ declare module '@tanstack/react-router' {
       path: '/leagues'
       fullPath: '/app/leagues'
       preLoaderRoute: typeof AuthenticatedAppLeaguesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/notifications': {
+      id: '/_authenticated/app/notifications'
+      path: '/notifications'
+      fullPath: '/app/notifications'
+      preLoaderRoute: typeof AuthenticatedAppNotificationsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/rankings': {
@@ -793,11 +833,13 @@ const AuthenticatedAdminRouteWithChildren =
 
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppAthletesRoute: typeof AuthenticatedAppAthletesRoute
+  AuthenticatedAppDocumentsRoute: typeof AuthenticatedAppDocumentsRoute
   AuthenticatedAppEventsRoute: typeof AuthenticatedAppEventsRoute
   AuthenticatedAppFaqRoute: typeof AuthenticatedAppFaqRoute
   AuthenticatedAppHelpRoute: typeof AuthenticatedAppHelpRoute
   AuthenticatedAppLanguageRoute: typeof AuthenticatedAppLanguageRoute
   AuthenticatedAppLeaguesRoute: typeof AuthenticatedAppLeaguesRoute
+  AuthenticatedAppNotificationsRoute: typeof AuthenticatedAppNotificationsRoute
   AuthenticatedAppRankingsRoute: typeof AuthenticatedAppRankingsRoute
   AuthenticatedAppRatingRoute: typeof AuthenticatedAppRatingRoute
   AuthenticatedAppRulesRoute: typeof AuthenticatedAppRulesRoute
@@ -811,11 +853,13 @@ interface AuthenticatedAppRouteChildren {
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppAthletesRoute: AuthenticatedAppAthletesRoute,
+  AuthenticatedAppDocumentsRoute: AuthenticatedAppDocumentsRoute,
   AuthenticatedAppEventsRoute: AuthenticatedAppEventsRoute,
   AuthenticatedAppFaqRoute: AuthenticatedAppFaqRoute,
   AuthenticatedAppHelpRoute: AuthenticatedAppHelpRoute,
   AuthenticatedAppLanguageRoute: AuthenticatedAppLanguageRoute,
   AuthenticatedAppLeaguesRoute: AuthenticatedAppLeaguesRoute,
+  AuthenticatedAppNotificationsRoute: AuthenticatedAppNotificationsRoute,
   AuthenticatedAppRankingsRoute: AuthenticatedAppRankingsRoute,
   AuthenticatedAppRatingRoute: AuthenticatedAppRatingRoute,
   AuthenticatedAppRulesRoute: AuthenticatedAppRulesRoute,

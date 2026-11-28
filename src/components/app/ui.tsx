@@ -89,8 +89,8 @@ export const PrimaryButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<
       <button ref={ref} disabled={disabled || loading} aria-busy={loading}
         className={cn("flex h-14 w-full items-center justify-center gap-2 font-semibold transition-all active:scale-[0.98] disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
           athlete ? "rounded-full text-lg" : "rounded-2xl text-base",
-          variant === "primary" && "bg-primary text-primary-foreground disabled:bg-muted disabled:text-muted-foreground",
-          variant === "outline" && (athlete ? "border-[1.5px] border-foreground bg-background disabled:opacity-50" : "border bg-background disabled:opacity-50"),
+          variant === "primary" && cn("bg-primary text-primary-foreground", athlete ? "disabled:bg-[#eef0f4] disabled:text-[#4a4f5c]" : "disabled:bg-muted disabled:text-muted-foreground"),
+          variant === "outline" && (athlete ? "border-[1.5px] border-foreground bg-background disabled:border-border disabled:text-[#4a4f5c]" : "border bg-background disabled:opacity-50"),
           variant === "ghost" && (athlete ? "h-12 text-base font-medium text-primary enabled:hover:underline disabled:text-muted-foreground" : "h-12 text-muted-foreground hover:text-foreground disabled:opacity-50"), className)} {...p}>
         {loading && <Loader2 className="size-5 animate-spin" />}{children}
       </button>

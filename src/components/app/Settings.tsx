@@ -1,9 +1,10 @@
 import { useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Check, ChevronRight, Minus, Plus } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import { fmt, useAppLang } from "@/lib/app/i18n";
 import { cn } from "@/lib/utils";
-import { BackHeader, PrimaryButton, Sheet } from "./ui";
+import { BackHeader, Notice, PrimaryButton, Sheet } from "./ui";
 
 type Doc = { doc_type: string; status: string; expires_on: string | null };
 
@@ -11,19 +12,27 @@ function Group({ title, children }: { title?: string; children: ReactNode }) {
   return <section>{title && <h2 className="px-4 pb-2 text-sm text-muted-foreground">{title}</h2>}<div className="divide-y overflow-hidden rounded-3xl border">{children}</div></section>;
 }
 
-/** One line of a settings list: a link when it has `to`, plain information otherwise. */
-function Row({ label, value, to }: { label: string; value?: ReactNode; to?: string }) {
-  const cls = "flex min-h-14 items-center gap-3 px-5 py-2";
-  const inner = <><span className="flex-1 text-[1.0625rem]">{label}</span>{value != null && <span className="max-w-[55%] truncate text-sm text-muted-foreground">{value}</span>}{to && <ChevronRight className="size-5 shrink-0 text-muted-foreground" aria-hidden />}</>;
-  return to ? <Link to={to} className={cn(cls, "hover:bg-muted/50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring")}>{inner}</Link> : <div className={cls}>{inner}</div>;
+/** One line of a settings list: a link when it has `to`, a button when it has `onClick`, plain information otherwise. */
+function Row({ label, value, to, onClick }: { label: string; value?: ReactNode; to?: string; onClick?: () => void }) {
+  const cls = "flex min-h-14 w-full items-center gap-3 px-5 py-2 text-left";
+  const tap = "hover:bg-muted/50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring";
+  const inner = <><span className="flex-1 text-[1.0625rem]">{label}</span>{value != null && <span className="max-w-[55%] truncate text-sm text-muted-foreground">{value}</span>}{(to || onClick) && <ChevronRight className="size-5 shrink-0 text-muted-foreground" aria-hidden />}</>;
+  return to ? <Link to={to} className={cn(cls, tap)}>{inner}</Link> : onClick ? <button type="button" onClick={onClick} className={cn(cls, tap)}>{inner}</button> : <div className={cls}>{inner}</div>;
 }
 
 /** Settings (Figma B4): only the rows that work today; the others arrive with their pages. */
-export function SettingsScreen({ bib, username, discipline, documents, email, isAdmin, onLogout }: {
+export function SettingsScreen({ bib, username, discipline, documents, email, isAdmin, onLogout, onPasswordReset }: {
   bib: number | null; username: string; discipline: "run" | "bike" | "both" | null; documents: Doc[]; email: string | null; isAdmin: boolean; onLogout: () => void;
+  /** Sends the "choose a new password" email to the athlete's address. */
+  onPasswordReset?: (() => Promise<void>) | undefined;
 }) {
   const { t, lang } = useAppLang();
   const [confirm, setConfirm] = useState(false);
+  const [pw, setPw] = useState<null | "ask" | "sending" | "sent" | "error">(null);
+  async function sendReset() {
+    setPw("sending");
+    try { await onPasswordReset?.(); setPw("sent"); } catch { setPw("error"); }
+  }
   const doc = (type: string, none: string) => {
     const d = documents.filter((x) => x.doc_type === type).at(-1);
     if (!d) return none;
@@ -38,19 +47,29 @@ export function SettingsScreen({ bib, username, discipline, documents, email, is
           <Row label={t.set.bib} value={bib ? `#${bib}` : "—"} />
           <Row label={t.set.username} value={username} />
           <Row label={t.set.sports} value={discipline ? t.disc[discipline] : "—"} />
-          <Row label={t.set.medical} value={doc("medical_certificate", t.set.notAdded)} />
-          <Row label={t.set.membership} value={doc("membership_card", t.set.notAddedF)} />
+          <Row label={t.set.medical} value={doc("medical_certificate", t.set.notAdded)} to="/app/documents" />
+          <Row label={t.set.membership} value={doc("membership_card", t.set.notAddedF)} to="/app/documents" />
         </Group>
         <Group title={t.set.app}>
+          <Row label={t.set.notifications} to="/app/notifications" />
           <Row label={t.set.language} value={lang === "it" ? "Italiano" : "English"} to="/app/language" />
         </Group>
         <Group title={t.set.account}>
           {email && <Row label={t.set.email} value={email} />}
+          {email && onPasswordReset && <Row label={t.set.password} onClick={() => setPw("ask")} />}
           <Row label={t.set.help} to="/app/help" />
           {isAdmin && <Row label={t.set.admin} to="/admin" />}
         </Group>
         <button type="button" onClick={() => setConfirm(true)} className="flex min-h-14 w-full items-center justify-center rounded-3xl border text-[1.0625rem] font-medium text-destructive hover:bg-muted/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">{t.set.logout}</button>
       </div>
+      <Sheet open={pw !== null} onOpenChange={(o) => { if (!o) setPw(null); }} title={t.set.password}>
+        <div className="space-y-3 px-6 pb-2">
+          {pw === "sent" ? <Notice tone="success">{t.set.pwSent}</Notice> : <p className="pb-2 text-muted-foreground">{fmt(t.set.pwSub, { email: email ?? "" })}</p>}
+          {pw === "error" && <Notice tone="error">{t.common.networkError}</Notice>}
+          {pw !== "sent" && <PrimaryButton onClick={sendReset} loading={pw === "sending"}>{t.auth.forgotCta}</PrimaryButton>}
+          <PrimaryButton variant="outline" onClick={() => setPw(null)}>{pw === "sent" ? t.common.close : t.set.cancel}</PrimaryButton>
+        </div>
+      </Sheet>
       <Sheet open={confirm} onOpenChange={setConfirm} title={t.set.logoutTitle}>
         <div className="space-y-3 px-6 pb-2">
           <p className="pb-2 text-muted-foreground">{t.set.logoutSub}</p>
@@ -58,6 +77,30 @@ export function SettingsScreen({ bib, username, discipline, documents, email, is
           <PrimaryButton variant="outline" onClick={() => setConfirm(false)}>{t.set.cancel}</PrimaryButton>
         </div>
       </Sheet>
+    </main>
+  );
+}
+
+export type NotifPrefs = { new_events: boolean; lobby_opening: boolean; results: boolean };
+
+/** Notifications: the three choices of the sign-up, one switch each; every tap is saved at once. */
+export function NotificationsScreen({ prefs, error, onChange }: { prefs: NotifPrefs; error: boolean; onChange: (p: NotifPrefs) => void }) {
+  const { t } = useAppLang();
+  const rows = [["new_events", t.set.notif.newEvents], ["lobby_opening", t.set.notif.lobby], ["results", t.set.notif.results]] as const;
+  return (
+    <main className="flex flex-1 flex-col animate-in fade-in duration-300">
+      <BackHeader title={t.set.notifications} to="/app/settings" />
+      <div className="space-y-3 px-4 pb-8 pt-2">
+        <div className="divide-y overflow-hidden rounded-3xl border">
+          {rows.map(([k, l]) => (
+            <label key={k} htmlFor={k} className="flex min-h-14 cursor-pointer items-center justify-between gap-4 px-5 text-[1.0625rem]">
+              {l}<Switch id={k} checked={prefs[k]} onCheckedChange={(v) => onChange({ ...prefs, [k]: v })} />
+            </label>
+          ))}
+        </div>
+        <p className="px-4 text-sm text-muted-foreground">{t.ob.notif.note}</p>
+        {error && <Notice tone="error">{t.common.networkError}</Notice>}
+      </div>
     </main>
   );
 }

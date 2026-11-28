@@ -51,6 +51,15 @@ Testi: `common.continue` ora è «Avanti» (è usato solo nella registrazione). 
 
 **Da confermare:** la tabella degli XP in Tappa riporta i valori di Figma B7, compresi tre che non sono nelle decisioni scritte: prima gara +100, promozione +150, partito ma non arrivato +30 (vedi `docs/06-decisioni-aperte.md`). In A9b Figma scrive «parti da 250, in Collina»: ho scritto solo «parti in Collina», perché nel codice il valore è 300.
 
+## Impostazioni: documenti, notifiche, password (28 novembre)
+
+Nessuna funzione nuova nel database: sono le stesse chiamate della registrazione.
+
+- **`/app/documents`** (dalle righe «Certificato medico» e «Tessera»): certificato e tessera si aggiungono anche dopo la registrazione. Le card e i form sono usciti da `DocumentsStep` e stanno in `components/app/Documents.tsx` (`DocumentsForm`), usato sia dal passo 5 sia dalle Impostazioni: stesso `uploadDocument` / `removeDocument`.
+- **`/app/notifications`**: i tre interruttori (`new_events`, `lobby_opening`, `results`), salvati a ogni tocco con `saveNotifications`. Aggiunto `athleteService.loadNotifications` (una `select` sulla riga dell'utente): **controlla che la policy di lettura sulla propria riga ci sia** anche nel tuo database.
+- **Cambia password**: non c'è un form nuovo. La riga manda l'email di `authService.requestReset` all'indirizzo dell'account, poi si continua da `/reset-password` come per «Password dimenticata».
+- **Pulsanti spenti**: nella registrazione il pulsante spento dice cosa manca («Scegli un nome utente», «Scegli uno sport», «Scegli un numero libero»…), con i colori della regola grafica (#4A4F5C su #EEF0F4), solo nell'app atleti.
+
 ## Non ancora fatto
 
-Campanella delle notifiche, «I miei numeri» (statistiche), «Invita un amico», contatori di seguiti e follower; nelle Impostazioni mancano le righe che cambiano dati (dati personali, i miei sport, notifiche, privacy, cambia password, elimina account).
+Campanella delle notifiche, «I miei numeri» (statistiche), «Invita un amico», contatori di seguiti e follower; nelle Impostazioni mancano le righe che cambiano dati personali e sport, privacy ed elimina account (serve il database).

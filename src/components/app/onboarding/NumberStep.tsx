@@ -72,7 +72,7 @@ export function NumberStep() {
         {err && <div className="mt-6"><Notice tone="error">{err}</Notice></div>}
       </Body>
       <BottomBar>
-        <PrimaryButton onClick={confirm} loading={busy && !!value} disabled={!assigned && status !== "available"}>{assigned ? t.common.continue : t.ob.n.confirm}</PrimaryButton>
+        <PrimaryButton onClick={confirm} loading={busy && !!value} disabled={!assigned && status !== "available"}>{assigned ? t.common.continue : status === "available" ? t.ob.n.confirm : t.ob.n.need}</PrimaryButton>
       </BottomBar>
     </>
   );

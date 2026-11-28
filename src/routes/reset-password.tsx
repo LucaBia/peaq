@@ -63,7 +63,7 @@ function Reset() {
             {err && <Notice tone="error">{err}</Notice>}
           </div>
         </Body>
-        <BottomBar><PrimaryButton type="submit" loading={loading} disabled={state !== "ready"}>{t.auth.resetCta}</PrimaryButton></BottomBar>
+        <BottomBar><PrimaryButton type="submit" loading={loading} disabled={state !== "ready"}>{state === "ready" ? t.auth.resetCta : t.common.loading}</PrimaryButton></BottomBar>
       </form>
     </AuthScreen>
   );

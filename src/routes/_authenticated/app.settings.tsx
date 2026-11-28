@@ -24,5 +24,6 @@ function Page() {
   if (q.isLoading) return <div className="flex flex-1 items-center justify-center"><Loader2 className="size-8 animate-spin text-muted-foreground" /></div>;
   const p = q.data?.profile;
   return <SettingsScreen bib={p?.bib_number ?? null} username={p?.username ?? ""} discipline={(p?.discipline as "run" | null) ?? null}
-    documents={q.data?.documents ?? []} email={user.email ?? null} isAdmin={!!isAdmin.data} onLogout={logout} />;
+    documents={q.data?.documents ?? []} email={user.email ?? null} isAdmin={!!isAdmin.data} onLogout={logout}
+    onPasswordReset={user.email ? () => authService.requestReset(user.email!) : undefined} />;
 }

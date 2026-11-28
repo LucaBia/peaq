@@ -82,6 +82,10 @@ export const athleteService = {
     ok(await supabase.from("athlete_documents").delete().eq("id", doc.id));
     if (doc.storage_path) await supabase.storage.from("athlete-documents").remove([doc.storage_path]);
   },
+  async loadNotifications(userId: string) {
+    const p = ok(await supabase.from("notification_preferences").select("new_events, lobby_opening, results").eq("user_id", userId).maybeSingle());
+    return p ?? { new_events: false, lobby_opening: false, results: false };
+  },
   async saveNotifications(userId: string, p: { new_events: boolean; lobby_opening: boolean; results: boolean }) {
     ok(await supabase.from("notification_preferences").upsert({ user_id: userId, ...p, decided_at: new Date().toISOString() }));
   },
