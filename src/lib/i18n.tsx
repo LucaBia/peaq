@@ -37,7 +37,7 @@ const it = {
     ],
   },
   stages: {
-    eyebrow: "Tappe e premi", title: "Più gareggi,\npiù sblocchi", sub: "Ogni gara ti dà XP. La Tappa sale e non scende mai, e ogni Tappa ha il suo premio.",
+    eyebrow: "Tappe e premi", title: "Più gareggi,\npiù sblocchi", sub: "Ogni gara ti dà XP. La Tappa sale e non scende mai, e le Tappe sbloccano premi.",
     stage: "Tappa", earnTitle: "Come guadagni XP",
   },
   raceDay: {
@@ -73,7 +73,7 @@ const en: typeof it = {
   nav: { how: "How it works", leagues: "Leagues", stages: "Stages", races: "Races", login: "Log in", cta: "Create your bib", app: "Open the app", menu: "Open menu", close: "Close menu", lang: "Change language" },
   hero: {
     eyebrow: "Running and cycling · Milan and Padua", title: "Short races in the city.\nStart with people at your level.",
-    sub: "PEAQ runs running and cycling races split by league. You get a bib that is yours for good and a rating that goes up when you beat stronger athletes.",
+    sub: "PEAQ organises running and cycling races split by league. You get a bib that is yours for good and a rating that goes up when you beat stronger athletes.",
     cta: "Create your bib", cta2: "How it works",
     maker: { title: "Try your bib", name: "Username", namePh: "your name", number: "Number", shuffle: "Change number", league: "League", note: "This is a preview. You choose your real number when you sign up, from 101 to 9999, and it is yours for good." },
   },
@@ -81,14 +81,14 @@ const en: typeof it = {
     eyebrow: "How it works", title: "From your bib\nto the rankings",
     steps: [
       { t: "Create your bib", d: "Choose a number from 101 to 9999. It is yours for good and takes the colour of your league." },
-      { t: "Sign up for a race", d: "Short running and cycling races in your city. You sign up and pay in the app." },
+      { t: "Register for a race", d: "Short running and cycling races in your city. You register and pay in the app." },
       { t: "Start with your league", d: "At the start you are with people at your level. Nobody is left alone at the back, nobody wins without a fight." },
       { t: "Climb the rankings", d: "After every race your rating, your league and your position in the city change." },
     ],
   },
   screens: {
     eyebrow: "The app", title: "Three tabs,\nthat's all", sub: "These are the real screens of the app, with sample athletes.", alt: "Three screens of the PEAQ app: profile, rankings and events",
-    items: [{ t: "Profile", d: "Your bib, your rating, your league and your Stage." }, { t: "Rankings", d: "The mountain of your city, to climb league after league." }, { t: "Events", d: "Find a race, sign up and confirm you'll be there." }],
+    items: [{ t: "Profile", d: "Your bib, your rating, your league and your Stage." }, { t: "Rankings", d: "The mountain of your city, to climb league after league." }, { t: "Events", d: "Find a race, register and confirm you'll be there." }],
     sticky: "Create your bib",
   },
   sports: { title: "Running and cycling.\nA rating for each.", text: "You can race in both: you have a separate rating and league for each sport.", run: "Running", bike: "Cycling", runMeta: "Running rating", bikeMeta: "Cycling rating" },
@@ -102,30 +102,30 @@ const en: typeof it = {
     ],
   },
   stages: {
-    eyebrow: "Stages and prizes", title: "The more you race,\nthe more you unlock", sub: "Every race gives you XP. Your Stage goes up and never comes down, and every Stage has its prize.",
+    eyebrow: "Stages and prizes", title: "The more you race,\nthe more you unlock", sub: "Every race gives you XP. Your Stage goes up and never comes down, and Stages unlock prizes.",
     stage: "Stage", earnTitle: "How you earn XP",
   },
   raceDay: {
     eyebrow: "Race day", title: "All in the app,\nfrom briefing to results",
     steps: [
-      { t: "Lobby", d: "From 24 hours before: briefing, start grids by league and a chat for everyone signed up." },
+      { t: "Lobby", d: "From 24 hours before: briefing, start grids by league and a chat for everyone registered." },
       { t: "QR check-in", d: "You arrive, show the app's QR to the staff and collect your bib." },
       { t: "Start by league", d: "Leagues start separately, one after the other." },
       { t: "Results", d: "Position, rating and XP arrive in the app after the race." },
     ],
-    rules: ["Sign-ups open 4 weeks before", "Free cancellation up to 48 hours before", "Waitlist: if a spot opens you have 12 hours to take it", "Automatic refund if the race is cancelled"],
+    rules: ["Registration opens 4 weeks before", "Free cancellation up to 48 hours before", "Waiting list: if a spot opens you have 12 hours to take it", "Automatic refund if the race is cancelled"],
   },
   rank: {
-    eyebrow: "Rankings", title: "The rankings\nof your city", sub: "One ranking per sport in every city. Follow your friends and see who is ahead of you.",
+    eyebrow: "Rankings", title: "Your city's\nrankings", sub: "One ranking per sport in every city. Follow your friends and see who is ahead of you.",
     sample: "Sample data", sport: "Sport", run: "Running", bike: "Cycling", you: "You", toPass: "{n} points to pass {name}",
   },
   community: {
     eyebrow: "Clubs and friends", title: "Better\ntogether",
-    club: { t: "Clubs", d: "Create your club or join your friends'. From three members the club enters the rankings: the best five ratings count, and so does every race finished.", items: ["Captain, vice and members", "Club board", "Outings for members only"] },
+    club: { t: "Clubs", d: "Create your club or join your friends'. From three members the club enters the rankings: the best five ratings count, and so does every race finished.", items: ["Captain, vice-captain and members", "Club board", "Outings for members only"] },
     invite: { t: "Invite a friend", d: "You have a personal link. When your friend finishes their first race you get a free race and 100 XP, and they get their first race at half price.", you: "You", friend: "Friend", youGet: "Free race · +100 XP", friendGets: "First race at half price", note: "Up to three free races a year." },
   },
   first: {
-    eyebrow: "First race", title: "Pilot race", place: "Prato della Valle, Padua", invite: "Invite only", date: "Date to be set",
+    eyebrow: "First race", title: "Pilot race", place: "Prato della Valle, Padua", invite: "Invite only", date: "Date to be announced",
     text: "Three starts by league and an elimination race: every lap the last two are out, until three are left to fight for the podium.",
     cities: "Then races open to everyone, starting from", city1: "Milan", city2: "Padua",
   },

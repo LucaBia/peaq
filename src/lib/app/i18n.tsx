@@ -82,7 +82,7 @@ const it = {
       s4: {
         t: "La tappa:\nquanto gareggi", yours: "La tua tappa", bonus: "+250 XP dopo la prima gara",
         steps: [{ s: 1, t: "sei qui" }, { s: 2, t: "gara a metà prezzo" }, { s: 3, t: "iscrizione anticipata" }, { s: 5, t: "priorità in lista" }, { s: 10, t: "maglia PEAQ" }],
-        items: ["Viene dagli XP: ogni gara te ne dà.", "Sale soltanto, non scende mai.", "Ogni tappa sblocca un premio."],
+        items: ["Viene dagli XP: ogni gara te ne dà.", "Sale soltanto, non scende mai.", "Le Tappe sbloccano premi."],
       },
       s5: { t: "Dalla conferma\nalla partenza", items: ["Trovi la gara pilota in Eventi.", "Quando c'è la data confermi la presenza e scegli con quale lega partire.", "Il giorno della gara ritiri il pettorale e parti con la tua lega."] },
       s6: { t: "Dopo\nl'arrivo", first: "Primo posto", of: "su 14 nella tua lega", items: ["Risultato, rating e XP arrivano nell'app.", "Sali in classifica nella tua città.", "Se cambi lega, cambia il colore del pettorale."] },
@@ -110,7 +110,7 @@ const it = {
     notFound: "Questa gara non esiste più.", backToEvents: "Torna agli eventi", info: "Informazioni",
   },
   prof: {
-    title: "Profilo", provisionalLeft: "Provvisorio · mancano {n} gare", nextPrize: "Prossimo premio: Tappa {n} · {prize}", allPrizes: "Hai sbloccato tutti i premi.",
+    title: "Profilo", provisionalLeft: "Provvisorio · gare mancanti: {n}", nextPrize: "Prossimo premio: Tappa {n} · {prize}", allPrizes: "Hai sbloccato tutti i premi.",
     nextRaces: "Prossime gare", howRating: "Come funziona", noRating: "Nessun rating per questo sport.",
   },
   guide: {
@@ -121,7 +121,7 @@ const it = {
         { t: "Cambia in base a chi batti", d: "Dopo ogni gara sale se arrivi davanti a chi ha un rating più alto, e scende se arrivi dietro a chi ne ha uno più basso. Conta solo la posizione, non il tempo: così ogni percorso è equo." },
         { t: "Sei leghe, dalla Valle a PEAQ", d: "Il rating decide la tua lega." },
         { t: "Le tue prime 3 gare", d: "Sono gare di piazzamento: il rating si muove più in fretta. Nelle prime 10 gare hai anche +5 per ogni arrivo." },
-        { t: "Protezioni", d: "Dopo una promozione non puoi scendere per 3 gare, e scendi di lega solo 25 punti sotto il suo limite. Il rating non scende mai più di 100 sotto quello di partenza." },
+        { t: "Protezioni", d: "Dopo una promozione non puoi retrocedere per 3 gare; poi retrocedi solo 25 punti sotto la soglia della lega. Il rating non scende mai più di 100 sotto quello di partenza." },
         { t: "Partenze per lega", d: "In ogni gara si parte per lega: corri sempre con persone del tuo livello." },
         { t: "Ritirato o assente?", d: "Il ritiro vale come ultimo posto. Se non ti presenti il rating non cambia, ma dopo due assenze senza annullare non puoi iscriverti per una settimana." },
       ],
@@ -160,7 +160,7 @@ const it = {
     },
   },
   soc: {
-    title: "Atleti", races: "Gare", followers: "Follower", following: "Seguiti", search: "Cerca atleti", follow: "Segui", followingBtn: "Seguiti",
+    title: "Atleti", races: "Gare", followers: "Follower", following: "Seguiti", search: "Cerca atleti", follow: "Segui", followingBtn: "Segui già",
     count1: "1 atleta", countN: "{n} atleti", noFollowers: "Nessuno ti segue ancora.", noFollowing: "Non segui ancora nessuno. Cerca un atleta per iniziare.",
     notFound: "Questo atleta non esiste più.", menu: "Segnala o blocca",
     sheetBody: "Segnala un profilo falso o offensivo, oppure blocca chi non vuoi più vedere. Chi è bloccato non può seguirti né scriverti.",
@@ -169,7 +169,7 @@ const it = {
   set: {
     title: "Impostazioni", profile: "Profilo", app: "App", account: "Account",
     bib: "Il mio pettorale", username: "Nome utente", sports: "I miei sport", medical: "Certificato medico", membership: "Tessera",
-    notAdded: "Non aggiunto", notAddedF: "Non aggiunta", validUntil: "Valido fino al {d}",
+    notAdded: "Non aggiunto", notAddedF: "Non aggiunta", validUntil: "Scade il {d}",
     language: "Lingua", langHint: "Tocca una lingua: tutta l'app passa a quella.", email: "Email", help: "Aiuto e feedback", admin: "Pannello admin",
     logout: "Esci", logoutTitle: "Uscire da PEAQ?", logoutSub: "Puoi rientrare quando vuoi con email, Google o Apple.", cancel: "Annulla",
     documents: "Documenti", documentsSub: "Per le gare con rating servono certificato medico e tessera sportiva.",
@@ -190,7 +190,7 @@ const it = {
     ],
   },
   rank: {
-    sport: "Sport", filter: "Filtra per lega", all: "Tutti", you: "Tu",
+    sport: "Sport", filter: "Filtra per lega", all: "Tutte", you: "Tu",
     yourPosition: "La tua posizione", notRanked: "non ancora in classifica", firstRace: "Corri la prima gara per entrare in classifica",
     of: "su {n} atleti", toNext: "{n} punti a {league}", topLeague: "Sei nella lega più alta",
     noRun: "Non hai un rating per la corsa.", noBike: "Non hai un rating per la bici.",
@@ -292,7 +292,7 @@ const en: AppDict = {
     logout: "Log out",
     or: "or continue with", withApple: "Continue with Apple", withGoogle: "Continue with Google",
     socialTerms: "With Apple or Google you accept PEAQ's Terms and Privacy Policy.",
-    oauthFailed: "Sign-in failed.", oauthFailedSub: "Signing in with Apple or Google was cancelled or didn't work. Please try again.",
+    oauthFailed: "Login failed.", oauthFailedSub: "Logging in with Apple or Google was cancelled or didn't work. Please try again.",
   },
   legal: { privacy: "Privacy", terms: "Terms", cookie: "Cookies", draft: "Draft under review: this text is not final yet.", italianOnly: "This document is available in Italian, which is the binding version.",
     accept: ["I accept PEAQ's ", "Terms of Service", " and ", "Privacy Policy", "."],
@@ -333,7 +333,7 @@ const en: AppDict = {
       friendly: ["Friendly and test races need none of this:", " you can take part right away."], upload: "Upload",
       medical: "Medical certificate", medicalSub: "Athletics or cycling", file: "Upload file (PDF or image, max 10 MB)", expiry: "Expiry date",
       membership: "Membership card", membershipSub: "FIDAL, FCI, UISP, CSI or Runcard", org: "Organisation", cardNumber: "Card number",
-      add: "Add", needFile: "Choose a file", needCard: "Choose the body and enter the number", uploaded: "Submitted documents", status: { pending: "Pending review", approved: "Approved", rejected: "Rejected", expired: "Expired" },
+      add: "Add", needFile: "Choose a file", needCard: "Choose the organisation and enter the card number", uploaded: "Submitted documents", status: { pending: "Pending review", approved: "Approved", rejected: "Rejected", expired: "Expired" },
       peaqTitle: "PEAQ membership", peaqSub: "A PEAQ membership option is in preparation. Details and terms will be announced.",
       errFile: "Invalid file. Use PDF, JPG or PNG up to 10 MB.", remove: "Remove", privacy: "Documents are private and visible only to you and the review team.",
     },
@@ -346,7 +346,7 @@ const en: AppDict = {
       s4: {
         t: "Stage:\nhow much you race", yours: "Your stage", bonus: "+250 XP after your first race",
         steps: [{ s: 1, t: "you are here" }, { s: 2, t: "half-price race" }, { s: 3, t: "early registration" }, { s: 5, t: "waiting list priority" }, { s: 10, t: "PEAQ jersey" }],
-        items: ["It comes from XP: every race gives you some.", "It only goes up, never down.", "Every stage unlocks a prize."],
+        items: ["It comes from XP: every race gives you some.", "It only goes up, never down.", "Stages unlock prizes."],
       },
       s5: { t: "From confirming\nto the start", items: ["You'll find the pilot race in Events.", "Once the date is set, confirm you're coming and pick the league you start with.", "On race day you collect your bib and start with your league."] },
       s6: { t: "After\nthe finish", first: "First place", of: "of 14 in your league", items: ["Result, rating and XP arrive in the app.", "You climb your city's rankings.", "If you change league, your bib changes colour."] },
@@ -374,7 +374,7 @@ const en: AppDict = {
     notFound: "This race no longer exists.", backToEvents: "Back to events", info: "Information",
   },
   prof: {
-    title: "Profile", provisionalLeft: "Provisional · {n} races to go", nextPrize: "Next prize: Stage {n} · {prize}", allPrizes: "You've unlocked every prize.",
+    title: "Profile", provisionalLeft: "Provisional · races to go: {n}", nextPrize: "Next prize: Stage {n} · {prize}", allPrizes: "You've unlocked every prize.",
     nextRaces: "Upcoming races", howRating: "How it works", noRating: "No rating for this sport.",
   },
   guide: {
@@ -385,7 +385,7 @@ const en: AppDict = {
         { t: "It changes based on who you beat", d: "After each race it goes up if you finish ahead of someone with a higher rating, and down if you finish behind someone with a lower one. Only position counts, not time: that keeps every course fair." },
         { t: "Six leagues, from Valle to PEAQ", d: "Your rating decides your league." },
         { t: "Your first 3 races", d: "They are placement races: your rating moves faster. In your first 10 races you also get +5 for every finish." },
-        { t: "Protections", d: "After a promotion you can't go down for 3 races, and you drop a league only 25 points below its limit. Your rating never falls more than 100 below your starting one." },
+        { t: "Protections", d: "After a promotion you can't be relegated for 3 races; after that, only 25 points below the league threshold. Your rating never falls more than 100 below your starting one." },
         { t: "Starts by league", d: "Every race starts by league: you always run with people at your level." },
         { t: "Didn't finish or didn't show up?", d: "Not finishing counts as last place. If you don't show up your rating doesn't change, but after two no-shows without cancelling you can't register for a week." },
       ],
@@ -467,7 +467,7 @@ const en: AppDict = {
     toBeat: "To beat", chasing: "Chasing you", missing: "{n} points to go", posIn: "in {city}", toPass: "{n} points to pass {name}", first: "You're leading the rankings",
   },
   pilot: {
-    title: "PEAQ pilot race", place: "Prato della Valle, Padova",
+    title: "PEAQ pilot race", place: "Prato della Valle, Padua",
     lap: "Loop", lapValue: "About 700 m", format: "Format", formatValue: "Lap elimination", leagues: "Leagues", leaguesValue: "Three starts",
     startWith: "You start with", startWithValue: "The league you pick",
     inviteTitle: "Invite only · {n} spots", inviteSub: "Free. Invitations go out once the date is set.",

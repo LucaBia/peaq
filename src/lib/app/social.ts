@@ -54,4 +54,5 @@ export const socialService = {
   report: (userId: string): Promise<void> => call("report_athlete", userId),
   /** Blocking also removes the two "follow" between them. */
   block: (userId: string): Promise<void> => call("block_athlete", userId),
+  unblock: (userId: string): Promise<void> => call("unblock_athlete", userId),
 };

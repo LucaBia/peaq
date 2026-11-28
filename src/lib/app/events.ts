@@ -30,7 +30,11 @@ export const PILOT_EVENT_ID = "gara-pilota";
 export const PILOT_STARTS = ["valle", "collina", "passo"] as const;
 export type PilotStart = (typeof PILOT_STARTS)[number];
 
-/** Turn on when the date is set. The database side exists since docs/sql/01 (28 Nov 2026). Until then the button says confirmations are closed. */
+/**
+ * Turn on when the date is set. The database side exists (docs/sql/01), but confirming is closed there too (docs/sql/04):
+ * to open, run `grant execute on function public.confirm_pilot_presence(text) to authenticated;` and set this to true.
+ * Until then the button says confirmations are closed.
+ */
 export const PILOT_CONFIRM_OPEN = false;
 
 /**
