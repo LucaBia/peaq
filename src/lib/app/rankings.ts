@@ -8,6 +8,9 @@ export type RankEntry = { userId: string; username: string; rating: number; leag
 /** The signed-in athlete, as the Rankings screen needs them. */
 export type RankMe = { userId: string; username: string; city: string | null; ratings: Partial<Record<RankSport, { rating: number; league: League }>> };
 
+/** Two letters for an avatar without a photo. */
+export const initials = (name: string) => name.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2).toUpperCase() || "?";
+
 export const rankingsService = {
   /**
    * City ranking for one sport, best rating first.

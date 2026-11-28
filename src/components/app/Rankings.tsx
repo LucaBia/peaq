@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { List, Mountain } from "lucide-react";
 import { PILOT_EVENT_ID } from "@/lib/app/events";
 import { fmt, useAppLang } from "@/lib/app/i18n";
 import { LEAGUE_FLOOR, LEAGUES, leagueColorVar, leagueInk, nextLeague, type League } from "@/lib/app/rating";
-import type { RankEntry, RankMe, RankSport } from "@/lib/app/rankings";
+import { initials, type RankEntry, type RankMe, type RankSport } from "@/lib/app/rankings";
 import { cn } from "@/lib/utils";
+import { RankingsMountain } from "./RankingsMountain";
 import { PrimaryButton, Segmented } from "./ui";
 
 const label = "text-[0.6875rem] font-semibold uppercase tracking-[0.08em]";
-const initials = (name: string) => name.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2).toUpperCase() || "?";
 
 function Avatar({ entry, className }: { entry?: RankEntry | undefined; className?: string }) {
   return (
@@ -19,25 +20,42 @@ function Avatar({ entry, className }: { entry?: RankEntry | undefined; className
   );
 }
 
-/** Rankings tab (list view): your card, league filter, podium and the list. Empty until the first race is run. */
+/** Rankings tab: the mountain (default, as in Figma) or the list, for the athlete's city and one sport. */
 export function Rankings({ me, entries }: { me: RankMe; entries: Record<RankSport, RankEntry[]> }) {
   const { t } = useAppLang();
   const [sport, setSport] = useState<RankSport>(me.ratings.run || !me.ratings.bike ? "run" : "bike");
-  const [league, setLeague] = useState<League | "all">("all");
+  const [view, setView] = useState<"mountain" | "list">("mountain");
   const all = entries[sport];
-  const shown = league === "all" ? all : all.filter((e) => e.league === league);
   const mine = all.find((e) => e.userId === me.userId);
+  const toggle = "flex size-11 items-center justify-center rounded-full border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  const on = "border-foreground bg-foreground text-background";
+
+  return (
+    <main className="flex flex-1 flex-col animate-in fade-in duration-300">
+      <div className={cn("pt-safe z-30 bg-background px-4 pb-3", view === "mountain" && "sticky top-0")}>
+        <div className="flex items-center gap-2 pl-2 pt-4">
+          <h1 className="flex-1 text-[1.75rem] font-bold tracking-tight">{t.app.rankTitle}</h1>
+          <button type="button" onClick={() => setView("mountain")} aria-pressed={view === "mountain"} aria-label={t.rank.viewMountain} className={cn(toggle, view === "mountain" && on)}><Mountain className="size-5" /></button>
+          <button type="button" onClick={() => setView("list")} aria-pressed={view === "list"} aria-label={t.rank.viewList} className={cn(toggle, view === "list" && on)}><List className="size-5" /></button>
+          {me.city && <span className="max-w-28 truncate rounded-full border px-3 py-1.5 text-sm font-medium">{me.city}</span>}
+        </div>
+        <div className="mt-3"><Segmented label={t.rank.sport} value={sport} onChange={setSport} options={(["run", "bike"] as const).map((s) => ({ value: s, label: t.ev[s] }))} /></div>
+      </div>
+      {view === "mountain" ? <RankingsMountain key={sport} me={me} sport={sport} all={all} mine={mine} /> : <RankingsList key={sport} me={me} sport={sport} all={all} mine={mine} />}
+    </main>
+  );
+}
+
+/** List view: your card, next to beat, league filter, podium and the list. Empty until the first race is run. */
+function RankingsList({ me, sport, all, mine }: { me: RankMe; sport: RankSport; all: RankEntry[]; mine: RankEntry | undefined }) {
+  const { t } = useAppLang();
+  const [league, setLeague] = useState<League | "all">("all");
+  const shown = league === "all" ? all : all.filter((e) => e.league === league);
   const ahead = mine ? all.filter((e) => e.rank < mine.rank).at(-1) : undefined;
   const podium = [shown[1], shown[0], shown[2]] as const;
 
   return (
-    <main className="pt-safe flex flex-1 flex-col px-4 pb-8 animate-in fade-in duration-300">
-      <div className="flex items-center justify-between gap-3 px-2 pt-4">
-        <h1 className="text-[2rem] font-bold tracking-tight">{t.app.rankTitle}</h1>
-        {me.city && <span className="rounded-full border px-3 py-1.5 text-sm font-medium">{me.city}</span>}
-      </div>
-      <div className="mt-4"><Segmented label={t.rank.sport} value={sport} onChange={(s) => { setSport(s); setLeague("all"); }} options={(["run", "bike"] as const).map((s) => ({ value: s, label: t.ev[s] }))} /></div>
-
+    <div className="px-4 pb-8">
       <MyCard me={me} sport={sport} mine={mine} total={all.length} />
 
       {mine && ahead && (
@@ -102,7 +120,7 @@ export function Rankings({ me, entries }: { me: RankMe; entries: Record<RankSpor
           ))}
         </ol>
       )}
-    </main>
+    </div>
   );
 }
 

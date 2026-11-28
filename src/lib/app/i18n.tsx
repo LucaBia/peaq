@@ -186,6 +186,9 @@ const it = {
     emptyTitle: "La classifica parte con la gara pilota", emptySub: "Nessuno ha ancora corso una gara PEAQ. Dopo la prima gara qui trovi il podio della tua città e la tua posizione.",
     seePilot: "Vedi la gara pilota", nextToBeat: "Prossimo da battere", pointsAhead: "{n} punti avanti", sameRating: "stesso rating",
     leagueEmpty: "Nessun atleta in questa lega per ora.",
+    viewMountain: "Vista montagna", viewList: "Vista elenco", mountainEmpty: "La montagna si riempie dopo la gara pilota",
+    notRankedTitle: "Non sei ancora in classifica", notRankedSub: "Corri la prima gara per entrare", findMe: "Torna a me",
+    toBeat: "Da battere", chasing: "Ti insegue", missing: "ti mancano {n} punti", posIn: "a {city}", toPass: "{n} punti per superare {name}", first: "Sei in testa alla classifica",
   },
   /** Gara pilota: per ora i suoi testi stanno qui e non nel database (vedi docs/07-eventi-note-per-luca.md). */
   pilot: {
@@ -435,6 +438,9 @@ const en: AppDict = {
     emptyTitle: "Rankings start with the pilot race", emptySub: "Nobody has raced a PEAQ race yet. After the first race you'll find your city's podium and your position here.",
     seePilot: "See the pilot race", nextToBeat: "Next to beat", pointsAhead: "{n} points ahead", sameRating: "same rating",
     leagueEmpty: "No athletes in this league for now.",
+    viewMountain: "Mountain view", viewList: "List view", mountainEmpty: "The mountain fills up after the pilot race",
+    notRankedTitle: "You're not ranked yet", notRankedSub: "Run your first race to get in", findMe: "Back to me",
+    toBeat: "To beat", chasing: "Chasing you", missing: "{n} points to go", posIn: "in {city}", toPass: "{n} points to pass {name}", first: "You're leading the rankings",
   },
   pilot: {
     title: "PEAQ pilot race", place: "Prato della Valle, Padova",
