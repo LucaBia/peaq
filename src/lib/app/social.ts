@@ -3,7 +3,8 @@ import type { League } from "@/lib/app/rating";
 /**
  * Following, athlete search and other athletes' profiles. Switched off: the database has no `follows` table yet and
  * athletes can only read their own profile (RLS). Wire `socialService` to the functions proposed in
- * docs/10-seguire-atleti-note-per-luca.md, then flip this: the Profile counters, the lists and the links appear.
+ * docs/10-seguire-atleti-note-per-luca.md, then flip this: the lists, the search and the links appear.
+ * Until then the Profile shows Followers 0 and Following 0, which is true, and they are not links.
  */
 export const SOCIAL_OPEN = false;
 

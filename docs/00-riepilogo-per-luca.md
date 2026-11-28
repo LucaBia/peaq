@@ -4,7 +4,7 @@ Aggiornato al 28 novembre 2026. Tutto quello che c'è nel branch rispetto a `mai
 
 ## In una riga
 
-Pagine nuove dell'app atleti prese da Figma («App Finale»), scritte con i tuoi componenti e il tuo stile. **Nessuna modifica a database, migrazioni, pannello admin, funzioni server o deploy.** `bunx tsc --noEmit`, `bun run test` e `bun run build` passano.
+Pagine nuove dell'app atleti prese da Figma («App Finale»), scritte con i tuoi componenti e il tuo stile. **Nessuna modifica a database, migrazioni, pannello admin, funzioni server o deploy.** `bunx tsc --noEmit`, `bun run test` (12 test) e `bun run build` passano.
 
 ## I commit, dal più vecchio
 
@@ -21,7 +21,7 @@ Pagine nuove dell'app atleti prese da Figma («App Finale»), scritte con i tuoi
 | Impostazioni, Lingua, Aiuto, FAQ, Regolamento | `/app/settings`, `/app/language`, `/app/help`, `/app/faq`, `/app/rules`, `/how` | `app.index.tsx` (ingranaggio al posto di lingua ed esci) |
 | Pagine delle singole leghe | `/app/leagues/:lega` | nessuno |
 | Classifiche: vista montagna | Interruttore montagna/elenco | nessuno |
-| Seguire atleti, ricerca, profili | `/app/athletes`, `/app/athletes/:userId`, contatori nel Profilo: **spenti** finché non c'è il database | nessuno |
+| Seguire atleti, ricerca, profili | `/app/athletes`, `/app/athletes/:userId`: **spenti** finché non c'è il database. Nel Profilo i contatori Gare / Follower / Seguiti sono già visibili, a zero | `app.tsx` (la scheda Profilo resta accesa nelle sue sottopagine) |
 | Aspetto di Figma | Kanit, blu, colori delle leghe, solo nell'app atleti | `styles.css` (+1 blocco), `__root.tsx` (Kanit nel link dei font), `ui.tsx` (classe `theme-athlete`), `Bib.tsx` (colore del testo sulla fascia) |
 
 Il commit «Aspetto di Figma» è separato apposta: se preferisci l'aspetto di prima basta annullarlo, il resto non cambia. (In ordine di tempo «Seguire atleti» viene dopo.)

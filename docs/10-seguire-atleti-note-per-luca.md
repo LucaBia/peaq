@@ -4,7 +4,7 @@ Aggiornato al 28 novembre 2026. Riguarda Follower e Seguiti (Figma B6), la ricer
 
 ## Stato
 
-La parte visiva è fatta e provata con atleti finti. **Nell'app è spenta**: `SOCIAL_OPEN = false` in `src/lib/app/social.ts`. Finché è spenta il Profilo mostra solo «Gare finite», le pagine `/app/athletes…` rimandano al Profilo e i nomi nelle Classifiche non sono cliccabili.
+La parte visiva è fatta e provata con atleti finti. **Nell'app è spenta**: `SOCIAL_OPEN = false` in `src/lib/app/social.ts`. Finché è spenta il Profilo mostra i tre contatori sotto il pettorale con Follower 0 e Seguiti 0 (è vero: nessuno segue ancora nessuno) ma non si toccano, le pagine `/app/athletes…` rimandano al Profilo e i nomi nelle Classifiche non sono cliccabili.
 
 Serve il database: oggi non esiste una tabella di chi segue chi, e ogni atleta può leggere solo il proprio profilo (RLS), quindi né ricerca né profili altrui possono funzionare.
 
@@ -16,7 +16,7 @@ Serve il database: oggi non esiste una tabella di chi segue chi, e ogni atleta p
 | `src/components/app/Athletes.tsx` | `AthletesScreen` (Follower / Seguiti con la ricerca), `AthleteScreen` (profilo di un altro atleta, Segui, Segnala o blocca), `Counters`, `AthleteLink` |
 | `src/routes/_authenticated/app.athletes.tsx` | `/app/athletes?tab=followers` oppure `following` |
 | `src/routes/_authenticated/app.athletes_.$userId.tsx` | `/app/athletes/:userId` |
-| `Profile.tsx`, `app.index.tsx` | Contatori Gare / Follower / Seguiti al posto di «Gare finite», quando è acceso |
+| `Profile.tsx`, `app.index.tsx` | Contatori Gare / Follower / Seguiti sotto il pettorale; diventano collegamenti quando è acceso |
 | `Rankings.tsx`, `RankingsMountain.tsx` | I nomi aprono il profilo dell'atleta, quando è acceso |
 | `src/lib/app/i18n.tsx` | Testi: blocco `soc`, italiano e inglese |
 

@@ -32,7 +32,7 @@ function Profile() {
   const icon = "flex size-11 items-center justify-center rounded-full hover:bg-black/10 focus-visible:outline-2 focus-visible:outline-current";
   return (
     <ProfileScreen bib={p.bib_number} username={p.username ?? ""} ratings={ratings} level={progression?.level ?? 1} xp={progression?.xp ?? 0}
-      racesDone={progression?.events_completed ?? 0} social={SOCIAL_OPEN ? social.data ?? { followers: 0, following: 0 } : undefined} upcoming={[pilotEvent(t)]}
+      racesDone={progression?.events_completed ?? 0} followers={social.data?.followers ?? 0} following={social.data?.following ?? 0} socialLinks={SOCIAL_OPEN} upcoming={[pilotEvent(t)]}
       actions={<>
         {isAdmin.data && <Link to="/admin" aria-label={t.set.admin} className={icon}><Shield className="size-5" /></Link>}
         <Link to="/app/settings" aria-label={t.set.title} className={icon}><Settings className="size-6" /></Link>

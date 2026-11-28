@@ -14,11 +14,12 @@ export type ProfileRating = { discipline: string; rating: number; league: string
 const label = "text-[0.6875rem] font-semibold uppercase tracking-[0.08em]";
 const card = "block rounded-3xl border p-5 transition-colors hover:bg-muted/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
-/** Profile tab: league-coloured top with the bib number, then rating, Stage and upcoming races. */
-export function ProfileScreen({ bib, username, ratings, level, xp, racesDone, social, upcoming, actions }: {
+/** Profile tab: league-coloured top with the bib number, the counters right under it, then rating, Stage and upcoming races. */
+export function ProfileScreen({ bib, username, ratings, level, xp, racesDone, followers = 0, following = 0, socialLinks = false, upcoming, actions }: {
   bib: number | null; username: string; ratings: ProfileRating[]; level: number; xp: number; racesDone: number; upcoming: AppEvent[]; actions?: ReactNode;
-  /** Followers and following: pass it only when following is switched on (see lib/app/social.ts). */
-  social?: { followers: number; following: number } | undefined;
+  followers?: number; following?: number;
+  /** Followers and Following open their lists: only once following is switched on (see lib/app/social.ts). */
+  socialLinks?: boolean;
 }) {
   const { t } = useAppLang();
   const sports = (["run", "bike"] as const).filter((s) => ratings.some((r) => r.discipline === s));
@@ -48,6 +49,8 @@ export function ProfileScreen({ bib, username, ratings, level, xp, racesDone, so
       </section>
 
       <div className="relative -mt-6 space-y-3 rounded-t-[1.75rem] bg-background px-4 pb-8 pt-4">
+        <Counters items={[{ n: racesDone, label: t.soc.races }, { n: followers, label: t.soc.followers, ...(socialLinks && { to: "followers" as const }) }, { n: following, label: t.soc.following, ...(socialLinks && { to: "following" as const }) }]} />
+
         {sports.length > 1 && <Segmented label={t.rank.sport} value={sport} onChange={setSport} options={sports.map((s) => ({ value: s, label: t.ev[s] }))} />}
 
         {r ? (
@@ -78,13 +81,6 @@ export function ProfileScreen({ bib, username, ratings, level, xp, racesDone, so
           </div>
           <p className="mt-3 text-xs text-muted-foreground">{nextPrize ? fmt(t.prof.nextPrize, { n: nextPrize.s, prize: nextPrize.t }) : t.prof.allPrizes}</p>
         </Link>
-
-        {social ? <Counters items={[{ n: racesDone, label: t.soc.races }, { n: social.followers, label: t.soc.followers, to: "followers" }, { n: social.following, label: t.soc.following, to: "following" }]} /> : (
-          <div className="flex items-center justify-between rounded-3xl border px-5 py-4">
-            <span className="text-sm text-muted-foreground">{t.prof.racesDone}</span>
-            <span className="text-2xl font-bold tabular-nums">{racesDone}</span>
-          </div>
-        )}
 
         <section className="pt-3">
           <h2 className="px-1 text-xl font-bold tracking-tight">{t.prof.nextRaces}</h2>

@@ -109,7 +109,7 @@ const it = {
   },
   prof: {
     title: "Profilo", provisionalLeft: "Provvisorio · mancano {n} gare", nextPrize: "Prossimo premio: Tappa {n} · {prize}", allPrizes: "Hai sbloccato tutti i premi.",
-    nextRaces: "Prossime gare", howRating: "Come funziona", racesDone: "Gare finite", noRating: "Nessun rating per questo sport.",
+    nextRaces: "Prossime gare", howRating: "Come funziona", noRating: "Nessun rating per questo sport.",
   },
   guide: {
     rating: {
@@ -368,7 +368,7 @@ const en: AppDict = {
   },
   prof: {
     title: "Profile", provisionalLeft: "Provisional · {n} races to go", nextPrize: "Next prize: Stage {n} · {prize}", allPrizes: "You've unlocked every prize.",
-    nextRaces: "Upcoming races", howRating: "How it works", racesDone: "Races finished", noRating: "No rating for this sport.",
+    nextRaces: "Upcoming races", howRating: "How it works", noRating: "No rating for this sport.",
   },
   guide: {
     rating: {
