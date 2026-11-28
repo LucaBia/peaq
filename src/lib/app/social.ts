@@ -1,5 +1,5 @@
 import type { League } from "@/lib/app/rating";
-import { rows, rpc } from "@/lib/app/rpc";
+import { rows, rpc, type DbFunction } from "@/lib/app/rpc";
 
 /**
  * Following, athlete search and other athletes' profiles, through the database functions of docs/sql/02-seguire-atleti.sql.
@@ -39,7 +39,7 @@ export const toAthletePublic = (r: AthletePublicDb): AthletePublic => ({
   },
 });
 
-const call = async (fn: string, userId: string) => { const { error } = await rpc(fn, { _user_id: userId }); if (error) throw error; };
+const call = async (fn: DbFunction, userId: string) => { const { error } = await rpc(fn, { _user_id: userId }); if (error) throw error; };
 
 export const socialService = {
   async counts(userId: string): Promise<FollowCounts> { return (await rows<FollowCounts>("follow_counts", { _user_id: userId }))[0] ?? { followers: 0, following: 0 }; },
