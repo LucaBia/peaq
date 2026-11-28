@@ -68,11 +68,21 @@ const it = {
     },
     bib: { title: "Il tuo pettorale. La tua identità.", sub: "Il tuo numero ti accompagnerà in ogni gara su PEAQ.", league: "Lega", athlete: "Atleta" },
     intro: {
-      s1: { t: "Tre spazi, un'app.", profile: "Profilo", profileD: "Pettorale, Tappa, rating e gare.", events: "Eventi", eventsD: "Scopri le competizioni e iscriviti.", rankings: "Classifiche", rankingsD: "Confronta le prestazioni nella tua città." },
-      s2: { t: "Il tuo pettorale.", items: ["Il tuo numero è permanente.", "Il pettorale prende il colore della tua lega.", "Le gare ti fanno guadagnare esperienza.", "Potrai personalizzarne lo stile."] },
-      s3: { t: "Rating e leghe.", d: "Il rating misura la tua forza competitiva e può salire o scendere con le gare. Corsa e bici hanno rating separati." },
-      s4: { t: "XP e Tappe.", d: "L'XP misura l'esperienza e cresce sempre. Le Tappe dipendono dall'XP, le leghe dal rating.", level: "Tappa 1" },
-      s5: { t: "Competizioni e community.", items: ["Gare di corsa e ciclismo", "Atleti di livello simile", "Classifiche cittadine", "Risultati e progressione", "Avvisi sugli eventi"], end: "Ci vediamo alla partenza.", cta: "Entra in PEAQ" },
+      count: "{n} / {t}", next: "Avanti",
+      s1: { t: "Tre schede, tutto qui", profile: "Profilo", profileD: "il tuo pettorale e i tuoi numeri.", events: "Eventi", eventsD: "trovi una gara e ti iscrivi.", rankings: "Classifiche", rankingsD: "vedi a che punto sei in città." },
+      s2: { t: "Il pettorale sei tu", items: ["Il numero è tuo per sempre.", "Il colore è quello della tua lega.", "Lo ritiri alla tua prima gara."] },
+      s3: { t: "La lega: quanto vai forte", items: ["Viene dal rating, da 0 a 1000.", "Sale se batti chi è più forte. Può anche scendere.", "Decide con chi parti in gara."] },
+      s4: {
+        t: "La tappa: quanto gareggi", yours: "La tua tappa", bonus: "+250 XP dopo la prima gara",
+        steps: [{ s: 1, t: "sei qui" }, { s: 2, t: "gara a metà prezzo" }, { s: 3, t: "iscrizione anticipata" }, { s: 5, t: "priorità in lista" }, { s: 10, t: "maglia PEAQ" }],
+        items: ["Viene dagli XP: ogni gara te ne dà.", "Sale soltanto, non scende mai.", "Ogni tappa sblocca un premio."],
+      },
+      s5: {
+        t: "Dall'iscrizione alla partenza", race: "Night 10K", raceSub: "mar 10 nov · 19:15 · Milano", register: "Iscriviti", lobby: "Lobby · apre 24 h prima",
+        tabs: ["Chat", "Briefing", "Griglie", "Gara"], start: "Vai alla partenza",
+        items: ["Scegli una gara in Eventi e iscriviti.", "24 ore prima apre la lobby: chat, briefing e griglie.", "Il giorno della gara lo staff ti fa il check-in."],
+      },
+      s6: { t: "Dopo l'arrivo", first: "Primo posto", of: "su 14 nella tua lega", items: ["Risultato, rating e XP arrivano nell'app.", "Sali in classifica nella tua città.", "Se cambi lega, cambia il colore del pettorale."] },
     },
     notif: {
       title: "Restiamo in contatto?", sub: "Scegli cosa vorresti ricevere. Le notifiche arriveranno con l'app mobile.",
@@ -266,11 +276,21 @@ const en: AppDict = {
     },
     bib: { title: "Your bib. Your identity.", sub: "Your number will be with you in every PEAQ race.", league: "League", athlete: "Athlete" },
     intro: {
-      s1: { t: "Three spaces, one app.", profile: "Profile", profileD: "Bib, Stage, rating and races.", events: "Events", eventsD: "Discover competitions and register.", rankings: "Rankings", rankingsD: "Compare performance in your city." },
-      s2: { t: "Your bib.", items: ["Your number is permanent.", "Your bib takes your league's colour.", "Races earn you experience.", "You'll be able to personalise its style."] },
-      s3: { t: "Ratings and leagues.", d: "Your rating measures competitive strength and can rise or fall with races. Running and cycling are rated separately." },
-      s4: { t: "XP and Stages.", d: "XP tracks experience and only goes up. Stages are based on XP, leagues on rating.", level: "Stage 1" },
-      s5: { t: "Competitions and community.", items: ["Running and cycling races", "Athletes at comparable levels", "City rankings", "Results and progression", "Event notifications"], end: "See you at the starting line.", cta: "Enter PEAQ" },
+      count: "{n} / {t}", next: "Next",
+      s1: { t: "Three tabs, that's all", profile: "Profile", profileD: "your bib and your numbers.", events: "Events", eventsD: "find a race and sign up.", rankings: "Rankings", rankingsD: "see where you stand in your city." },
+      s2: { t: "Your bib is you", items: ["The number is yours for good.", "The colour is your league's.", "You collect it at your first race."] },
+      s3: { t: "League: how fast you are", items: ["It comes from your rating, from 0 to 1000.", "It goes up when you beat stronger athletes. It can go down too.", "It decides who you start with."] },
+      s4: {
+        t: "Stage: how much you race", yours: "Your stage", bonus: "+250 XP after your first race",
+        steps: [{ s: 1, t: "you are here" }, { s: 2, t: "half-price race" }, { s: 3, t: "early registration" }, { s: 5, t: "waiting list priority" }, { s: 10, t: "PEAQ jersey" }],
+        items: ["It comes from XP: every race gives you some.", "It only goes up, never down.", "Every stage unlocks a prize."],
+      },
+      s5: {
+        t: "From sign-up to start line", race: "Night 10K", raceSub: "Tue 10 Nov · 19:15 · Milano", register: "Register", lobby: "Lobby · opens 24 h before",
+        tabs: ["Chat", "Briefing", "Grids", "Race"], start: "Go to the start",
+        items: ["Pick a race in Events and sign up.", "24 hours before, the lobby opens: chat, briefing and grids.", "On race day the staff checks you in."],
+      },
+      s6: { t: "After the finish", first: "First place", of: "of 14 in your league", items: ["Result, rating and XP arrive in the app.", "You climb your city's rankings.", "If you change league, your bib changes colour."] },
     },
     notif: {
       title: "Stay in the loop?", sub: "Choose what you'd like to receive. Notifications will arrive with the mobile app.",

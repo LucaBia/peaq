@@ -7,17 +7,18 @@ import { BackHeader } from "./ui";
 
 const label = "text-[0.6875rem] font-semibold uppercase tracking-[0.08em]";
 
-/** Six little mountains, one per league, growing from Valle to PEAQ. */
-function LeagueScale() {
+/** Six little mountains, one per league, growing from Valle to PEAQ. `you` puts a tag on the athlete's league. */
+export function LeagueScale({ you }: { you?: League | undefined }) {
   const { t } = useAppLang();
   return (
-    <div className="mt-4 grid grid-cols-6 items-end text-center">
+    <div className="grid grid-cols-6 items-end text-center">
       {LEAGUES.map((l, i) => (
         <div key={l}>
+          {you === l && <span className="mb-1 inline-block rounded-full bg-foreground px-1.5 py-0.5 text-[0.6875rem] font-bold uppercase leading-none text-background">{t.rank.you}</span>}
           <svg viewBox="0 0 40 60" preserveAspectRatio="none" className="w-full px-0.5" style={{ height: `${2 + i * 0.9}rem` }} aria-hidden>
             <path d="M0 60 L14 12 L20 24 L28 0 L40 60Z" fill={l === "peaq" ? "var(--league-peaq)" : `var(--league-${l})`} />
           </svg>
-          <p className="mt-1.5 border-t pt-1.5 text-[0.6875rem] font-semibold">{t.leagues[l]}</p>
+          <p className={cn("mt-1.5 border-t pt-1.5 text-[0.6875rem]", !you || you === l ? "font-semibold" : "text-muted-foreground")}>{t.leagues[l]}</p>
           <p className="whitespace-nowrap text-[0.6875rem] tracking-tighter text-muted-foreground">{leagueRange(l)}</p>
         </div>
       ))}
@@ -39,7 +40,7 @@ export function RatingGuide() {
             <div className="min-w-0 flex-1">
               <h2 className="pt-0.5 text-lg font-semibold leading-snug">{it.t}</h2>
               <p className="mt-1 text-[0.9375rem] text-muted-foreground">{it.d}</p>
-              {i === 2 && <><LeagueScale /><Link to="/app/leagues" className="mt-3 inline-flex min-h-11 items-center gap-1 text-sm font-semibold underline-offset-4 hover:underline">{g.seeLeagues}<ChevronRight className="size-4" aria-hidden /></Link></>}
+              {i === 2 && <><div className="mt-4"><LeagueScale /></div><Link to="/app/leagues" className="mt-3 inline-flex min-h-11 items-center gap-1 text-sm font-semibold underline-offset-4 hover:underline">{g.seeLeagues}<ChevronRight className="size-4" aria-hidden /></Link></>}
             </div>
           </li>
         ))}
