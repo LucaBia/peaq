@@ -3,6 +3,7 @@ import { ChevronLeft } from "lucide-react";
 import { Bib } from "./Bib";
 import { LeagueScale } from "./Guides";
 import { BottomBar, PrimaryButton } from "./ui";
+import { PILOT_STARTS } from "@/lib/app/events";
 import { fmt, useAppLang } from "@/lib/app/i18n";
 import { leagueColorVar, leagueInk, PROVISIONAL_BASELINE, type League } from "@/lib/app/rating";
 import { cn } from "@/lib/utils";
@@ -89,18 +90,17 @@ export function Tutorial({ bib, username, discipline, rating = PROVISIONAL_BASEL
           </div>} />
         <Slide title={s.s5.t} items={s.s5.items} visual={
           <div className="w-full space-y-2.5">
-            <div className="flex items-center justify-between gap-3 rounded-2xl bg-background p-3.5 shadow-sm">
-              <div><p className="font-semibold">{s.s5.race}</p><p className="text-xs text-muted-foreground">{s.s5.raceSub}</p></div>
-              <span className="rounded-full bg-primary px-3.5 py-2 text-xs font-semibold text-primary-foreground">{s.s5.register}</span>
+            <div className="rounded-2xl bg-background p-3.5 shadow-sm">
+              <div className="flex items-center justify-between gap-3"><span className={cn(cap, "uppercase tracking-[0.08em] text-muted-foreground")}>{t.ev.dateTbd}</span><span className={cn(cap, "rounded-full border px-2 py-0.5 uppercase tracking-[0.08em]")}>{t.ev.inviteOnly}</span></div>
+              <p className="mt-1.5 font-semibold">{t.pilot.title}</p><p className="text-xs text-muted-foreground">{t.pilot.place}</p>
             </div>
-            <p className={cn(cap, "px-1 uppercase tracking-[0.08em] text-muted-foreground")}>{s.s5.lobby}</p>
-            <div className="grid grid-cols-4 rounded-full bg-background p-1 text-center text-xs font-medium shadow-sm">{s.s5.tabs.map((x, k) => <span key={x} className={cn("rounded-full py-1.5", k === 0 && "bg-foreground text-background")}>{x}</span>)}</div>
-            <div className="rounded-full bg-primary py-3 text-center text-sm font-semibold text-primary-foreground">{s.s5.start}</div>
+            <div className="grid grid-cols-3 gap-1.5 text-center text-xs font-semibold">{PILOT_STARTS.map((l) => <span key={l} className="rounded-full py-1.5" style={{ background: leagueColorVar(l), color: leagueInk(l) }}>{t.leagues[l]}</span>)}</div>
+            <div className="rounded-full bg-primary py-3 text-center text-sm font-semibold text-primary-foreground">{t.pilot.confirm}</div>
           </div>} />
         <Slide title={s.s6.t} items={s.s6.items} visual={
           <div className="w-full max-w-64 space-y-2">
             <div className="rounded-2xl p-4" style={{ background: "linear-gradient(135deg, #ffde6b, #f5b800)", color: "#1f1700" }}>
-              <p className="text-xs">{s.s5.race}</p>
+              <p className="text-xs">{t.pilot.title}</p>
               <div className="mt-1 flex items-end gap-3"><span className="text-5xl font-light leading-none">1°</span><span><span className={cn(cap, "block uppercase tracking-[0.08em]")}>{s.s6.first}</span><span className="block text-xs">{s.s6.of}</span></span></div>
             </div>
             <div className="grid grid-cols-3 items-end gap-2 rounded-2xl bg-background p-3 pb-0 text-center shadow-sm">
