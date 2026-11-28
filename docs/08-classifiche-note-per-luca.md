@@ -1,13 +1,14 @@
 # Classifiche: note per Luca
 
-Aggiornato al 28 novembre 2026. Riguarda la pagina Classifiche dell'app (`/app/rankings`), vista «elenco».
+Aggiornato al 28 novembre 2026. Riguarda la pagina Classifiche dell'app (`/app/rankings`): vista «montagna» (quella che si apre) e vista «elenco».
 
 ## Cosa c'è nel codice
 
 | File | Cosa fa |
 |---|---|
 | `src/routes/_authenticated/app.rankings.tsx` | Carica atleta, città e classifica, poi mostra `Rankings` |
-| `src/components/app/Rankings.tsx` | Grafica: card «La tua posizione», prossimo da battere, filtro per lega, podio, elenco |
+| `src/components/app/Rankings.tsx` | Testata con l'interruttore montagna/elenco e la vista elenco: card «La tua posizione», prossimo da battere, filtro per lega, podio, elenco |
+| `src/components/app/RankingsMountain.tsx` | Vista montagna (Figma `1821:989`): le sei leghe una sotto l'altra, gli atleti sul sentiero, scheda in basso con «Torna a me» |
 | `src/lib/app/rankings.ts` | Tipi `RankEntry` e `RankMe`; `rankingsService.city()` che oggi restituisce un elenco vuoto |
 | `src/lib/app/rating.ts` | Aggiunti `LEAGUE_FLOOR` (soglie delle leghe), `nextLeague`, `leagueInk` |
 | `src/components/app/ui.tsx` | Aggiunto `Segmented` (binario grigio con pillola nera), usato anche in Eventi |
@@ -50,7 +51,7 @@ Da decidere insieme: se «ha corso almeno una gara» va letto da `placement_race
 
 ## Non ancora fatto
 
-- Vista «montagna» (Figma `1821:989`) e interruttore montagna/elenco.
+- Nella montagna: filtro «Seguiti», variazioni di posizione, e la lunghezza delle leghe in proporzione agli atleti (ora ogni lega mostra al massimo quattro o cinque atleti).
 - Schede Atleti/Club e classifica dei club (i club non esistono ancora nell'app).
 - Filtro «Seguiti» (seguire altri atleti non esiste ancora).
 - Scelta della città: oggi si vede solo la propria.
@@ -59,5 +60,5 @@ Da decidere insieme: se «ha corso almeno una gara» va letto da `placement_race
 
 ## Differenze volute rispetto a Figma
 
-- Caratteri e colori dell'app di oggi, come per Eventi (vedi `docs/07-eventi-note-per-luca.md`).
+- La montagna è ridisegnata in SVG, più semplice di quella di Figma (niente alberi né punte di neve sulle leghe).
 - Le soglie delle leghe in `LEAGUE_FLOOR` servono solo a scrivere «38 punti a Vetta»: la lega la decide sempre il server.

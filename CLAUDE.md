@@ -15,6 +15,7 @@ Da aprire quando servono (non importati per non riempire il contesto):
 - `docs/02-perimetro-v1.md`: cosa entra nella v1 e cosa dopo, funzione per funzione.
 - `docs/03-modello-dati-e-admin.md`: tabelle, stati, automazioni, pannello admin, ordine di costruzione.
 - `docs/04-design.md`: colori, caratteri, regole grafiche e mappa delle schermate Figma con i node id.
+- `docs/00-riepilogo-per-luca.md`: tutto quello che c'è nel branch `Giometto` rispetto a `main`, commit per commit, e cosa serve da Luca.
 - `docs/07-eventi-note-per-luca.md`: come è fatta la pagina Eventi, perché la gara pilota è nel codice e quali campi servono nel database.
 - `docs/08-classifiche-note-per-luca.md`: come è fatta la pagina Classifiche e la funzione che serve nel database per riempirla.
 - `docs/09-profilo-e-guide-note-per-luca.md`: Profilo nuovo, pagine di spiegazione (rating, leghe, Tappa) e cose da allineare con Luca.

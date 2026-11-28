@@ -78,6 +78,6 @@ Da decidere con Giovanni:
 
 ## Differenze volute rispetto a Figma
 
-- Caratteri e colori sono quelli dell'app di oggi (Archivo e Anton, pulsanti neri), non Kanit e blu come in Figma: cambiarli riguarda tutta l'app e il logo non è ancora scelto.
+- Caratteri e colori di Figma arrivano con l'ultimo commit del branch (`.theme-athlete` in `styles.css`); senza quello le pagine restano con Archivo, Anton e i pulsanti neri.
 - Dati della gara secondo il piano del 27 novembre (eliminazione a giri, tre partenze per lega, 40 posti), non quelli vecchi di Figma (10 giri, tutte le leghe insieme, 25 posti).
 - Niente programma con gli orari finché non c'è la data.
