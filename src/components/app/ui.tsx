@@ -206,12 +206,14 @@ export function Segmented<V extends string>({ options, value, onChange, label }:
   );
 }
 
-/** Header of a page opened from a tab: back arrow + title. */
-export function BackHeader({ title, to }: { title: string; to: string }) {
+/** Header of a page opened from a tab: back arrow + title. Give `to`, or `onBack` when the page is reached from several places. */
+export function BackHeader({ title, to, onBack }: { title: string; to?: string; onBack?: () => void }) {
   const { t } = useAppLang();
+  const cls = "flex size-11 shrink-0 items-center justify-center rounded-full hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring";
   return (
     <header className="pt-safe flex items-center gap-1 px-2 pb-2">
-      <Link to={to} aria-label={t.common.back} className="flex size-11 shrink-0 items-center justify-center rounded-full hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"><ChevronLeft className="size-6" /></Link>
+      {to ? <Link to={to} aria-label={t.common.back} className={cls}><ChevronLeft className="size-6" /></Link>
+        : <button type="button" onClick={onBack} aria-label={t.common.back} className={cls}><ChevronLeft className="size-6" /></button>}
       <h1 className="truncate text-xl font-bold tracking-tight">{title}</h1>
     </header>
   );

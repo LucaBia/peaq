@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { Check, ChevronLeft, MapPin } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { fmt, useAppLang } from "@/lib/app/i18n";
 import { dateParts, matchesSport, PILOT_STARTS, type AppEvent, type PilotStart } from "@/lib/app/events";
 import { cn } from "@/lib/utils";
@@ -202,6 +202,7 @@ function PilotSections({ capacity, rsvp }: { capacity: number; rsvp?: PilotRsvp 
         <h2 className={h2}>{t.ev.info}</h2>
         <div className="mt-2 space-y-2 text-muted-foreground">{t.pilot.info.map((p) => <p key={p}>{p}</p>)}</div>
         <p className="mt-3 flex items-center gap-1.5 text-sm font-medium"><MapPin className="size-4" aria-hidden />{t.pilot.place}</p>
+        <Link to="/app/rules" className="mt-2 inline-flex min-h-11 items-center gap-1 text-sm font-semibold underline-offset-4 hover:underline">{t.pilot.rulesLink}<ChevronRight className="size-4" aria-hidden /></Link>
       </section>
     </>
   );

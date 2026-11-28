@@ -17,8 +17,10 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
+import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedHowRouteImport } from './routes/_authenticated/how'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAdminsRouteImport } from './routes/_authenticated/admin.admins'
@@ -27,9 +29,14 @@ import { Route as AuthenticatedAdminEventsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppEventsRouteImport } from './routes/_authenticated/app.events'
+import { Route as AuthenticatedAppFaqRouteImport } from './routes/_authenticated/app.faq'
+import { Route as AuthenticatedAppHelpRouteImport } from './routes/_authenticated/app.help'
+import { Route as AuthenticatedAppLanguageRouteImport } from './routes/_authenticated/app.language'
 import { Route as AuthenticatedAppLeaguesRouteImport } from './routes/_authenticated/app.leagues'
 import { Route as AuthenticatedAppRankingsRouteImport } from './routes/_authenticated/app.rankings'
 import { Route as AuthenticatedAppRatingRouteImport } from './routes/_authenticated/app.rating'
+import { Route as AuthenticatedAppRulesRouteImport } from './routes/_authenticated/app.rules'
+import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
 import { Route as AuthenticatedAppStageRouteImport } from './routes/_authenticated/app.stage'
 import { Route as AuthenticatedAppEventsEventIdRouteImport } from './routes/_authenticated/app.events_.$eventId'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
@@ -74,6 +81,11 @@ const VerifyEmailRoute = VerifyEmailRouteImport.update({
   path: '/verify-email',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WelcomeRoute = WelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -82,6 +94,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   id: '/app',
   path: '/app',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHowRoute = AuthenticatedHowRouteImport.update({
+  id: '/how',
+  path: '/how',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
@@ -127,6 +144,22 @@ const AuthenticatedAppEventsRoute = AuthenticatedAppEventsRouteImport.update({
   path: '/events',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppFaqRoute = AuthenticatedAppFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppHelpRoute = AuthenticatedAppHelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppLanguageRoute =
+  AuthenticatedAppLanguageRouteImport.update({
+    id: '/language',
+    path: '/language',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppLeaguesRoute = AuthenticatedAppLeaguesRouteImport.update({
   id: '/leagues',
   path: '/leagues',
@@ -143,6 +176,17 @@ const AuthenticatedAppRatingRoute = AuthenticatedAppRatingRouteImport.update({
   path: '/rating',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppRulesRoute = AuthenticatedAppRulesRouteImport.update({
+  id: '/rules',
+  path: '/rules',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppSettingsRoute =
+  AuthenticatedAppSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppStageRoute = AuthenticatedAppStageRouteImport.update({
   id: '/stage',
   path: '/stage',
@@ -173,17 +217,24 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/welcome': typeof WelcomeRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/app': typeof AuthenticatedAppRouteWithChildren
+  '/how': typeof AuthenticatedHowRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/admin/admins': typeof AuthenticatedAdminAdminsRoute
   '/admin/documents': typeof AuthenticatedAdminDocumentsRoute
   '/admin/events': typeof AuthenticatedAdminEventsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/app/events': typeof AuthenticatedAppEventsRoute
+  '/app/faq': typeof AuthenticatedAppFaqRoute
+  '/app/help': typeof AuthenticatedAppHelpRoute
+  '/app/language': typeof AuthenticatedAppLanguageRoute
   '/app/leagues': typeof AuthenticatedAppLeaguesRoute
   '/app/rankings': typeof AuthenticatedAppRankingsRoute
   '/app/rating': typeof AuthenticatedAppRatingRoute
+  '/app/rules': typeof AuthenticatedAppRulesRoute
+  '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/stage': typeof AuthenticatedAppStageRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/app/': typeof AuthenticatedAppIndexRoute
@@ -199,15 +250,22 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/welcome': typeof WelcomeRoute
+  '/how': typeof AuthenticatedHowRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/admin/admins': typeof AuthenticatedAdminAdminsRoute
   '/admin/documents': typeof AuthenticatedAdminDocumentsRoute
   '/admin/events': typeof AuthenticatedAdminEventsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/app/events': typeof AuthenticatedAppEventsRoute
+  '/app/faq': typeof AuthenticatedAppFaqRoute
+  '/app/help': typeof AuthenticatedAppHelpRoute
+  '/app/language': typeof AuthenticatedAppLanguageRoute
   '/app/leagues': typeof AuthenticatedAppLeaguesRoute
   '/app/rankings': typeof AuthenticatedAppRankingsRoute
   '/app/rating': typeof AuthenticatedAppRatingRoute
+  '/app/rules': typeof AuthenticatedAppRulesRoute
+  '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/stage': typeof AuthenticatedAppStageRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/app': typeof AuthenticatedAppIndexRoute
@@ -225,17 +283,24 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/welcome': typeof WelcomeRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/_authenticated/how': typeof AuthenticatedHowRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/admin/admins': typeof AuthenticatedAdminAdminsRoute
   '/_authenticated/admin/documents': typeof AuthenticatedAdminDocumentsRoute
   '/_authenticated/admin/events': typeof AuthenticatedAdminEventsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/app/events': typeof AuthenticatedAppEventsRoute
+  '/_authenticated/app/faq': typeof AuthenticatedAppFaqRoute
+  '/_authenticated/app/help': typeof AuthenticatedAppHelpRoute
+  '/_authenticated/app/language': typeof AuthenticatedAppLanguageRoute
   '/_authenticated/app/leagues': typeof AuthenticatedAppLeaguesRoute
   '/_authenticated/app/rankings': typeof AuthenticatedAppRankingsRoute
   '/_authenticated/app/rating': typeof AuthenticatedAppRatingRoute
+  '/_authenticated/app/rules': typeof AuthenticatedAppRulesRoute
+  '/_authenticated/app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/app/stage': typeof AuthenticatedAppStageRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
@@ -253,17 +318,24 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/verify-email'
+    | '/welcome'
     | '/admin'
     | '/app'
+    | '/how'
     | '/onboarding'
     | '/admin/admins'
     | '/admin/documents'
     | '/admin/events'
     | '/admin/users'
     | '/app/events'
+    | '/app/faq'
+    | '/app/help'
+    | '/app/language'
     | '/app/leagues'
     | '/app/rankings'
     | '/app/rating'
+    | '/app/rules'
+    | '/app/settings'
     | '/app/stage'
     | '/admin/'
     | '/app/'
@@ -279,15 +351,22 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/verify-email'
+    | '/welcome'
+    | '/how'
     | '/onboarding'
     | '/admin/admins'
     | '/admin/documents'
     | '/admin/events'
     | '/admin/users'
     | '/app/events'
+    | '/app/faq'
+    | '/app/help'
+    | '/app/language'
     | '/app/leagues'
     | '/app/rankings'
     | '/app/rating'
+    | '/app/rules'
+    | '/app/settings'
     | '/app/stage'
     | '/admin'
     | '/app'
@@ -304,17 +383,24 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/verify-email'
+    | '/welcome'
     | '/_authenticated/admin'
     | '/_authenticated/app'
+    | '/_authenticated/how'
     | '/_authenticated/onboarding'
     | '/_authenticated/admin/admins'
     | '/_authenticated/admin/documents'
     | '/_authenticated/admin/events'
     | '/_authenticated/admin/users'
     | '/_authenticated/app/events'
+    | '/_authenticated/app/faq'
+    | '/_authenticated/app/help'
+    | '/_authenticated/app/language'
     | '/_authenticated/app/leagues'
     | '/_authenticated/app/rankings'
     | '/_authenticated/app/rating'
+    | '/_authenticated/app/rules'
+    | '/_authenticated/app/settings'
     | '/_authenticated/app/stage'
     | '/_authenticated/admin/'
     | '/_authenticated/app/'
@@ -332,6 +418,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
+  WelcomeRoute: typeof WelcomeRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
 }
@@ -394,6 +481,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VerifyEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -406,6 +500,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/how': {
+      id: '/_authenticated/how'
+      path: '/how'
+      fullPath: '/how'
+      preLoaderRoute: typeof AuthenticatedHowRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/onboarding': {
@@ -464,6 +565,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppEventsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/faq': {
+      id: '/_authenticated/app/faq'
+      path: '/faq'
+      fullPath: '/app/faq'
+      preLoaderRoute: typeof AuthenticatedAppFaqRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/help': {
+      id: '/_authenticated/app/help'
+      path: '/help'
+      fullPath: '/app/help'
+      preLoaderRoute: typeof AuthenticatedAppHelpRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/language': {
+      id: '/_authenticated/app/language'
+      path: '/language'
+      fullPath: '/app/language'
+      preLoaderRoute: typeof AuthenticatedAppLanguageRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/leagues': {
       id: '/_authenticated/app/leagues'
       path: '/leagues'
@@ -483,6 +605,20 @@ declare module '@tanstack/react-router' {
       path: '/rating'
       fullPath: '/app/rating'
       preLoaderRoute: typeof AuthenticatedAppRatingRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/rules': {
+      id: '/_authenticated/app/rules'
+      path: '/rules'
+      fullPath: '/app/rules'
+      preLoaderRoute: typeof AuthenticatedAppRulesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/settings': {
+      id: '/_authenticated/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AuthenticatedAppSettingsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/stage': {
@@ -537,9 +673,14 @@ const AuthenticatedAdminRouteWithChildren =
 
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppEventsRoute: typeof AuthenticatedAppEventsRoute
+  AuthenticatedAppFaqRoute: typeof AuthenticatedAppFaqRoute
+  AuthenticatedAppHelpRoute: typeof AuthenticatedAppHelpRoute
+  AuthenticatedAppLanguageRoute: typeof AuthenticatedAppLanguageRoute
   AuthenticatedAppLeaguesRoute: typeof AuthenticatedAppLeaguesRoute
   AuthenticatedAppRankingsRoute: typeof AuthenticatedAppRankingsRoute
   AuthenticatedAppRatingRoute: typeof AuthenticatedAppRatingRoute
+  AuthenticatedAppRulesRoute: typeof AuthenticatedAppRulesRoute
+  AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
   AuthenticatedAppStageRoute: typeof AuthenticatedAppStageRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppEventsEventIdRoute: typeof AuthenticatedAppEventsEventIdRoute
@@ -547,9 +688,14 @@ interface AuthenticatedAppRouteChildren {
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppEventsRoute: AuthenticatedAppEventsRoute,
+  AuthenticatedAppFaqRoute: AuthenticatedAppFaqRoute,
+  AuthenticatedAppHelpRoute: AuthenticatedAppHelpRoute,
+  AuthenticatedAppLanguageRoute: AuthenticatedAppLanguageRoute,
   AuthenticatedAppLeaguesRoute: AuthenticatedAppLeaguesRoute,
   AuthenticatedAppRankingsRoute: AuthenticatedAppRankingsRoute,
   AuthenticatedAppRatingRoute: AuthenticatedAppRatingRoute,
+  AuthenticatedAppRulesRoute: AuthenticatedAppRulesRoute,
+  AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
   AuthenticatedAppStageRoute: AuthenticatedAppStageRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppEventsEventIdRoute: AuthenticatedAppEventsEventIdRoute,
@@ -561,12 +707,14 @@ const AuthenticatedAppRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
+  AuthenticatedHowRoute: typeof AuthenticatedHowRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
+  AuthenticatedHowRoute: AuthenticatedHowRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
 }
 
@@ -582,6 +730,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
   VerifyEmailRoute: VerifyEmailRoute,
+  WelcomeRoute: WelcomeRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
 }
