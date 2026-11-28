@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { z } from "zod";
 import { AuthScreen } from "@/components/app/AuthScreen";
+import { SocialAuth } from "@/components/app/SocialAuth";
 import { Body, BottomBar, Checkbox, Field, Notice, PasswordInput, PrimaryButton, TextInput, Title } from "@/components/app/ui";
 import { useAppLang } from "@/lib/app/i18n";
 import { authService, mapAuthError } from "@/lib/app/auth";
@@ -74,6 +75,7 @@ function Signup() {
               {submitted && errs.terms && <p role="alert" className="mt-2 text-sm text-destructive">{errs.terms}</p>}
             </div>
             {err && <Notice tone="error">{err}</Notice>}
+            <SocialAuth />
           </div>
         </Body>
         <BottomBar>

@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { AuthScreen } from "@/components/app/AuthScreen";
+import { SocialAuth } from "@/components/app/SocialAuth";
 import { Body, BottomBar, Field, Notice, PasswordInput, PrimaryButton, TextInput, Title } from "@/components/app/ui";
 import { useAppLang } from "@/lib/app/i18n";
 import { authService, mapAuthError } from "@/lib/app/auth";
@@ -60,6 +61,7 @@ function Login() {
                 {err.unconfirmed && <> <Link to="/verify-email" search={{ email }} className="font-semibold underline">{t.auth.resend}</Link></>}
               </Notice>
             )}
+            <SocialAuth />
           </div>
         </Body>
         <BottomBar>

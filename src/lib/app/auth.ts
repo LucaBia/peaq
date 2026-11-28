@@ -15,7 +15,21 @@ export function mapAuthError(e: { message?: string; code?: string; status?: numb
   return "network";
 }
 
+export type OAuthProvider = "apple" | "google";
+
+/** Social logins shown in the app. Listed in VITE_OAUTH_PROVIDERS (e.g. "apple,google") only once
+ *  the provider is enabled in the Supabase project, so the live site never shows a broken button. */
+export const oauthProviders: OAuthProvider[] = String(import.meta.env["VITE_OAUTH_PROVIDERS"] ?? "")
+  .split(",").map((s) => s.trim().toLowerCase())
+  .filter((s): s is OAuthProvider => s === "apple" || s === "google")
+  .sort((a, b) => (a === "apple" ? -1 : b === "apple" ? 1 : 0));
+
 export const authService = {
+  /** Sign up or log in with Apple/Google: same call for both. Leaves the page; comes back on /confirm. */
+  async signInWithProvider(provider: OAuthProvider) {
+    const { error } = await supabase.auth.signInWithOAuth({ provider, options: { redirectTo: `${origin()}/confirm?lang=${lang()}&via=oauth` } });
+    if (error) throw error;
+  },
   async signUp(email: string, password: string) {
     const { data, error } = await supabase.auth.signUp({ email: email.trim(), password, options: { emailRedirectTo: `${origin()}/confirm?lang=${lang()}` } });
     if (error) throw error;

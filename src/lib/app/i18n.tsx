@@ -26,6 +26,9 @@ const it = {
     resetTitle: "Nuova password", resetCta: "Salva password", resetDone: "Password aggiornata.", resetInvalid: "Il link non è valido o è scaduto. Richiedine uno nuovo.",
     callbackWorking: "Verifica in corso…", linkExpired: "Questo link è scaduto o è già stato usato.", linkExpiredSub: "Accedi oppure richiedi una nuova email di conferma.",
     logout: "Esci",
+    or: "oppure", withApple: "Continua con Apple", withGoogle: "Continua con Google",
+    socialTerms: "Continuando con Apple o Google accetti i Termini di servizio e l'Informativa privacy di PEAQ.",
+    oauthFailed: "Accesso non riuscito.", oauthFailedSub: "L'accesso con Apple o Google è stato annullato o non è andato a buon fine. Riprova.",
   },
   ob: {
     step: "Passo {n} di {t}",
@@ -149,6 +152,9 @@ const en: AppDict = {
     resetTitle: "New password", resetCta: "Save password", resetDone: "Password updated.", resetInvalid: "This link is invalid or expired. Request a new one.",
     callbackWorking: "Verifying…", linkExpired: "This link has expired or was already used.", linkExpiredSub: "Log in or request a new confirmation email.",
     logout: "Log out",
+    or: "or", withApple: "Continue with Apple", withGoogle: "Continue with Google",
+    socialTerms: "By continuing with Apple or Google you accept PEAQ's Terms of Service and Privacy Policy.",
+    oauthFailed: "Sign-in failed.", oauthFailedSub: "Signing in with Apple or Google was cancelled or didn't work. Please try again.",
   },
   ob: {
     step: "Step {n} of {t}",
