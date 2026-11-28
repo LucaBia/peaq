@@ -1,5 +1,7 @@
 # Eventi: note per Luca
 
+> **Aggiornamento 28 novembre:** la tabella e le funzioni della conferma presenza sono state create sul database (`docs/sql/01`, vedi `docs/11`). Resta da accendere `PILOT_CONFIRM_OPEN` quando c'è la data.
+
 Aggiornato al 28 novembre 2026. Riguarda la pagina Eventi dell'app (`/app/events`) e il dettaglio di una gara (`/app/events/:id`).
 
 ## Cosa c'è nel codice

@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { rpc } from "@/lib/app/rpc";
 import type { Database } from "@/integrations/supabase/types";
 import type { AppDict } from "@/lib/app/i18n";
 import pilotImg from "@/assets/event-pilot.jpg";
@@ -29,17 +30,12 @@ export const PILOT_EVENT_ID = "gara-pilota";
 export const PILOT_STARTS = ["valle", "collina", "passo"] as const;
 export type PilotStart = (typeof PILOT_STARTS)[number];
 
-/** Turn on when the date is set AND the database functions below exist. Until then the button says confirmations are closed. */
+/** Turn on when the date is set. The database side exists since docs/sql/01 (28 Nov 2026). Until then the button says confirmations are closed. */
 export const PILOT_CONFIRM_OPEN = false;
 
-// These functions aren't in the generated database types yet: drop the cast after regenerating types.ts.
-// Called lazily: importing this file must not create the Supabase client (tests and tools run without .env).
-const rpc = (fn: string, args?: Record<string, unknown>) =>
-  (supabase.rpc as unknown as (fn: string, args?: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>).call(supabase, fn, args);
-
 /**
- * Confirming a spot at the pilot race. Already wired to the database functions proposed in
- * docs/07-eventi-note-per-luca.md: once they exist, flip PILOT_CONFIRM_OPEN and it works.
+ * Confirming a spot at the pilot race, through the database functions of docs/sql/01-registro-pilota-classifica.sql.
+ * Flip PILOT_CONFIRM_OPEN and it works.
  * While it is off, none of these is ever called.
  */
 export const pilotService = {

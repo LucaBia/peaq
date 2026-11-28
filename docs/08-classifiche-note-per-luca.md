@@ -1,5 +1,7 @@
 # Classifiche: note per Luca
 
+> **Aggiornamento 28 novembre:** `city_ranking` è stata creata sul database (`docs/sql/01`) e `rankingsService.city()` la chiama già. Vedi `docs/11`.
+
 Aggiornato al 28 novembre 2026. Riguarda la pagina Classifiche dell'app (`/app/rankings`): vista «montagna» (quella che si apre) e vista «elenco».
 
 ## Cosa c'è nel codice

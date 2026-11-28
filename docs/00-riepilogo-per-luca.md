@@ -4,7 +4,7 @@ Aggiornato al 28 novembre 2026.
 
 ## In breve
 
-Pagine dell'app atleti prese da Figma, scritte con i tuoi componenti e il tuo stile. **Nessuna modifica a database, migrazioni, funzioni server, deploy o pannello admin.** `tsc`, 16 test e build passano. `main` è già dentro il branch.
+Pagine dell'app atleti prese da Figma, scritte con i tuoi componenti e il tuo stile. Nel codice **nessuna modifica a migrazioni, funzioni server, deploy o pannello admin**; sul database sono state aggiunte tabelle e funzioni (vedi sotto). `tsc`, 19 test e build passano. `main` è già dentro il branch.
 
 ## Cosa c'è
 
@@ -15,13 +15,16 @@ Pagine dell'app atleti prese da Figma, scritte con i tuoi componenti e il tuo st
 - **Pronte ma spente:** conferma presenza alla gara pilota (`PILOT_CONFIRM_OPEN`), seguire atleti (`SOCIAL_OPEN`), pagine legali (`LEGAL_PUBLISHED`).
 - **Aspetto:** Kanit, blu e colori delle leghe solo nell'app atleti (`.theme-athlete`). In `ui.tsx` campi e pulsanti nuovi valgono solo dentro `AppFrame`: l'admin resta com'era.
 
+## Database (28 novembre)
+
+Con il tuo via libera sono stati eseguiti sul progetto Supabase di peaqrace.com gli script in `docs/sql/`: registro attività, conferma della gara pilota, classifica, seguire atleti, e la struttura per il resto della v1. **Leggi `docs/11-database-note-per-luca.md`**: non sono passati da Lovable né dalle migrazioni di Supabase.
+
 ## Cosa serve da te
 
-1. **Apple e Google:** variabile di build `VITE_OAUTH_PROVIDERS=apple,google` su Cloudflare (i provider in Supabase sono già attivi).
-2. **Gara pilota e conferma presenza:** tabella e funzioni proposte in `docs/07`.
-3. **Classifica:** funzione `city_ranking` proposta in `docs/08`.
-4. **Seguire atleti:** tabelle e funzioni proposte in `docs/10`.
-5. **Da allineare** (`docs/09`): rating di partenza 300 nel codice contro 250 deciso; soglie XP delle Tappe; valori dei bonus XP.
+1. **Allineare Lovable e i tipi**: registrare i quattro script come migrazioni e rigenerare `types.ts` (`docs/11`).
+2. **Apple e Google:** variabile di build `VITE_OAUTH_PROVIDERS=apple,google` su Cloudflare (i provider in Supabase sono già attivi).
+3. **Admin:** nel database non c'è ancora nessun admin; serve la prima riga in `user_roles`.
+4. **Da allineare** (`docs/09`): rating di partenza 300 nel codice e nel database contro 250 deciso; soglie XP delle Tappe; valori dei bonus XP.
 
 ## Da sapere
 

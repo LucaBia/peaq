@@ -1,5 +1,7 @@
 # Seguire altri atleti, ricerca e profili: note per Luca
 
+> **Aggiornamento 28 novembre:** tabelle e funzioni sono state create sul database (`docs/sql/02`) e `socialService` le chiama già. Resta `SOCIAL_OPEN = false` finché non è provato dal vivo. Vedi `docs/11`.
+
 Aggiornato al 28 novembre 2026. Riguarda Follower e Seguiti (Figma B6), la ricerca atleti e il profilo degli altri atleti (Figma B9) con «Segnala o blocca».
 
 ## Stato

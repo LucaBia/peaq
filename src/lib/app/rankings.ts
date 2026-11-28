@@ -1,4 +1,5 @@
 import type { League } from "@/lib/app/rating";
+import { rows } from "@/lib/app/rpc";
 
 export type RankSport = "run" | "bike";
 
@@ -11,15 +12,14 @@ export type RankMe = { userId: string; username: string; city: string | null; ra
 /** Two letters for an avatar without a photo. */
 export const initials = (name: string) => name.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2).toUpperCase() || "?";
 
+/** A row of the `city_ranking` database function (docs/sql/01). */
+export type RankingRow = { user_id: string; username: string; rating: number; league: string; rank: number | string };
+export const toRankEntry = (r: RankingRow): RankEntry => ({ userId: r.user_id, username: r.username, rating: r.rating, league: r.league as League, rank: Number(r.rank) });
+
 export const rankingsService = {
-  /**
-   * City ranking for one sport, best rating first.
-   *
-   * Empty for now: athletes can only read their own rating (RLS), and nobody has raced yet. When the
-   * `city_ranking` database function exists (proposal in docs/08-classifiche-note-per-luca.md), call it here
-   * and map its rows to RankEntry: the screen already shows podium, list, your position and "next to beat".
-   */
-  async city(_sport: RankSport, _cityId: string | null): Promise<RankEntry[]> {
-    return [];
+  /** City ranking for one sport, best rating first: only athletes who have run at least one race, 200 at most. */
+  async city(sport: RankSport, cityId: string | null): Promise<RankEntry[]> {
+    if (!cityId) return [];
+    return (await rows<RankingRow>("city_ranking", { _discipline: sport, _city_id: cityId })).map(toRankEntry);
   },
 };
