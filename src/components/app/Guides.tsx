@@ -100,8 +100,8 @@ export function LeagueGuide({ league, current }: { league: League; current?: Lea
     <main className="flex flex-1 flex-col animate-in fade-in duration-300">
       <BackHeader title={t.leagues[league]} to="/app/leagues" />
       <div className="space-y-5 px-4 pb-8 pt-2">
-        <section className="relative overflow-hidden rounded-[1.75rem] p-5 pb-20" style={{ background: leagueColorVar(league), color: leagueInk(league) }}>
-          <Ridge i={i} />
+        <section className="relative overflow-hidden rounded-[1.75rem] p-5 pb-28" style={{ background: leagueColorVar(league), color: leagueInk(league) }}>
+          <div className="absolute inset-x-0 bottom-0 h-28"><Ridge i={i} /></div>
           <div className="relative flex items-center justify-between gap-2">
             <span className="text-[0.8125rem] font-semibold">{fmt(g.range, { r: leagueRange(league) })}</span>
             {current === league && <span className={cn(label, here)}>{g.here}</span>}
