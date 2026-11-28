@@ -1,10 +1,11 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2, LogOut, MapPin } from "lucide-react";
+import { Loader2, LogOut, MapPin, Shield } from "lucide-react";
 import { Bib } from "@/components/app/Bib";
 import { LangSwitch, Notice, PrimaryButton } from "@/components/app/ui";
 import { Wordmark } from "@/components/peaq/core";
 import { athleteService } from "@/lib/app/athlete";
+import { currentUserIsAdmin } from "@/lib/admin/api";
 import { authService } from "@/lib/app/auth";
 import { fmt, useAppLang } from "@/lib/app/i18n";
 import { PROVISIONAL_BASELINE, XP_FOR_NEXT_LEVEL, type League } from "@/lib/app/rating";
@@ -29,6 +30,7 @@ function Profile() {
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ["athlete", user.id], queryFn: () => athleteService.loadAll(user.id) });
   const city = useQuery({ queryKey: ["city", q.data?.profile?.city_id], queryFn: () => athleteService.city(q.data!.profile!.city_id), enabled: !!q.data?.profile?.city_id });
+  const isAdmin = useQuery({ queryKey: ["is-admin", user.id], queryFn: () => currentUserIsAdmin() });
 
   async function logout() {
     await qc.cancelQueries(); qc.clear(); await authService.signOut(); nav({ to: "/auth", replace: true });
@@ -48,7 +50,7 @@ function Profile() {
     <main className="flex-1 animate-in fade-in duration-300">
       <header className="pt-safe flex items-center justify-between px-6 pb-2">
         <Wordmark className="h-5 w-auto" />
-        <div className="flex items-center gap-2"><LangSwitch /><button type="button" onClick={logout} aria-label={t.auth.logout} className="flex size-11 items-center justify-center rounded-full hover:bg-muted"><LogOut className="size-5" /></button></div>
+        <div className="flex items-center gap-2"><LangSwitch />{isAdmin.data && <Link to="/admin" aria-label="Admin" className="flex size-11 items-center justify-center rounded-full hover:bg-muted"><Shield className="size-5" /></Link>}<button type="button" onClick={logout} aria-label={t.auth.logout} className="flex size-11 items-center justify-center rounded-full hover:bg-muted"><LogOut className="size-5" /></button></div>
       </header>
       <div className="space-y-6 px-6 pb-8 pt-4">
         <div>

@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.18"
+    PostgrestVersion: "14.1"
   }
   public: {
     Tables: {
@@ -273,6 +273,59 @@ export type Database = {
         }
         Relationships: []
       }
+      events: {
+        Row: {
+          capacity: number | null
+          city_id: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          discipline: string
+          id: string
+          location: string | null
+          starts_at: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: number | null
+          city_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discipline: string
+          id?: string
+          location?: string | null
+          starts_at: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: number | null
+          city_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discipline?: string
+          id?: string
+          location?: string | null
+          starts_at?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notification_preferences: {
         Row: {
           decided_at: string
@@ -368,6 +421,51 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_list_admins: {
+        Args: never
+        Returns: {
+          email: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+          username: string
+        }[]
+      }
+      admin_list_athletes: {
+        Args: never
+        Returns: {
+          bib_number: number
+          city_id: string
+          created_at: string
+          discipline: string
+          email: string
+          nationality: string
+          onboarding_completed_at: string
+          user_id: string
+          username: string
+        }[]
+      }
+      admin_list_documents: {
+        Args: { _status?: string }
+        Returns: {
+          card_number: string
+          created_at: string
+          doc_type: string
+          email: string
+          expires_on: string
+          id: string
+          organization: string
+          review_note: string
+          reviewed_at: string
+          status: string
+          storage_path: string
+          user_id: string
+          username: string
+        }[]
+      }
+      admin_set_admin: {
+        Args: { _grant: boolean; _user_id: string }
+        Returns: undefined
+      }
       bib_status: { Args: { _number: number }; Returns: string }
       claim_bib: { Args: { _number: number }; Returns: number }
       complete_onboarding: { Args: never; Returns: undefined }
