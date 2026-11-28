@@ -8,7 +8,7 @@ import { useOb } from "./context";
 
 const box = "rounded-[1.75rem] border-[1.5px] p-5 transition-colors";
 const cap = "text-[0.6875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground";
-const big = "min-w-0 bg-transparent text-5xl font-light tabular-nums leading-none outline-none placeholder:text-border";
+const big = "min-w-0 border-b-2 border-transparent bg-transparent pb-1 text-5xl font-light tabular-nums leading-none outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground";
 
 export function PerformanceStep() {
   const { t } = useAppLang();

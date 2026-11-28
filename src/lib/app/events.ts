@@ -33,7 +33,9 @@ export type PilotStart = (typeof PILOT_STARTS)[number];
 export const PILOT_CONFIRM_OPEN = false;
 
 // These functions aren't in the generated database types yet: drop the cast after regenerating types.ts.
-const rpc = supabase.rpc.bind(supabase) as unknown as (fn: string, args?: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
+// Called lazily: importing this file must not create the Supabase client (tests and tools run without .env).
+const rpc = (fn: string, args?: Record<string, unknown>) =>
+  (supabase.rpc as unknown as (fn: string, args?: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>).call(supabase, fn, args);
 
 /**
  * Confirming a spot at the pilot race. Already wired to the database functions proposed in

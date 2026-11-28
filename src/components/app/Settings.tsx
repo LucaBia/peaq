@@ -31,7 +31,8 @@ export function SettingsScreen({ bib, username, discipline, documents, email, is
   const [pw, setPw] = useState<null | "ask" | "sending" | "sent" | "error">(null);
   async function sendReset() {
     setPw("sending");
-    try { await onPasswordReset?.(); setPw("sent"); } catch { setPw("error"); }
+    // Only if the sheet is still waiting: a late answer must not reopen it after it was closed.
+    try { await onPasswordReset?.(); setPw((s) => (s === "sending" ? "sent" : s)); } catch { setPw((s) => (s === "sending" ? "error" : s)); }
   }
   const doc = (type: string, none: string) => {
     const d = documents.filter((x) => x.doc_type === type).at(-1);
@@ -84,7 +85,7 @@ export function SettingsScreen({ bib, username, discipline, documents, email, is
 export type NotifPrefs = { new_events: boolean; lobby_opening: boolean; results: boolean };
 
 /** Notifications: the three choices of the sign-up, one switch each; every tap is saved at once. */
-export function NotificationsScreen({ prefs, error, onChange }: { prefs: NotifPrefs; error: boolean; onChange: (p: NotifPrefs) => void }) {
+export function NotificationsScreen({ prefs, error, saving, onChange }: { prefs: NotifPrefs; error: boolean; saving?: boolean; onChange: (p: NotifPrefs) => void }) {
   const { t } = useAppLang();
   const rows = [["new_events", t.set.notif.newEvents], ["lobby_opening", t.set.notif.lobby], ["results", t.set.notif.results]] as const;
   return (
@@ -94,7 +95,7 @@ export function NotificationsScreen({ prefs, error, onChange }: { prefs: NotifPr
         <div className="divide-y overflow-hidden rounded-3xl border">
           {rows.map(([k, l]) => (
             <label key={k} htmlFor={k} className="flex min-h-14 cursor-pointer items-center justify-between gap-4 px-5 text-[1.0625rem]">
-              {l}<Switch id={k} checked={prefs[k]} onCheckedChange={(v) => onChange({ ...prefs, [k]: v })} />
+              {l}<Switch id={k} checked={prefs[k]} disabled={saving} onCheckedChange={(v) => onChange({ ...prefs, [k]: v })} />
             </label>
           ))}
         </div>

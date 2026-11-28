@@ -117,7 +117,7 @@
   --primary-foreground: #ffffff;
   --secondary: #f1f2f5;
   --secondary-foreground: #000000;
-  --muted: #f1f2f5;
+  --muted: #f4f5f7; /* a touch lighter than Figma's #f1f2f5: the grey text on it reaches 4.5:1 */
   --muted-foreground: #6b7080;
   --border: #d9d9d9;
   --input: #c5c9d6;

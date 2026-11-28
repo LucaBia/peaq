@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronRight, FileText, Paperclip, ShieldCheck, Trash2 } from "lucide-react";
 import { BackHeader, Field, Notice, OptionList, PrimaryButton, SelectButton, Sheet, TextInput } from "./ui";
 import { useAppLang } from "@/lib/app/i18n";
@@ -34,7 +34,11 @@ export function DocumentsForm({ userId, initial, onDocs }: { userId: string; ini
   const [open, setOpen] = useState<null | "med" | "card">(null);
   const [busy, setBusy] = useState<null | "med" | "card">(null);
   const [err, setErr] = useState<string | null>(null);
-  const update = (next: DocumentRow[]) => { setDocs(next); onDocs?.(next); };
+  // Changes made here are told to the parent once; a reload of the data (e.g. a review that arrived) replaces the list.
+  const changed = useRef(false), cb = useRef(onDocs); cb.current = onDocs;
+  const update = (fn: (d: DocumentRow[]) => DocumentRow[]) => { changed.current = true; setDocs(fn); };
+  useEffect(() => { if (changed.current) { changed.current = false; cb.current?.(docs); } }, [docs]);
+  useEffect(() => { setDocs(initial); }, [initial]);
 
   async function add(kind: "med" | "card") {
     const file = kind === "med" ? medFile : cardFile;
@@ -44,13 +48,13 @@ export function DocumentsForm({ userId, initial, onDocs }: { userId: string; ini
       const row = await athleteService.uploadDocument(userId, kind === "med"
         ? { type: "medical_certificate", file, expiresOn: medExp }
         : { type: "membership_card", file, organization: org, cardNumber: card, expiresOn: cardExp });
-      update([...docs, row]);
+      update((d) => [...d, row]);
       if (kind === "med") { setMedFile(null); setMedExp(""); } else { setOrg(""); setCard(""); setCardExp(""); setCardFile(null); }
       setOpen(null);
     } catch { setErr(t.common.networkError); } finally { setBusy(null); }
   }
   async function remove(d: DocumentRow) {
-    try { await athleteService.removeDocument(d); update(docs.filter((y) => y.id !== d.id)); } catch { setErr(t.common.networkError); }
+    try { await athleteService.removeDocument(d); update((x) => x.filter((y) => y.id !== d.id)); } catch { setErr(t.common.networkError); }
   }
 
   const box = "rounded-[1.75rem] border-[1.5px] px-5 py-4";
