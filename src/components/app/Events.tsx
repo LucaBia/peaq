@@ -71,7 +71,7 @@ function Field({ name, children, className }: { name: string; children: ReactNod
 
 /** Event page: the ticket, then (pilot race only) how it works, the three starts and the notes. */
 /** Confirming a spot at the pilot race. Pass it only when confirmations are open; without it the button stays off. */
-export type PilotRsvp = { name: string; start: PilotStart | null; saving: boolean; error: boolean; onConfirm: (start: PilotStart) => void; onCancel: () => void };
+export type PilotRsvp = { name: string; start: PilotStart | null; saving: boolean; error: false | "full" | "generic"; onConfirm: (start: PilotStart) => void; onCancel: () => void };
 
 export function EventDetail({ event: e, bib, rsvp }: { event: AppEvent; bib: number | null | undefined; rsvp?: PilotRsvp | undefined }) {
   const { t, lang } = useAppLang();
@@ -137,7 +137,7 @@ function PilotCta({ rsvp }: { rsvp?: PilotRsvp | undefined }) {
         <button type="button" disabled className="flex min-h-14 w-full items-center justify-center rounded-2xl bg-muted px-4 text-center text-base font-semibold text-muted-foreground">{t.pilot.cta}</button>
       ) : (
         <>
-          {rsvp.error && <Notice tone="error">{t.pilot.saveError}</Notice>}
+          {rsvp.error && <Notice tone="error">{rsvp.error === "full" ? t.pilot.full : t.pilot.saveError}</Notice>}
           {rsvp.start ? (
             <div className="grid grid-cols-2 gap-2">
               <PrimaryButton variant="outline" loading={rsvp.saving} onClick={() => { setPick(rsvp.start); setOpen(true); }}>{t.pilot.change}</PrimaryButton>

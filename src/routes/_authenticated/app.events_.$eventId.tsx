@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import { EventDetail, type PilotRsvp } from "@/components/app/Events";
 import { Notice, PrimaryButton } from "@/components/app/ui";
 import { athleteService } from "@/lib/app/athlete";
-import { eventsService, PILOT_CONFIRM_OPEN, PILOT_EVENT_ID, pilotEvent, pilotService, type PilotStart } from "@/lib/app/events";
+import { eventsService, PILOT_CONFIRM_OPEN, PILOT_EVENT_ID, pilotEvent, pilotIsFull, pilotService, type PilotStart } from "@/lib/app/events";
 import { useAppLang } from "@/lib/app/i18n";
 
 // "events_" keeps this page a sibling of the Events list (same tab bar) instead of nesting it inside the list.
@@ -35,7 +35,7 @@ function Page() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["pilot-start", user.id] }),
   });
   const rsvp: PilotRsvp | undefined = rsvpOn && myStart.isSuccess
-    ? { name: athlete.data?.profile?.username ?? "", start: myStart.data, saving: save.isPending, error: save.isError, onConfirm: (s) => save.mutate(s), onCancel: () => save.mutate(null) }
+    ? { name: athlete.data?.profile?.username ?? "", start: myStart.data, saving: save.isPending, error: save.isError && (pilotIsFull(save.error) ? "full" : "generic"), onConfirm: (s) => save.mutate(s), onCancel: () => save.mutate(null) }
     : undefined;
 
   if (!isPilot && fromDb.isLoading) return <div className="flex flex-1 items-center justify-center"><Loader2 className="size-8 animate-spin text-muted-foreground" /></div>;

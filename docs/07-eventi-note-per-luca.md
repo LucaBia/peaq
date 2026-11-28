@@ -41,7 +41,7 @@ La parte visiva è fatta e provata con dati finti: pulsante «Conferma la presen
 
 **Nell'app è spenta**: `PILOT_CONFIRM_OPEN = false` in `src/lib/app/events.ts`, e il pulsante dice «Conferme aperte quando c'è la data». Niente viene salvato, perché nel database non c'è ancora dove.
 
-Per accenderla servono tre cose, poi basta collegarle a `pilotService` (stesso file) e mettere `PILOT_CONFIRM_OPEN = true`:
+`pilotService` (stesso file) chiama già le tre funzioni qui sotto con questi nomi. Quando esistono nel database basta mettere `PILOT_CONFIRM_OPEN = true` (e, dopo aver rigenerato `types.ts`, togliere il cast di `rpc`):
 
 ```sql
 create table public.pilot_confirmations (
@@ -54,7 +54,13 @@ grant select on public.pilot_confirmations to authenticated;
 create policy "Own confirmation read" on public.pilot_confirmations for select to authenticated
   using (user_id = auth.uid() or public.has_role(auth.uid(), 'admin'));
 
--- Conferma o cambia partenza: massimo 40 posti.
+-- La partenza con cui ho confermato, o null.
+create or replace function public.my_pilot_start()
+returns text language sql stable security definer set search_path = public as $$
+  select start_league from public.pilot_confirmations where user_id = auth.uid();
+$$;
+
+-- Conferma o cambia partenza: massimo 40 posti. L'errore 'full' diventa «I posti sono finiti».
 create or replace function public.confirm_pilot_presence(_start text)
 returns void language plpgsql security definer set search_path = public as $$
 begin

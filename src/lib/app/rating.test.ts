@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { LEAGUE_FLOOR, LEAGUES, leagueInk, leagueRange, nextLeague } from "./rating";
-import { matchesSport, type AppEvent } from "./events";
+import { matchesSport, pilotIsFull, type AppEvent } from "./events";
 import { initials } from "./rankings";
 
 describe("leagues", () => {
@@ -32,6 +32,11 @@ describe("events and rankings helpers", () => {
     expect(matchesSport(event("run"), "run")).toBe(true);
     expect(matchesSport(event("run"), "bike")).toBe(false);
     expect(matchesSport(event("both"), "bike")).toBe(true);
+  });
+  it("recognises the \"no spots left\" error of the pilot race", () => {
+    expect(pilotIsFull({ message: "full" })).toBe(true);
+    expect(pilotIsFull({ message: "invalid_start" })).toBe(false);
+    expect(pilotIsFull(null)).toBe(false);
   });
   it("makes two-letter initials from a username", () => {
     expect(initials("giometto")).toBe("GI");

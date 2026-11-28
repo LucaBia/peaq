@@ -32,16 +32,33 @@ export type PilotStart = (typeof PILOT_STARTS)[number];
 /** Turn on when the date is set AND the database functions below exist. Until then the button says confirmations are closed. */
 export const PILOT_CONFIRM_OPEN = false;
 
+// These functions aren't in the generated database types yet: drop the cast after regenerating types.ts.
+const rpc = supabase.rpc.bind(supabase) as unknown as (fn: string, args?: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
+
 /**
- * Confirming a spot at the pilot race. Nothing is saved yet: the database has no place for it.
- * Wire these three to the functions proposed in docs/07-eventi-note-per-luca.md, then flip PILOT_CONFIRM_OPEN.
+ * Confirming a spot at the pilot race. Already wired to the database functions proposed in
+ * docs/07-eventi-note-per-luca.md: once they exist, flip PILOT_CONFIRM_OPEN and it works.
+ * While it is off, none of these is ever called.
  */
 export const pilotService = {
   /** The start the athlete confirmed with, or null if they haven't confirmed. */
-  async myStart(): Promise<PilotStart | null> { return null; },
-  async confirm(_start: PilotStart): Promise<void> { throw new Error("pilot_confirm_not_available"); },
-  async cancel(): Promise<void> { throw new Error("pilot_confirm_not_available"); },
+  async myStart(): Promise<PilotStart | null> {
+    const { data, error } = await rpc("my_pilot_start");
+    if (error) throw error;
+    return (PILOT_STARTS as readonly string[]).includes(data as string) ? (data as PilotStart) : null;
+  },
+  /** Confirms, or changes the start if already confirmed. Fails with "full" when the spots are gone. */
+  async confirm(start: PilotStart): Promise<void> {
+    const { error } = await rpc("confirm_pilot_presence", { _start: start });
+    if (error) throw error;
+  },
+  async cancel(): Promise<void> {
+    const { error } = await rpc("cancel_pilot_presence");
+    if (error) throw error;
+  },
 };
+/** True when a confirmation failed because every spot is taken. */
+export const pilotIsFull = (e: unknown) => /\bfull\b/.test((e as { message?: string } | null)?.message ?? "");
 
 /**
  * The pilot race lives in code for now: the `events` table needs a date (`starts_at` is NOT NULL) and has no
