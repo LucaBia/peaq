@@ -55,7 +55,7 @@ function Signup() {
   }
 
   return (
-    <AuthScreen backTo="/">
+    <AuthScreen backTo="/welcome">
       <form onSubmit={submit} noValidate className="flex flex-1 flex-col">
         <Body>
           <Title sub={t.auth.signupSub}>{t.auth.signupTitle}</Title>

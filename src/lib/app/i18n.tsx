@@ -30,6 +30,7 @@ const it = {
     socialTerms: "Continuando con Apple o Google accetti i Termini di servizio e l'Informativa privacy di PEAQ.",
     oauthFailed: "Accesso non riuscito.", oauthFailedSub: "L'accesso con Apple o Google è stato annullato o non è andato a buon fine. Riprova.",
   },
+  welcome: { title: "Benvenuto\nin PEAQ", sub: "Gare per runner e ciclisti, divise per livello.", tagline: "Reach your peaq" },
   ob: {
     step: "Passo {n} di {t}",
     p: {
@@ -238,6 +239,7 @@ const en: AppDict = {
     socialTerms: "By continuing with Apple or Google you accept PEAQ's Terms of Service and Privacy Policy.",
     oauthFailed: "Sign-in failed.", oauthFailedSub: "Signing in with Apple or Google was cancelled or didn't work. Please try again.",
   },
+  welcome: { title: "Welcome\nto PEAQ", sub: "Races for runners and cyclists, split by level.", tagline: "Reach your peaq" },
   ob: {
     step: "Step {n} of {t}",
     p: {

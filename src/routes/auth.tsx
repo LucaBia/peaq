@@ -43,7 +43,7 @@ function Login() {
   }
 
   return (
-    <AuthScreen backTo="/">
+    <AuthScreen backTo="/welcome">
       <form onSubmit={submit} noValidate className="flex flex-1 flex-col">
         <Body>
           <Title sub={t.auth.loginSub}>{t.auth.loginTitle}</Title>
