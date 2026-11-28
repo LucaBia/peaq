@@ -2,8 +2,8 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import type { AppDict } from "@/lib/app/i18n";
 import pilotImg from "@/assets/event-pilot.jpg";
-import runImg from "@/assets/runner-close.jpg";
-import bikeImg from "@/assets/cyclist.jpg";
+import runImg from "@/assets/sport-run.jpg";
+import bikeImg from "@/assets/sport-bike.jpg";
 
 type EventRow = Database["public"]["Tables"]["events"]["Row"];
 export type EventDiscipline = "run" | "bike" | "both";

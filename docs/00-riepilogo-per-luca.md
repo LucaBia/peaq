@@ -27,5 +27,6 @@ Pagine dell'app atleti prese da Figma, scritte con i tuoi componenti e il tuo st
 
 - Chi non è connesso arriva su `/welcome` invece che su `/auth`.
 - La foto della gara pilota viene dal prototipo Figma: va sostituita prima di pubblicare.
+- Le foto `sport-run.jpg` e `sport-bike.jpg` (card Corsa e Bici della landing, e foto di riserva degli eventi nell'app) sono provvisorie, messe da Giovanni: **non sappiamo di chi sono i diritti**, vanno sostituite prima di pubblicare.
 - La landing presenta come parte di PEAQ anche funzioni non ancora nell'app (club, inviti, lobby, check-in con QR, pagamenti, lista d'attesa delle gare): scelta di Giovanni. La classifica mostrata è un esempio, con la scritta «Dati di esempio».
 - Non provati dal vivo: registrazione completa con un account nuovo, accesso con Apple e Google, pannello admin, e i salvataggi dalle Impostazioni (caricare un documento, cambiare una notifica, inviare il link per la password).
