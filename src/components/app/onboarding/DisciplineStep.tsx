@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { Bike, Check, Footprints, Mountain } from "lucide-react";
+import { Check } from "lucide-react";
 import { Body, BottomBar, Notice, PrimaryButton, Title } from "../ui";
 import { useAppLang } from "@/lib/app/i18n";
 import { athleteService, type Discipline } from "@/lib/app/athlete";
 import { cn } from "@/lib/utils";
 import { useOb } from "./context";
-
-const ICONS = { run: Footprints, bike: Bike, both: Mountain };
 
 export function DisciplineStep() {
   const { t } = useAppLang();
@@ -24,16 +22,15 @@ export function DisciplineStep() {
     <>
       <Body>
         <Title>{t.ob.d.title}</Title>
-        <div role="radiogroup" aria-label={t.ob.d.title} className="space-y-3">
+        <div role="radiogroup" aria-label={t.ob.d.title.replace("\n", " ")} className="space-y-3">
           {(["run", "bike", "both"] as const).map((d) => {
-            const Icon = ICONS[d]; const on = sel === d;
+            const on = sel === d;
             return (
               <button key={d} type="button" role="radio" aria-checked={on} onClick={() => setSel(d)}
-                className={cn("flex w-full items-center gap-4 rounded-3xl border p-5 text-left transition-all duration-200 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-ring",
-                  on ? "border-foreground bg-muted ring-1 ring-foreground" : "hover:border-muted-foreground")}>
-                <span className={cn("flex size-12 shrink-0 items-center justify-center rounded-2xl transition-colors", on ? "bg-primary text-primary-foreground" : "bg-muted")}><Icon className="size-6" aria-hidden /></span>
-                <span className="flex-1"><span className="block text-xl font-bold">{t.ob.d[d].t}</span><span className="block text-sm text-muted-foreground">{t.ob.d[d].s}</span></span>
-                <span aria-hidden className={cn("flex size-7 items-center justify-center rounded-full border transition-all", on ? "scale-100 border-primary bg-primary text-primary-foreground" : "scale-90")}>{on && <Check className="size-4" />}</span>
+                className={cn("flex min-h-[7.5rem] w-full items-center justify-between gap-4 rounded-[1.75rem] border-[1.5px] px-6 text-left transition-all duration-200 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  on ? "border-foreground ring-[2.5px] ring-inset ring-foreground" : "hover:border-muted-foreground")}>
+                <span><span className="block text-[1.875rem] font-light leading-tight">{t.ob.d[d].t}</span><span className="block text-muted-foreground">{t.ob.d[d].s}</span></span>
+                {on && <Check className="size-7 shrink-0 animate-in zoom-in-50 duration-200" aria-hidden />}
               </button>
             );
           })}

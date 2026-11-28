@@ -48,7 +48,7 @@ function Reset() {
 
   if (state === "invalid") return (
     <AuthScreen backTo="/auth">
-      <Body><Title>{t.auth.resetTitle}</Title><Notice tone="error">{t.auth.resetInvalid}</Notice></Body>
+      <Body><Title bars>{t.auth.resetTitle}</Title><Notice tone="error">{t.auth.resetInvalid}</Notice></Body>
       <BottomBar><Link to="/forgot-password"><PrimaryButton tabIndex={-1}>{t.auth.forgotCta}</PrimaryButton></Link></BottomBar>
     </AuthScreen>
   );
@@ -56,8 +56,8 @@ function Reset() {
     <AuthScreen>
       <form onSubmit={submit} noValidate className="flex flex-1 flex-col">
         <Body>
-          <Title sub={t.auth.pwRules}>{t.auth.resetTitle}</Title>
-          <div className="space-y-5">
+          <Title bars sub={t.auth.pwRules}>{t.auth.resetTitle}</Title>
+          <div className="space-y-3">
             <Field id="pw" label={t.auth.password} error={pwErr}><PasswordInput id="pw" autoComplete="new-password" value={pw} invalid={!!pwErr} onChange={(e) => setPw(e.target.value)} /></Field>
             <Field id="pw2" label={t.auth.confirmPassword} error={pw2Err}><PasswordInput id="pw2" autoComplete="new-password" value={pw2} invalid={!!pw2Err} onChange={(e) => setPw2(e.target.value)} /></Field>
             {err && <Notice tone="error">{err}</Notice>}

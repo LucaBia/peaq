@@ -14,10 +14,10 @@ const cap = "text-[0.6875rem] font-semibold";
 function Slide({ title, items, visual }: { title: string; items: ReactNode[]; visual: ReactNode }) {
   return (
     <section className="flex w-full shrink-0 snap-center flex-col px-6 pt-2">
-      <div className="flex h-64 items-center justify-center rounded-3xl bg-muted p-5">{visual}</div>
-      <h2 className="mt-8 text-[1.75rem] font-bold leading-tight tracking-tight">{title}</h2>
-      <ul className="mt-4 space-y-2.5">
-        {items.map((x, k) => <li key={k} className="flex gap-3"><span className="mt-2 size-2 shrink-0 rounded-full bg-primary" aria-hidden />{x}</li>)}
+      <div className="flex h-64 items-center justify-center rounded-[1.75rem] bg-muted p-5">{visual}</div>
+      <h2 className="mt-7 whitespace-pre-line text-[clamp(1.875rem,8.4vw,2.25rem)] font-bold leading-[1.12] tracking-tight">{title}</h2>
+      <ul className="mt-4 space-y-2.5 text-[1.0625rem]">
+        {items.map((x, k) => <li key={k} className="flex gap-3"><span className="mt-[0.5625rem] size-2 shrink-0 rounded-full bg-primary" aria-hidden /><span>{x}</span></li>)}
       </ul>
     </section>
   );
@@ -41,7 +41,7 @@ export function Tutorial({ bib, username, discipline, rating = PROVISIONAL_BASEL
       <div className="grid grid-cols-3 items-center px-4">
         <div>{i > 0 && <button type="button" onClick={() => go(i - 1)} aria-label={t.common.back} className="flex size-11 items-center justify-center rounded-full hover:bg-muted"><ChevronLeft className="size-6" /></button>}</div>
         <p className="text-center text-sm tabular-nums text-muted-foreground">{fmt(s.count, { n: i + 1, t: SLIDES })}</p>
-        <button type="button" onClick={onSkip} className="min-h-11 justify-self-end px-2 text-sm font-medium text-muted-foreground hover:text-foreground">{t.common.skip}</button>
+        <button type="button" onClick={onSkip} className="min-h-11 justify-self-end px-2 text-[0.9375rem] text-muted-foreground hover:text-foreground">{t.common.skip}</button>
       </div>
       <div ref={ref} onScroll={(e) => setI(Math.round(e.currentTarget.scrollLeft / e.currentTarget.clientWidth))}
         className="flex flex-1 snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-roledescription="carousel">

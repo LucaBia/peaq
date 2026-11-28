@@ -25,6 +25,32 @@ Aggiunti dopo, con la stessa struttura: `Settings.tsx` (Impostazioni, Lingua, Ai
 - **XP per ogni Tappa**: nel codice c'è solo la Tappa 1 (200 XP). Servono le soglie delle altre Tappe; la decisione dice che dopo la prima gara si arriva subito alla Tappa 2.
 - **Regole di gioco** (soglie, XP, premi): ora i testi sono in `i18n.tsx` e le soglie in `rating.ts`. La regola del progetto le vuole in un unico punto di configurazione con numero di versione, lato server.
 
+## Registrazione e spiegazioni come in Figma (28 novembre, ultimo commit)
+
+Solo aspetto e testi. Le chiamate a `athleteService` e `authService`, i controlli e l'ordine dei passi sono quelli di prima.
+
+| Dove | Cosa cambia |
+|---|---|
+| `ui.tsx` | `Field`: etichetta piccola dentro il riquadro (72 px, raggio 24), solo dentro `AppFrame`; con `labelAbove` o fuori da `AppFrame` resta com'era. `PrimaryButton`: a pillola, il tipo `ghost` è un link blu, solo dentro `AppFrame`. `Progress`: una barra sola con riempimento nero. `Title`: più grande, va a capo dove c'è `\n` nel testo, `bars` mette le sei lineette colorate. `BottomBar` senza riga sopra. `LeagueBars` nuovo |
+| `styles.css` | Dentro `.theme-athlete` i pesi di Kanit di Figma: testo Light, `font-medium` = Regular, `font-semibold` e `font-bold` = Medium |
+| Accedi (A4) | Lineette, «Password dimenticata?» a destra in blu, il pulsante subito dopo i campi, poi Apple e Google |
+| Password e verifica email (A5, A7) | Lineette, testi di Figma, «Torna all'accesso», «Invia di nuovo» come link (il conto alla rovescia resta) |
+| `PersonalStep` (A8) | Tolta la «@» davanti al nome utente; genere e nazionalità affiancati |
+| `DisciplineStep` (A9) | Tre card grandi senza icone; quella scelta ha il bordo nero spesso e la spunta |
+| `NumberStep` (A8b) | Riquadro grande, «Sceglilo tu per me», tre righe di spiegazione |
+| `PerformanceStep` (A9b) | Minuti e secondi grandi senza riquadro, 5 km / 10 km a pillola, W/kg grande. Stessi controlli (`isPlausibleRun`, `isPlausibleWkg`) |
+| `DocumentsStep` (A9c) | Nota blu sulle gare amichevoli; certificato e tessera sono card chiuse che si aprono su «Carica» / «Aggiungi» e mostrano i tuoi campi. Dopo l'invio la card si richiude |
+| `BibStep` + `Bib.tsx` (A12) | Pettorale bianco con logo, lega e sport in alto, numero al centro, nome sulla fascia ondulata nel colore della lega. Le misure seguono la larghezza (unità `cqw`). Tolta la riga «Lega · provvisorio» sotto il pettorale |
+| `NotificationsStep` (A13) | Niente interruttori: «Attiva le notifiche» salva le tre preferenze a `true`, «Non ora» a `false` (stessa `saveNotifications`) |
+| Tappa (B7) | Card scura con il numero grande, percorso dei premi con la linea, tabella «Come guadagnare XP» |
+| Rating (B8) e tutorial | Montagne delle leghe a due toni, titoli su due righe |
+
+Testi: `common.continue` ora è «Avanti» (è usato solo nella registrazione). Tolte le chiavi non più usate (`ob.n.sub`, `ob.n.permanent`, `ob.perf.run/bike/time/wkg/wkgHint`, `ob.bib.league/athlete`, `ob.notif.newEvents/lobby/results`, `guide.stage.earnNote`).
+
+**Lasciato fuori da Figma, perché serve il database o una pagina che non c'è:** campo «Nome e cognome» (A8); scelta «Non lo so» con i km a settimana (A9b); casella del consenso alle foto (A9c); «Richiedila» per la tessera PEAQ (resta la tua card «In arrivo»); quarto avviso «qualcuno ti supera in classifica» (A13); card «Invita un amico» e riga dei mesi di fila (B7); la frase «da Impostazioni › I miei sport» (A9).
+
+**Da confermare:** la tabella degli XP in Tappa riporta i valori di Figma B7, compresi tre che non sono nelle decisioni scritte: prima gara +100, promozione +150, partito ma non arrivato +30 (vedi `docs/06-decisioni-aperte.md`). In A9b Figma scrive «parti da 250, in Collina»: ho scritto solo «parti in Collina», perché nel codice il valore è 300.
+
 ## Non ancora fatto
 
 Campanella delle notifiche, «I miei numeri» (statistiche), «Invita un amico», contatori di seguiti e follower; nelle Impostazioni mancano le righe che cambiano dati (dati personali, i miei sport, notifiche, privacy, cambia password, elimina account).

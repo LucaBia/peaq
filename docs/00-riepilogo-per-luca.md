@@ -24,8 +24,11 @@ Pagine nuove dell'app atleti prese da Figma («App Finale»), scritte con i tuoi
 | Seguire atleti, ricerca, profili | `/app/athletes`, `/app/athletes/:userId`: **spenti** finché non c'è il database. Nel Profilo i contatori Gare / Follower / Seguiti sono già visibili, a zero | `app.tsx` (la scheda Profilo resta accesa nelle sue sottopagine) |
 | Pagine Privacy, Termini e Cookie | `/privacy`, `/termini`, `/cookie`: leggono i testi da `docs/legale/`. **Non pubbliche** finché `LEGAL_PUBLISHED` è false (in produzione rimandano alla home; in locale si vedono con la scritta «Bozza») | `signup.tsx` (+1 riga: i link, nascosti finché non sono pubbliche) |
 | Aspetto di Figma | Kanit, blu, colori delle leghe, solo nell'app atleti | `styles.css` (+1 blocco), `__root.tsx` (Kanit nel link dei font), `ui.tsx` (classe `theme-athlete`), `Bib.tsx` (colore del testo sulla fascia) |
+| Registrazione e spiegazioni come in Figma | Accesso, password, verifica email e i sette passi della registrazione (Figma A4–A13); pettorale ridisegnato; pagina Tappa (B7); montagne delle leghe (B8). **Solo aspetto e testi: chiamate, controlli e ordine dei passi sono i tuoi** | `ui.tsx`, i sette file in `onboarding/`, `Bib.tsx` (stesse props), `auth.tsx`, `forgot-password.tsx`, `reset-password.tsx`, `verify-email.tsx`, `signup.tsx` (2 classi), `styles.css` (pesi di Kanit). Dettagli in `docs/09` |
 
-Il commit «Aspetto di Figma» è separato apposta: se preferisci l'aspetto di prima basta annullarlo, il resto non cambia. (In ordine di tempo «Seguire atleti» viene dopo.)
+Il commit «Aspetto di Figma» è separato apposta: se preferisci l'aspetto di prima basta annullarlo, il resto non cambia. (In ordine di tempo «Seguire atleti» viene dopo.) Anche «Registrazione e spiegazioni come in Figma» è un commit solo, l'ultimo.
+
+**Il pannello admin non cambia.** In `ui.tsx` l'etichetta dentro il riquadro (`Field`) e i pulsanti a pillola (`PrimaryButton`) si attivano solo dentro `AppFrame`; fuori (admin) restano identici a prima, perché lì un `Field` contiene anche textarea e gruppi di pulsanti.
 
 ## Come è scritto
 
@@ -48,4 +51,4 @@ Il commit «Aspetto di Figma» è separato apposta: se preferisci l'aspetto di p
 - La foto della gara pilota (`src/assets/event-pilot.jpg`) viene dal prototipo Figma: va sostituita prima di pubblicare.
 - FAQ e tutorial dicono solo quello che l'app fa oggi: le risposte di Figma su annullamenti, rimborsi, lobby e chip tornano quando ci sono quelle funzioni (Figma `1485:7512`). Il Regolamento è scritto per la gara pilota e non è ancora stato visto dall'avvocato.
 - Aiuto non mostra un indirizzo email: manca ancora quello di assistenza.
-- Le pagine le ho provate con un atleta finto, non da utente connesso: in locale il database è ancora quello vecchio di Lovable.
+- Come sono state provate: le pagine dell'app con l'account vero di Giovanni, in locale (dove il database è ancora quello vecchio di Lovable); i passi della registrazione con un atleta finto, senza creare account né salvare niente. **Non provati dal vivo:** una registrazione completa con un account nuovo, l'accesso con Apple e Google, il pannello admin.

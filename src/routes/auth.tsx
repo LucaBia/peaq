@@ -46,27 +46,27 @@ function Login() {
     <AuthScreen backTo="/welcome">
       <form onSubmit={submit} noValidate className="flex flex-1 flex-col">
         <Body>
-          <Title sub={t.auth.loginSub}>{t.auth.loginTitle}</Title>
-          <div className="space-y-5">
+          <Title bars sub={t.auth.loginSub}>{t.auth.loginTitle}</Title>
+          <div className="space-y-3">
             <Field id="email" label={t.auth.email} error={emailErr}>
               <TextInput id="email" type="email" inputMode="email" autoComplete="email" autoCapitalize="none" value={email} invalid={!!emailErr} onChange={(e) => setEmail(e.target.value)} />
             </Field>
             <Field id="pw" label={t.auth.password}>
               <PasswordInput id="pw" autoComplete="current-password" value={pw} onChange={(e) => setPw(e.target.value)} />
             </Field>
-            <Link to="/forgot-password" className="inline-block py-2 text-sm font-medium underline-offset-4 hover:underline">{t.auth.forgot}</Link>
+            <div className="-mt-1 flex justify-end"><Link to="/forgot-password" className="inline-flex min-h-11 items-center text-[0.9375rem] font-medium text-primary underline-offset-4 hover:underline">{t.auth.forgot}</Link></div>
             {err && (
               <Notice tone="error">
                 {err.msg}
                 {err.unconfirmed && <> <Link to="/verify-email" search={{ email }} className="font-semibold underline">{t.auth.resend}</Link></>}
               </Notice>
             )}
+            <PrimaryButton type="submit" loading={loading}>{t.auth.loginCta}</PrimaryButton>
             <SocialAuth />
           </div>
         </Body>
         <BottomBar>
-          <PrimaryButton type="submit" loading={loading}>{t.auth.loginCta}</PrimaryButton>
-          <p className="pb-1 text-center text-sm text-muted-foreground">{t.auth.noAccount} <Link to="/signup" search={{}} className="font-semibold text-foreground underline-offset-4 hover:underline">{t.auth.signup}</Link></p>
+          <p className="pb-1 text-center text-[0.9375rem] text-muted-foreground">{t.auth.noAccount} <Link to="/signup" search={{}} className="inline-flex min-h-11 items-center font-medium text-primary underline-offset-4 hover:underline">{t.auth.signup}</Link></p>
         </BottomBar>
       </form>
     </AuthScreen>

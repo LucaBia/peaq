@@ -59,7 +59,7 @@ function Signup() {
     <AuthScreen backTo="/welcome">
       <form onSubmit={submit} noValidate className="flex flex-1 flex-col">
         <Body className="pb-4">
-          <Title sub={t.auth.signupSub} className="mb-5">{t.auth.signupTitle}</Title>
+          <Title bars sub={t.auth.signupSub} className="mb-5">{t.auth.signupTitle}</Title>
           <div className="space-y-3">
             <Field id="email" label={t.auth.email} error={show("email") ? errs.email : null}>
               <TextInput id="email" type="email" inputMode="email" autoComplete="email" autoCapitalize="none" value={email} invalid={!!(show("email") && errs.email)}
@@ -81,7 +81,7 @@ function Signup() {
         </Body>
         <BottomBar>
           <PrimaryButton type="submit" loading={loading}>{t.auth.signupCta}</PrimaryButton>
-          <p className="pb-1 text-center text-sm text-muted-foreground">{t.auth.haveAccount} <Link to="/auth" className="font-semibold text-foreground underline-offset-4 hover:underline">{t.auth.login}</Link></p>
+          <p className="pb-1 text-center text-sm text-muted-foreground">{t.auth.haveAccount} <Link to="/auth" className="font-medium text-primary underline-offset-4 hover:underline">{t.auth.login}</Link></p>
         </BottomBar>
       </form>
     </AuthScreen>

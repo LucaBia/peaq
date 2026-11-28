@@ -1,7 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { MailCheck } from "lucide-react";
 import { AuthScreen } from "@/components/app/AuthScreen";
 import { Body, BottomBar, Notice, PrimaryButton, Title } from "@/components/app/ui";
 import { fmt, useAppLang } from "@/lib/app/i18n";
@@ -54,15 +53,14 @@ function Verify() {
   return (
     <AuthScreen backTo="/signup">
       <Body>
-        <div className="mb-8 flex size-16 items-center justify-center rounded-2xl bg-muted"><MailCheck className="size-8" aria-hidden /></div>
-        <Title sub={<>{t.auth.verifySub} <strong className="break-all text-foreground">{email}</strong></>}>{t.auth.verifyTitle}</Title>
+        <Title bars sub={<>{t.auth.verifySub} <strong className="text-foreground [overflow-wrap:anywhere]">{email}</strong>.</>}>{t.auth.verifyTitle}</Title>
         <p className="text-muted-foreground">{t.auth.verifyHint}</p>
         {msg && <div className="mt-6"><Notice tone={msg.tone}>{msg.text}{msg.tone === "muted" && <> <Link to="/auth" className="font-semibold text-foreground underline">{t.auth.login}</Link></>}</Notice></div>}
       </Body>
       <BottomBar>
         <PrimaryButton onClick={confirmed} loading={busy}>{t.auth.confirmed}</PrimaryButton>
-        <PrimaryButton variant="outline" onClick={resend} disabled={!email || wait > 0 || busy}>{wait > 0 ? fmt(t.auth.resendWait, { s: wait }) : t.auth.resend}</PrimaryButton>
-        <Link to="/signup" search={{ email }} className="block py-2 text-center text-sm font-medium text-muted-foreground hover:text-foreground">{t.auth.changeEmail}</Link>
+        <PrimaryButton variant="ghost" onClick={resend} disabled={!email || wait > 0 || busy}>{wait > 0 ? fmt(t.auth.resendWait, { s: wait }) : t.auth.resend}</PrimaryButton>
+        <Link to="/signup" search={{ email }} className="flex min-h-11 items-center justify-center text-sm text-muted-foreground hover:text-foreground">{t.auth.changeEmail}</Link>
       </BottomBar>
     </AuthScreen>
   );

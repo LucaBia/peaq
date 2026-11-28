@@ -4,6 +4,7 @@ import { Drawer } from "vaul";
 import { Check, ChevronDown, ChevronLeft, Eye, EyeOff, Loader2, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppLang } from "@/lib/app/i18n";
+import { LEAGUES } from "@/lib/app/rating";
 
 /** True inside AppFrame: lets portalled sheets take the athlete look, while sheets opened from the admin panel keep theirs. */
 const AthleteTheme = createContext(false);
@@ -51,19 +52,23 @@ export function TopBar({ onBack, backTo, right, children }: { onBack?: (() => vo
 export function Progress({ step, total }: { step: number; total: number }) {
   const { t } = useAppLang();
   return (
-    <div role="progressbar" aria-valuemin={1} aria-valuemax={total} aria-valuenow={step} aria-label={t.ob.step.replace("{n}", String(step)).replace("{t}", String(total))} className="flex gap-1">
-      {Array.from({ length: total }, (_, i) => (
-        <span key={i} className={cn("h-1 flex-1 rounded-full transition-colors duration-300", i < step ? "bg-primary" : "bg-border")} />
-      ))}
+    <div role="progressbar" aria-valuemin={1} aria-valuemax={total} aria-valuenow={step} aria-label={t.ob.step.replace("{n}", String(step)).replace("{t}", String(total))} className="h-1 overflow-hidden rounded-full bg-border">
+      <div className="h-1 rounded-full bg-foreground transition-all duration-300" style={{ width: `${(step / total) * 100}%` }} />
     </div>
   );
 }
 
-export function Title({ children, sub, className }: { children: ReactNode; sub?: ReactNode; className?: string }) {
+/** The six league colours as small bars: the mark above the titles of the welcome and account screens (Figma A3–A7). */
+export function LeagueBars({ className }: { className?: string }) {
+  return <div className={cn("flex gap-1", className)} aria-hidden>{LEAGUES.map((l) => <span key={l} className="h-1.5 w-7 rounded-full" style={{ background: `var(--league-${l})` }} />)}</div>;
+}
+
+export function Title({ children, sub, className, bars }: { children: ReactNode; sub?: ReactNode; className?: string; bars?: boolean }) {
   return (
-    <div className={cn("mb-8", className)}>
-      <h1 className="text-[2rem] font-bold leading-[1.05] tracking-tight">{children}</h1>
-      {sub && <p className="mt-3 text-base text-muted-foreground">{sub}</p>}
+    <div className={cn("mb-7", className)}>
+      {bars && <LeagueBars className="mb-4" />}
+      <h1 className="whitespace-pre-line text-[clamp(2rem,9.2vw,2.5rem)] font-bold leading-[1.12] tracking-tight">{children}</h1>
+      {sub && <p className="mt-2 text-base text-muted-foreground">{sub}</p>}
     </div>
   );
 }
@@ -74,38 +79,65 @@ export function Body({ children, className }: { children: ReactNode; className?:
 
 /** Bottom action area that stays reachable above the keyboard. */
 export function BottomBar({ children }: { children: ReactNode }) {
-  return <div className="pb-safe sticky bottom-0 z-20 mt-auto space-y-3 border-t bg-background/95 px-6 pt-4 backdrop-blur">{children}</div>;
+  return <div className="pb-safe sticky bottom-0 z-20 mt-auto space-y-2 bg-background/95 px-6 pt-3 backdrop-blur">{children}</div>;
 }
 
 export const PrimaryButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement> & { loading?: boolean; variant?: "primary" | "ghost" | "outline" }>(
-  ({ loading, disabled, children, className, variant = "primary", ...p }, ref) => (
-    <button ref={ref} disabled={disabled || loading} aria-busy={loading}
-      className={cn("flex h-14 w-full items-center justify-center gap-2 rounded-2xl text-base font-semibold transition-all active:scale-[0.98] disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
-        variant === "primary" && "bg-primary text-primary-foreground disabled:bg-muted disabled:text-muted-foreground",
-        variant === "outline" && "border bg-background disabled:opacity-50",
-        variant === "ghost" && "h-12 text-muted-foreground hover:text-foreground disabled:opacity-50", className)} {...p}>
-      {loading && <Loader2 className="size-5 animate-spin" />}{children}
-    </button>
-  ),
+  ({ loading, disabled, children, className, variant = "primary", ...p }, ref) => {
+    const athlete = useContext(AthleteTheme); // pill buttons and blue text links only in the athlete app (Figma): the admin panel keeps its own look
+    return (
+      <button ref={ref} disabled={disabled || loading} aria-busy={loading}
+        className={cn("flex h-14 w-full items-center justify-center gap-2 font-semibold transition-all active:scale-[0.98] disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          athlete ? "rounded-full text-lg" : "rounded-2xl text-base",
+          variant === "primary" && "bg-primary text-primary-foreground disabled:bg-muted disabled:text-muted-foreground",
+          variant === "outline" && (athlete ? "border-[1.5px] border-foreground bg-background disabled:opacity-50" : "border bg-background disabled:opacity-50"),
+          variant === "ghost" && (athlete ? "h-12 text-base font-medium text-primary enabled:hover:underline disabled:text-muted-foreground" : "h-12 text-muted-foreground hover:text-foreground disabled:opacity-50"), className)} {...p}>
+        {loading && <Loader2 className="size-5 animate-spin" />}{children}
+      </button>
+    );
+  },
 );
 PrimaryButton.displayName = "PrimaryButton";
 
-export function Field({ label, error, hint, status, children, id }: { label: string; error?: string | null; hint?: ReactNode; status?: ReactNode; children: ReactNode; id: string }) {
-  return (
+/** True inside a Field with the label in the box: its inputs are taller and leave room for the label. */
+const FieldInset = createContext(false);
+
+/**
+ * A form field. In the athlete app the label sits inside the box, small and upper-case, as in Figma. `labelAbove` keeps
+ * it above, as it always is outside the athlete app (admin panel), where a field can hold a textarea or several buttons.
+ */
+export function Field({ label, error, hint, status, children, id, labelAbove }: { label: string; error?: string | null; hint?: ReactNode; status?: ReactNode; children: ReactNode; id: string; labelAbove?: boolean }) {
+  const athlete = useContext(AthleteTheme);
+  if (labelAbove || !athlete) return (
     <div className="space-y-2">
       <div className="flex items-baseline justify-between"><label htmlFor={id} className="text-sm font-medium">{label}</label>{status}</div>
       {children}
       {error ? <p id={`${id}-err`} role="alert" className="text-sm text-destructive">{error}</p> : hint ? <p className="text-sm text-muted-foreground">{hint}</p> : null}
     </div>
   );
+  return (
+    <div className="space-y-2">
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-x-5 top-3 z-10 flex items-center justify-between gap-3 leading-none">
+          <label htmlFor={id} className={cn("text-[0.6875rem] font-medium uppercase tracking-[0.08em]", error ? "text-destructive" : "text-muted-foreground")}>{label}</label>{status}
+        </div>
+        <FieldInset.Provider value>{children}</FieldInset.Provider>
+      </div>
+      {error ? <p id={`${id}-err`} role="alert" className="px-1 text-sm text-destructive">{error}</p> : hint ? <p className="px-1 text-sm text-muted-foreground">{hint}</p> : null}
+    </div>
+  );
 }
 
-export const inputCls = (invalid?: boolean, ok?: boolean) =>
-  cn("h-14 w-full rounded-2xl border bg-background px-4 text-base outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground",
+export const inputCls = (invalid?: boolean, ok?: boolean, inset?: boolean) =>
+  cn("w-full border bg-background outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground",
+    inset ? "h-[4.5rem] rounded-3xl border-[1.5px] px-5 pb-2 pt-7 text-[1.0625rem]" : "h-14 rounded-2xl px-4 text-base",
     invalid && "border-destructive focus:border-destructive", ok && "border-success focus:border-success");
 
 export const TextInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement> & { invalid?: boolean; ok?: boolean }>(
-  ({ invalid, ok, className, ...p }, ref) => <input ref={ref} aria-invalid={invalid || undefined} aria-describedby={invalid ? `${p.id}-err` : undefined} className={cn(inputCls(invalid, ok), className)} {...p} />,
+  ({ invalid, ok, className, ...p }, ref) => {
+    const inset = useContext(FieldInset);
+    return <input ref={ref} aria-invalid={invalid || undefined} aria-describedby={invalid ? `${p.id}-err` : undefined} className={cn(inputCls(invalid, ok, inset), className)} {...p} />;
+  },
 );
 TextInput.displayName = "TextInput";
 
@@ -116,7 +148,7 @@ export function PasswordInput(p: InputHTMLAttributes<HTMLInputElement> & { inval
     <div className="relative">
       <TextInput {...p} type={show ? "text" : "password"} className="pr-14" />
       <button type="button" onClick={() => setShow(!show)} aria-label={show ? t.auth.hide : t.auth.show}
-        className="absolute right-1 top-1 flex size-12 items-center justify-center rounded-xl text-muted-foreground hover:text-foreground">
+        className="absolute right-2 top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full text-muted-foreground hover:text-foreground">
         {show ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
       </button>
     </div>
@@ -124,10 +156,11 @@ export function PasswordInput(p: InputHTMLAttributes<HTMLInputElement> & { inval
 }
 
 export function SelectButton({ id, value, placeholder, onClick, invalid }: { id: string; value?: ReactNode; placeholder: string; onClick: () => void; invalid?: boolean }) {
+  const inset = useContext(FieldInset);
   return (
-    <button id={id} type="button" onClick={onClick} className={cn(inputCls(invalid), "flex items-center justify-between text-left")}>
+    <button id={id} type="button" onClick={onClick} className={cn(inputCls(invalid, false, inset), "flex items-center justify-between text-left")}>
       <span className={cn("truncate", !value && "text-muted-foreground")}>{value || placeholder}</span>
-      <ChevronDown className="size-5 shrink-0 text-muted-foreground" />
+      <ChevronDown className={cn("size-5 shrink-0 text-muted-foreground", inset && "-mt-4")} />
     </button>
   );
 }
@@ -218,7 +251,7 @@ export function BackHeader({ title, to, onBack }: { title: string; to?: string; 
     <header className="pt-safe flex items-center gap-1 px-2 pb-2">
       {to ? <Link to={to} aria-label={t.common.back} className={cls}><ChevronLeft className="size-6" /></Link>
         : <button type="button" onClick={onBack} aria-label={t.common.back} className={cls}><ChevronLeft className="size-6" /></button>}
-      <h1 className="truncate text-xl font-bold tracking-tight">{title}</h1>
+      <h1 className="truncate text-[1.375rem] font-medium tracking-tight">{title}</h1>
     </header>
   );
 }

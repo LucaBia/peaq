@@ -10,6 +10,7 @@ Aggiornato al 27 novembre 2026. Prima di implementare una di queste parti, chied
 - Quali dati e consensi servono davvero per la tessera: dipende dall'ente (UISP o altro).
 - Contatto di emergenza: è scritto «obbligatorio», ma in alcune varianti del prototipo il pulsante di pagamento è attivo anche senza.
 - Parametri del rating (peso delle prime gare, velocità di variazione).
+- XP dei bonus: Figma (B7) e ora la pagina Tappa dicono prima gara +100, promozione +150, partito ma non arrivato +30; il tutorial dice «+250 XP dopo la prima gara». Sono numeri scritti solo nelle schermate: da confermare e mettere nelle regole.
 - Correzione di un risultato: ricalcolare solo quella gara (proposta) o anche le successive.
 - Bloccare prezzo e sport di una gara dopo la pubblicazione (proposta).
 - Come usare la gara gratis al pagamento; come evitare inviti finti.

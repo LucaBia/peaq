@@ -1,38 +1,36 @@
 import { useState } from "react";
-import { Switch } from "@/components/ui/switch";
 import { Body, BottomBar, Notice, PrimaryButton, Title } from "../ui";
 import { useAppLang } from "@/lib/app/i18n";
 import { athleteService } from "@/lib/app/athlete";
 import { useOb } from "./context";
 
+const ALL = { new_events: true, lobby_opening: true, results: true };
+const NONE = { new_events: false, lobby_opening: false, results: false };
+
+/** One choice, as in Figma A13: all three notifications on, or none for now. */
 export function NotificationsStep() {
   const { t } = useAppLang();
   const { userId, goTo } = useOb();
-  const [p, setP] = useState({ new_events: true, lobby_opening: true, results: true });
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState(false);
-  async function save(prefs: typeof p) {
+  async function save(prefs: typeof ALL) {
     setSaving(true); setErr(false);
     try { await athleteService.saveNotifications(userId, prefs); await goTo(9); } catch { setErr(true); } finally { setSaving(false); }
   }
-  const rows = [["new_events", t.ob.notif.newEvents], ["lobby_opening", t.ob.notif.lobby], ["results", t.ob.notif.results]] as const;
   return (
     <>
       <Body>
-        <Title sub={t.ob.notif.sub}>{t.ob.notif.title}</Title>
-        <div className="divide-y rounded-3xl border">
-          {rows.map(([k, l]) => (
-            <label key={k} htmlFor={k} className="flex min-h-16 items-center justify-between gap-4 px-5">
-              <span className="font-medium">{l}</span>
-              <Switch id={k} checked={p[k]} onCheckedChange={(v) => setP({ ...p, [k]: v })} />
-            </label>
-          ))}
-        </div>
+        <Title bars>{t.ob.notif.title}</Title>
+        <p className="text-lg">{t.ob.notif.sub}</p>
+        <ul className="mt-2 space-y-1.5 text-lg">
+          {t.ob.notif.items.map((x) => <li key={x} className="flex gap-3"><span className="mt-3 size-1.5 shrink-0 rounded-full bg-foreground" aria-hidden />{x}</li>)}
+        </ul>
+        <p className="mt-6 text-sm text-muted-foreground">{t.ob.notif.note}</p>
         {err && <div className="mt-6"><Notice tone="error">{t.common.networkError}</Notice></div>}
       </Body>
       <BottomBar>
-        <PrimaryButton onClick={() => save(p)} loading={saving}>{t.ob.notif.save}</PrimaryButton>
-        <PrimaryButton variant="ghost" disabled={saving} onClick={() => save({ new_events: false, lobby_opening: false, results: false })}>{t.ob.notif.notNow}</PrimaryButton>
+        <PrimaryButton onClick={() => save(ALL)} loading={saving}>{t.ob.notif.save}</PrimaryButton>
+        <PrimaryButton variant="ghost" disabled={saving} onClick={() => save(NONE)}>{t.ob.notif.notNow}</PrimaryButton>
       </BottomBar>
     </>
   );

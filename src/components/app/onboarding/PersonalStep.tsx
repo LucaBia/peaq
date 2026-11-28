@@ -63,25 +63,24 @@ export function PersonalStep() {
     <>
       <Body>
         <Title>{t.ob.p.title}</Title>
-        <div className="space-y-6">
+        <div className="space-y-3">
           <Field id="username" label={t.ob.p.username} status={uStatus} hint={t.ob.p.usernameHint}>
-            <div className="relative">
-              <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">@</span>
-              <TextInput id="username" className="pl-9" autoCapitalize="none" autoCorrect="off" spellCheck={false} maxLength={20} disabled={locked}
-                value={username} ok={uState === "ok"} invalid={uState === "taken" || uState === "invalid"}
-                onChange={(e) => setDraft({ username: e.target.value.toLowerCase().replace(/\s/g, "") })} />
-            </div>
+            <TextInput id="username" autoCapitalize="none" autoCorrect="off" spellCheck={false} maxLength={20} disabled={locked}
+              value={username} ok={uState === "ok"} invalid={uState === "taken" || uState === "invalid"}
+              onChange={(e) => setDraft({ username: e.target.value.toLowerCase().replace(/\s/g, "") })} />
           </Field>
           <Field id="dob" label={t.ob.p.dob} error={dobTouched && draft.dob && !dobOk ? t.ob.p.dobErr : null}>
             <TextInput id="dob" type="date" max={maxDob()} min="1900-01-01" value={draft.dob ?? ""} invalid={dobTouched && !!draft.dob && !dobOk}
               onChange={(e) => setDraft({ dob: e.target.value })} onBlur={() => setDobTouched(true)} />
           </Field>
-          <Field id="gender" label={t.ob.p.gender}>
-            <SelectButton id="gender" placeholder={t.ob.p.choose} value={draft.gender ? t.ob.p.genders[draft.gender as keyof typeof t.ob.p.genders] : undefined} onClick={() => setSheet("gender")} />
-          </Field>
-          <Field id="nat" label={t.ob.p.nationality}>
-            <SelectButton id="nat" placeholder={t.ob.p.choose} value={draft.nationality ? `${flag(draft.nationality)}  ${countryName(draft.nationality, lang)}` : undefined} onClick={() => { setQ(""); setSheet("country"); }} />
-          </Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field id="gender" label={t.ob.p.gender}>
+              <SelectButton id="gender" placeholder={t.ob.p.choose} value={draft.gender ? t.ob.p.genders[draft.gender as keyof typeof t.ob.p.genders] : undefined} onClick={() => setSheet("gender")} />
+            </Field>
+            <Field id="nat" label={t.ob.p.nationality}>
+              <SelectButton id="nat" placeholder={t.ob.p.choose} value={draft.nationality ? `${flag(draft.nationality)}  ${countryName(draft.nationality, lang)}` : undefined} onClick={() => { setQ(""); setSheet("country"); }} />
+            </Field>
+          </div>
           <Field id="city" label={t.ob.p.city} hint={t.ob.p.cityHint}>
             <SelectButton id="city" placeholder={t.ob.p.choose} value={draft.cityLabel} onClick={() => { setQ(""); setSheet("city"); }} />
           </Field>

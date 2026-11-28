@@ -40,7 +40,7 @@ export function SocialAuth() {
       <div className={oauthProviders.length > 1 ? "grid grid-cols-2 gap-2.5" : "grid"}>
         {oauthProviders.map((p) => (
           <button key={p} type="button" onClick={() => go(p)} disabled={busy !== null} aria-busy={busy === p} aria-label={p === "apple" ? t.auth.withApple : t.auth.withGoogle}
-            className="flex h-12 items-center justify-center gap-2 rounded-2xl border bg-background px-4 text-[0.9375rem] font-medium transition-all active:scale-[0.98] disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+            className="flex h-12 items-center justify-center gap-2 rounded-full border-[1.5px] bg-background px-4 text-[0.9375rem] font-medium transition-all active:scale-[0.98] disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
             {busy === p ? <Loader2 className="size-5 animate-spin" /> : p === "apple" ? <AppleLogo /> : <GoogleLogo />}
             {/* Two buttons side by side: the divider above says "or continue with", so here the name is enough. */}
             <span>{oauthProviders.length > 1 ? (p === "apple" ? "Apple" : "Google") : p === "apple" ? t.auth.withApple : t.auth.withGoogle}</span>

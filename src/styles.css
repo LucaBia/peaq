@@ -131,7 +131,12 @@
   --league-vetta: #3cb4f0;
   --league-peaq: #0c3ef2;
   --gradient-peaq: #0c3ef2;
+  /* Kanit as in Figma: Light for running text, Regular for labels, Medium for titles and buttons. */
+  --font-weight-medium: 400;
+  --font-weight-semibold: 500;
+  --font-weight-bold: 500;
   font-family: "Kanit", system-ui, sans-serif;
+  font-weight: 300;
 }
 /* Giant numbers and poster titles: Kanit Black Italic instead of Anton. */
 .theme-athlete .font-display { font-family: "Kanit", "Anton", sans-serif; font-style: italic; font-weight: 900; }

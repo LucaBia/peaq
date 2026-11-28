@@ -7,21 +7,30 @@ import { BackHeader } from "./ui";
 
 const label = "text-[0.6875rem] font-semibold uppercase tracking-[0.08em]";
 
-/** Six little mountains, one per league, growing from Valle to PEAQ. `you` puts a tag on the athlete's league. */
+/** Six mountains, one per league, growing from Valle to PEAQ (Figma B8). `you` puts a tag on the athlete's league. */
 export function LeagueScale({ you }: { you?: League | undefined }) {
   const { t } = useAppLang();
+  const h = (i: number) => 32 + i * 13; // height of each mountain, on a 100-high drawing
+  const at = you ? LEAGUES.indexOf(you) : -1;
   return (
-    <div className="grid grid-cols-6 items-end text-center">
-      {LEAGUES.map((l, i) => (
-        <div key={l}>
-          {you === l && <span className="mb-1 inline-block rounded-full bg-foreground px-1.5 py-0.5 text-[0.6875rem] font-bold uppercase leading-none text-background">{t.rank.you}</span>}
-          <svg viewBox="0 0 40 60" preserveAspectRatio="none" className="w-full px-0.5" style={{ height: `${2 + i * 0.9}rem` }} aria-hidden>
-            <path d="M0 60 L14 12 L20 24 L28 0 L40 60Z" fill={l === "peaq" ? "var(--league-peaq)" : `var(--league-${l})`} />
-          </svg>
-          <p className={cn("mt-1.5 border-t pt-1.5 text-[0.6875rem]", !you || you === l ? "font-semibold" : "text-muted-foreground")}>{t.leagues[l]}</p>
-          <p className="whitespace-nowrap text-[0.6875rem] tracking-tighter text-muted-foreground">{leagueRange(l)}</p>
-        </div>
-      ))}
+    <div className={cn("text-center", you && "pt-6")}>
+      <div className="relative">
+        <svg viewBox="0 0 360 100" preserveAspectRatio="none" className="h-24 w-full" aria-hidden>
+          {LEAGUES.map((l, i) => {
+            const x = 30 + i * 60, y = 100 - h(i), ridge = `L${x + 5} ${y + h(i) * 0.26} L${x + 13} ${y + h(i) * 0.16} L${x + 40} 100`;
+            return <g key={l}><path d={`M${x - 40} 100 L${x - 4} ${y} ${ridge}Z`} fill={`var(--league-${l})`} /><path d={`M${x - 4} ${y} ${ridge} L${x + 3} 100Z`} fill="black" opacity="0.14" /></g>;
+          })}
+        </svg>
+        {at >= 0 && <span className="absolute -translate-x-1/2 -translate-y-full rounded-full bg-foreground px-1.5 py-0.5 text-[0.6875rem] font-bold uppercase leading-none text-background" style={{ left: `${((30 + at * 60 - 4) / 360) * 100}%`, top: `calc(${100 - h(at)}% - 0.25rem)` }}>{t.rank.you}</span>}
+      </div>
+      <div className="grid grid-cols-6 border-t pt-1.5">
+        {LEAGUES.map((l) => (
+          <div key={l}>
+            <p className={cn("text-[0.6875rem]", !you || you === l ? "font-semibold" : "text-muted-foreground")}>{t.leagues[l]}</p>
+            <p className="whitespace-nowrap text-[0.6875rem] tracking-tighter text-muted-foreground">{leagueRange(l)}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -35,12 +44,12 @@ export function RatingGuide() {
       <BackHeader title={g.title} to="/app" />
       <ol className="space-y-3 px-4 pb-8 pt-2">
         {g.items.map((it, i) => (
-          <li key={it.t} className="flex gap-3 rounded-3xl border p-5">
+          <li key={it.t} className="flex gap-3 rounded-[1.75rem] border-[1.5px] p-5">
             <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground" aria-hidden>{i + 1}</span>
             <div className="min-w-0 flex-1">
-              <h2 className="pt-0.5 text-lg font-semibold leading-snug">{it.t}</h2>
+              <h2 className="pt-0.5 text-[1.1875rem] font-medium leading-snug">{it.t}</h2>
               <p className="mt-1 text-[0.9375rem] text-muted-foreground">{it.d}</p>
-              {i === 2 && <><div className="mt-4"><LeagueScale /></div><Link to="/app/leagues" className="mt-3 inline-flex min-h-11 items-center gap-1 text-sm font-semibold underline-offset-4 hover:underline">{g.seeLeagues}<ChevronRight className="size-4" aria-hidden /></Link></>}
+              {i === 2 && <><div className="mt-4"><LeagueScale /></div><Link to="/app/leagues" className="mt-2 inline-flex min-h-11 items-center gap-1 text-[0.9375rem] font-medium text-primary underline-offset-4 hover:underline">{g.seeLeagues}<ChevronRight className="size-4" aria-hidden /></Link></>}
             </div>
           </li>
         ))}
@@ -138,40 +147,43 @@ export function LeagueGuide({ league, current }: { league: League; current?: Lea
   );
 }
 
-/** "Stage": the athlete's Stage and XP, the prizes along the way and how XP are earned. */
+/** "Stage" (Figma B7): the athlete's Stage and XP on a dark card, the prizes along the way and how XP are earned. */
 export function StageGuide({ level, xp }: { level: number; xp: number }) {
   const { t } = useAppLang();
   const g = t.guide.stage;
   const next = XP_FOR_NEXT_LEVEL[level];
+  const left = next ? Math.max(0, next - xp) : null;
   const nextPrize = g.prizes.find((p) => p.s > level);
   return (
     <main className="flex flex-1 flex-col animate-in fade-in duration-300">
       <BackHeader title={g.title} to="/app" />
-      <div className="space-y-6 px-4 pb-8 pt-2">
-        <section className="rounded-3xl bg-foreground p-5 text-background">
-          <p className={label}>{g.yours}</p>
-          <div className="mt-1 flex items-end justify-between gap-3">
-            <span className="font-display text-7xl leading-none">{level}</span>
-            <p className="text-right"><span className="block text-lg font-bold tabular-nums">{xp}{next ? ` / ${next}` : ""} {t.app.xp}</span>{next && <span className="text-sm opacity-80">{fmt(g.toNext, { n: Math.max(0, next - xp), s: level + 1 })}</span>}</p>
+      <div className="space-y-7 px-4 pb-8 pt-2">
+        <section className="relative overflow-hidden rounded-[1.75rem] bg-[#0b0b0f] p-5 text-white">
+          <span className="absolute -right-12 -top-16 size-48 rounded-full bg-primary" aria-hidden />
+          <span className="absolute right-24 top-6 size-14 rounded-full bg-primary/55" aria-hidden />
+          <p className={cn(label, "relative")}>{g.yours}</p>
+          <p className="font-display relative mt-1 text-[7rem] leading-[0.92]">{level}</p>
+          <p className="relative mt-3 text-[1.1875rem] font-semibold tabular-nums">{xp}{next ? ` / ${next}` : ""} {t.app.xp}</p>
+          {left !== null && <p className="relative text-[0.8125rem] text-white/85">{fmt(g.toNext, { n: left, s: level + 1 })}</p>}
+          <div className="relative mt-3 h-2.5 rounded-full bg-white/[0.22]" role="progressbar" aria-valuenow={xp} aria-valuemax={next ?? xp} aria-label={t.app.xp}>
+            <div className="h-2.5 min-w-2.5 rounded-full bg-white" style={{ width: next ? `${Math.min(100, (xp / next) * 100)}%` : "100%" }} />
           </div>
-          <div className="mt-4 h-2 rounded-full bg-white/25" role="progressbar" aria-valuenow={xp} aria-valuemax={next ?? xp} aria-label={t.app.xp}>
-            <div className="h-2 rounded-full bg-white" style={{ width: next ? `${Math.min(100, (xp / next) * 100)}%` : "100%" }} />
-          </div>
-          <p className="mt-4 text-sm">{nextPrize ? fmt(t.prof.nextPrize, { n: nextPrize.s, prize: nextPrize.t }) : t.prof.allPrizes}</p>
+          <p className="relative mt-4 inline-block rounded-2xl bg-white/[0.14] px-4 py-2 text-sm">{nextPrize ? fmt(t.prof.nextPrize, { n: nextPrize.s, prize: nextPrize.t }) : t.prof.allPrizes}</p>
         </section>
 
         <p className="px-1 text-[0.9375rem] text-muted-foreground">{g.intro}</p>
 
         <section>
-          <h2 className="px-1 text-xl font-bold tracking-tight">{g.prizesTitle}</h2>
-          <ol className="mt-3 rounded-3xl border px-5 py-2">
+          <h2 className="px-1 text-[1.375rem] font-bold tracking-tight">{g.prizesTitle}</h2>
+          <ol className="mt-2 px-1">
             {g.prizes.map((p, i) => {
               const done = level >= p.s, isNext = p === nextPrize;
               return (
-                <li key={p.s} className="relative flex items-center gap-4 py-2.5">
-                  {i < g.prizes.length - 1 && <span className="absolute left-[1.0625rem] top-1/2 h-full w-0.5 bg-border" aria-hidden />}
-                  <span className={cn("relative flex size-9 shrink-0 items-center justify-center rounded-full border-2 text-sm font-bold", done ? "border-foreground bg-foreground text-background" : isNext ? "border-primary bg-background text-primary" : "bg-background text-muted-foreground")}>{p.s}</span>
-                  <span className={cn("flex-1", done || isNext ? "font-medium" : "text-muted-foreground")}>{p.t}</span>
+                <li key={p.s} className="relative flex min-h-[3.25rem] items-center gap-4">
+                  {i < g.prizes.length - 1 && <span className={cn("absolute left-[1.0625rem] top-1/2 h-full w-0.5", (g.prizes[i + 1]?.s ?? Infinity) <= level ? "bg-foreground" : "bg-border")} aria-hidden />}
+                  <span className={cn("relative flex size-9 shrink-0 items-center justify-center rounded-full border-2 text-sm font-semibold tabular-nums", done ? "border-foreground bg-foreground text-background" : isNext ? "border-primary bg-background text-primary" : "border-border bg-background text-muted-foreground")}>{p.s}</span>
+                  <span className={cn("flex-1 py-1.5 leading-snug", isNext ? "font-semibold" : !done && "text-muted-foreground")}>{p.t}</span>
+                  {isNext && left !== null && p.s === level + 1 && <span className="shrink-0 text-sm font-medium text-primary">{fmt(g.inXp, { n: left })}</span>}
                 </li>
               );
             })}
@@ -179,11 +191,10 @@ export function StageGuide({ level, xp }: { level: number; xp: number }) {
         </section>
 
         <section>
-          <h2 className="px-1 text-xl font-bold tracking-tight">{g.earnTitle}</h2>
-          <ul className="mt-3 divide-y rounded-3xl border px-5">
-            {g.earn.map((e) => <li key={e.t} className="flex items-baseline gap-4 py-3"><span className="w-28 shrink-0 font-bold tabular-nums">{e.v}</span><span className="text-[0.9375rem] text-muted-foreground">{e.t}</span></li>)}
+          <h2 className="px-1 text-[1.375rem] font-bold tracking-tight">{g.earnTitle}</h2>
+          <ul className="mt-3 space-y-3 px-1">
+            {g.earn.map((e) => <li key={e.t} className="flex items-baseline justify-between gap-4"><span>{e.t}</span><span className="shrink-0 whitespace-nowrap font-semibold tabular-nums">{e.v}</span></li>)}
           </ul>
-          <p className="mt-3 px-1 text-sm text-muted-foreground">{g.earnNote}</p>
         </section>
       </div>
     </main>
