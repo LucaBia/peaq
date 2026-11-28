@@ -1,10 +1,16 @@
-export function Marquee({ items }: { items: string[] }) {
-  const row = [...items, ...items, ...items, ...items];
+import { appDict } from "@/lib/app/i18n";
+import { LEAGUES } from "@/lib/app/rating";
+import { useLang } from "@/lib/i18n";
+
+/** The six leagues running across a black band. */
+export function Marquee() {
+  const { lang } = useLang();
+  const row = [...LEAGUES, ...LEAGUES, ...LEAGUES, ...LEAGUES];
   return (
-    <div className="overflow-hidden border-y bg-primary py-4 text-primary-foreground" aria-hidden>
+    <div className="relative z-10 overflow-hidden bg-foreground py-4 text-background" aria-hidden>
       <div className="flex w-max animate-marquee gap-10">
-        {row.map((w, i) => (
-          <span key={i} className="display flex items-center gap-10 text-3xl md:text-5xl">{w}<span className="text-xl">◆</span></span>
+        {row.map((l, i) => (
+          <span key={i} className="font-display flex items-center gap-10 text-3xl uppercase md:text-5xl">{appDict[lang].leagues[l]}<span className="size-3 rounded-full md:size-4" style={{ background: `var(--league-${l})` }} /></span>
         ))}
       </div>
     </div>

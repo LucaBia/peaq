@@ -8,6 +8,7 @@ Pagine dell'app atleti prese da Figma, scritte con i tuoi componenti e il tuo st
 
 ## Cosa c'è
 
+- **Landing nuova** (`/`): rifatta con l'aspetto dell'app (bianco, Kanit, blu, colori delle leghe) e tutte le funzioni della v1. Il pulsante principale porta a `/signup`: **la lista d'attesa non c'è più** (la tabella `waitlist` resta, non la tocco). Sezioni in `src/components/peaq/`, testi in `src/lib/i18n.tsx`, animazioni con `useGsap`, come prima. Le tue sezioni vecchie sono nella cronologia.
 - **Accesso:** pagina `/welcome`, Apple e Google, registrazione e passi dell'onboarding con l'aspetto di Figma.
 - **App:** Profilo nuovo, Eventi (gara pilota), Classifiche (montagna ed elenco), Impostazioni (con documenti, notifiche e cambio password), Aiuto, FAQ, Regolamento, tutorial.
 - **Spiegazioni:** rating, leghe, Tappa.
@@ -26,4 +27,5 @@ Pagine dell'app atleti prese da Figma, scritte con i tuoi componenti e il tuo st
 
 - Chi non è connesso arriva su `/welcome` invece che su `/auth`.
 - La foto della gara pilota viene dal prototipo Figma: va sostituita prima di pubblicare.
+- La landing presenta come parte di PEAQ anche funzioni non ancora nell'app (club, inviti, lobby, check-in con QR, pagamenti, lista d'attesa delle gare): scelta di Giovanni. La classifica mostrata è un esempio, con la scritta «Dati di esempio».
 - Non provati dal vivo: registrazione completa con un account nuovo, accesso con Apple e Google, pannello admin, e i salvataggi dalle Impostazioni (caricare un documento, cambiare una notifica, inviare il link per la password).

@@ -1,4 +1,4 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, type ReactNode, type RefObject } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
@@ -65,72 +65,45 @@ export function Magnetic({ children, className, strength = 0.35 }: { children: R
   return <div ref={ref} className={cn("inline-block", className)}>{children}</div>;
 }
 
-export function Cursor() {
-  const dot = useRef<HTMLDivElement>(null);
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches || reducedMotion()) return;
-    setOn(true);
-  }, []);
-  useEffect(() => {
-    if (!on || !dot.current) return;
-    const el = dot.current;
-    const xTo = gsap.quickTo(el, "x", { duration: 0.35, ease: "power3" });
-    const yTo = gsap.quickTo(el, "y", { duration: 0.35, ease: "power3" });
-    const move = (e: MouseEvent) => {
-      xTo(e.clientX); yTo(e.clientY);
-      const hot = (e.target as HTMLElement).closest("a,button,[data-cursor]");
-      gsap.to(el, { scale: hot ? 3.2 : 1, duration: 0.3 });
-    };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
-  }, [on]);
-  if (!on) return null;
-  return <div ref={dot} aria-hidden className="pointer-events-none fixed left-0 top-0 z-[100] -ml-1.5 -mt-1.5 size-3 rounded-full bg-primary mix-blend-difference" />;
+
+/** Fades up every [data-reveal] inside ref as it scrolls into view. `data-reveal="0.2"` delays that element. */
+export function useReveal(ref: RefObject<HTMLElement | null>, deps: unknown[] = []) {
+  useGsap(ref, (self) => {
+    (self.selector?.("[data-reveal]") as HTMLElement[] | undefined)?.forEach((el) =>
+      gsap.from(el, { y: 36, opacity: 0, duration: 0.9, ease: "power3.out", delay: Number(el.dataset["reveal"]) || 0, scrollTrigger: { trigger: el, start: "top 90%" } }));
+  }, deps);
 }
 
-export function Counter({ to, decimals = 0, className, suffix = "" }: { to: number; decimals?: number; className?: string; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
+/** Tilts its content towards the pointer, like a card held in the hand. Still on touch screens and with reduced motion. */
+export function Tilt({ children, className, max = 9 }: { children: ReactNode; className?: string; max?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
-    const fmt = (v: number) => v.toLocaleString("it-IT", { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
-    if (reducedMotion()) { el.textContent = fmt(to); return; }
-    const o = { v: 0 };
-    el.textContent = fmt(0);
-    const tw = gsap.to(o, { v: to, duration: 2, ease: "power3.out", onUpdate: () => { el.textContent = fmt(o.v); }, scrollTrigger: { trigger: el, start: "top 90%" } });
-    return () => { tw.scrollTrigger?.kill(); tw.kill(); };
-  }, [to, decimals, suffix]);
-  return <span ref={ref} className={cn("tabular-nums", className)} />;
+    if (!el || reducedMotion() || window.matchMedia("(hover: none)").matches) return;
+    const rx = gsap.quickTo(el, "rotationX", { duration: 0.5, ease: "power3" });
+    const ry = gsap.quickTo(el, "rotationY", { duration: 0.5, ease: "power3" });
+    const move = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect();
+      ry(((e.clientX - r.left) / r.width - 0.5) * 2 * max);
+      rx(-((e.clientY - r.top) / r.height - 0.5) * 2 * max);
+    };
+    const leave = () => { rx(0); ry(0); };
+    el.addEventListener("mousemove", move);
+    el.addEventListener("mouseleave", leave);
+    return () => { el.removeEventListener("mousemove", move); el.removeEventListener("mouseleave", leave); };
+  }, [max]);
+  return <div className={cn("[perspective:1000px]", className)}><div ref={ref} className="[transform-style:preserve-3d]">{children}</div></div>;
 }
 
-export function SectionLabel({ children, className }: { children: ReactNode; className?: string }) {
+/** Small upper-case label + big title of a landing section. */
+export function Heading({ eyebrow, title, sub, className, light }: { eyebrow?: string; title: string; sub?: string; className?: string; light?: boolean }) {
   return (
-    <div className={cn("eyebrow flex items-center gap-3 text-muted-foreground", className)}>
-      <span className="h-px w-8 bg-primary" />
-      {children}
+    <div className={cn("max-w-2xl", className)}>
+      {eyebrow && <p data-reveal className={cn("mb-4 text-[0.8125rem] font-medium uppercase tracking-[0.12em]", light ? "text-white/75" : "text-primary")}>{eyebrow}</p>}
+      <h2 data-reveal className="whitespace-pre-line text-[clamp(2.25rem,6vw,4rem)] font-bold leading-[1.04] tracking-tight">{title}</h2>
+      {sub && <p data-reveal="0.1" className={cn("mt-5 text-lg", light ? "text-white/80" : "text-muted-foreground")}>{sub}</p>}
     </div>
   );
 }
 
-export function PreviewTag({ children }: { children: ReactNode }) {
-  return (
-    <span className="eyebrow inline-flex items-center gap-2 border border-primary/40 px-2.5 py-1 text-primary">
-      <span className="size-1.5 rounded-full bg-primary animate-blink" />
-      {children}
-    </span>
-  );
-}
-
-/** Splits text into masked words for reveal animations. */
-export function SplitWords({ text, className }: { text: string; className?: string }) {
-  return (
-    <span className={className}>
-      {text.split(" ").map((w, i) => (
-        <span key={i} className="inline-block overflow-hidden pb-[0.06em] align-bottom">
-          <span data-word className="inline-block">{w}&nbsp;</span>
-        </span>
-      ))}
-    </span>
-  );
-}
+export const wrap = "mx-auto w-full max-w-6xl px-5 md:px-8";

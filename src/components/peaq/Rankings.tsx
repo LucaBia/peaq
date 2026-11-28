@@ -1,95 +1,57 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { appDict, fmt } from "@/lib/app/i18n";
+import { leagueInk, type League } from "@/lib/app/rating";
 import { useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import { gsap, PreviewTag, reducedMotion, ScrollTrigger, SectionLabel, useGsap } from "./core";
+import { Heading, useReveal, wrap } from "./core";
 
-const cities = ["Milano", "Roma", "Firenze", "Torino", "Bologna"];
-const names = ["Giulia Ferri", "Luca Marchetti", "Sara Conti", "Davide Rossi", "Elena Galli", "Paolo Riva", "Chiara Moretti", "Andrea Fontana"];
+type Row = { rank: number; name: string; bib: number; rating: number; league: League; me?: boolean };
+// Invented athletes, shown with the "sample data" label.
+const SAMPLE: Record<"run" | "bike", Row[]> = {
+  run: [
+    { rank: 12, name: "ElenaB", bib: 118, rating: 641, league: "cresta" }, { rank: 13, name: "MarcoT", bib: 233, rating: 618, league: "cresta" },
+    { rank: 14, name: "", bib: 236, rating: 612, league: "cresta", me: true }, { rank: 15, name: "SaraM", bib: 507, rating: 607, league: "cresta" }, { rank: 16, name: "LucaF", bib: 142, rating: 598, league: "cresta" },
+  ],
+  bike: [
+    { rank: 6, name: "GinevraT", bib: 310, rating: 530, league: "cresta" }, { rank: 7, name: "DavideR", bib: 455, rating: 512, league: "cresta" },
+    { rank: 8, name: "", bib: 236, rating: 498, league: "passo", me: true }, { rank: 9, name: "NoraB", bib: 172, rating: 471, league: "passo" }, { rank: 10, name: "PaoloR", bib: 264, rating: 455, league: "passo" },
+  ],
+};
 
-function rows(city: string, disc: number) {
-  const seed = city.length * 13 + disc * 7;
-  return names.map((n, i) => ({
-    name: names[(i + seed) % names.length],
-    bib: String(((seed * (i + 3) * 37) % 9000) + 100).padStart(4, "0"),
-    pts: Math.round(2480 - i * (140 + (seed % 40)) - ((seed * i) % 60)),
-    trend: (seed + i) % 3 === 0 ? -1 : (seed + i) % 3 === 1 ? 1 : 0,
-  }));
-}
-
+/** City rankings: a sample list that switches between running and cycling. */
 export function Rankings() {
   const ref = useRef<HTMLElement>(null);
-  const board = useRef<HTMLDivElement>(null);
   const { t, lang } = useLang();
-  const [city, setCity] = useState(0);
-  const [disc, setDisc] = useState(0);
-  const data = rows(cities[city] ?? "Milano", disc);
-
-  useGsap(ref, () => {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: "[data-pin]", start: "top top", end: "+=120%", scrub: 1, pin: true } });
-    tl.fromTo("[data-bigcity]", { scale: 1 }, { scale: 0.18, yPercent: -230, xPercent: -40, ease: "power2.inOut" })
-      .fromTo("[data-board]", { opacity: 0, y: 120 }, { opacity: 1, y: 0, ease: "power2.out" }, 0.35);
-  }, [lang]);
-
-  // animate numbers on data change
-  useEffect(() => {
-    if (!board.current) return;
-    const els = board.current.querySelectorAll<HTMLElement>("[data-pts]");
-    const run = () => els.forEach((el, i) => {
-      const to = Number(el.dataset["pts"]);
-      if (reducedMotion()) { el.textContent = to.toLocaleString("it-IT"); return; }
-      const o = { v: 0 };
-      gsap.to(o, { v: to, duration: 1.4, delay: i * 0.05, ease: "power3.out", onUpdate: () => { el.textContent = Math.round(o.v).toLocaleString("it-IT"); } });
-    });
-    run();
-    if (!reducedMotion()) gsap.from(board.current.querySelectorAll("[data-row]"), { x: -30, opacity: 0, stagger: 0.05, duration: 0.6, ease: "power3.out" });
-    ScrollTrigger.refresh();
-  }, [city, disc]);
-
+  const [sport, setSport] = useState<"run" | "bike">("run");
+  const rows = SAMPLE[sport];
+  const k = rows.findIndex((r) => r.me), me = rows[k]!, above = rows[k - 1]!;
+  useReveal(ref, [lang]);
   return (
-    <section ref={ref} className="relative border-t">
-      <div data-pin className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden py-24">
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden>
-          <div data-bigcity className="display whitespace-nowrap text-[30vw] text-primary">{cities[city]}</div>
-        </div>
-        <div className="relative mx-auto w-full max-w-[1600px] px-5 md:px-10">
-          <div data-board className="grid gap-10 md:grid-cols-12">
-            <div className="md:col-span-4">
-              <SectionLabel>{t.rank.eyebrow}</SectionLabel>
-              <h2 className="display mt-8 text-[13vw] md:text-[5.2vw]">{t.rank.title[0]}<br /><span className="text-outline">{t.rank.title[1]}</span></h2>
-              <div className="mt-8"><PreviewTag>{t.rank.preview}</PreviewTag></div>
-              <div className="mt-10 flex flex-wrap gap-2" role="tablist" aria-label="City">
-                {cities.map((c, i) => (
-                  <button key={c} role="tab" aria-selected={city === i} onClick={() => setCity(i)} className={cn("eyebrow border px-3 py-2 transition-colors", city === i ? "border-primary bg-primary text-primary-foreground" : "hover:border-foreground")}>{c}</button>
-                ))}
-              </div>
-            </div>
-            <div className="md:col-span-8">
-              <div className="border bg-card/80 backdrop-blur-md">
-                <div className="flex items-center justify-between border-b p-3">
-                  <div className="flex" role="tablist">
-                    {[t.rank.running, t.rank.cycling].map((d, i) => (
-                      <button key={d} role="tab" aria-selected={disc === i} onClick={() => setDisc(i)} className={cn("eyebrow px-4 py-2 transition-colors", disc === i ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground")}>{d}</button>
-                    ))}
-                  </div>
-                  <span className="eyebrow hidden text-muted-foreground sm:block">{cities[city]} · S01</span>
-                </div>
-                <div ref={board}>
-                  <div className="eyebrow grid grid-cols-[3rem_1fr_4rem_5rem] gap-2 border-b px-4 py-2 text-[0.6rem] text-muted-foreground md:grid-cols-[4rem_1fr_6rem_8rem_3rem]">
-                    <span>{t.rank.pos}</span><span>{t.rank.name}</span><span>{t.rank.bib}</span><span className="text-right">{t.rank.pts}</span><span className="hidden md:block" />
-                  </div>
-                  {data.map((r, i) => (
-                    <div key={`${city}-${disc}-${i}`} data-row className={cn("grid grid-cols-[3rem_1fr_4rem_5rem] items-center gap-2 border-b px-4 py-3 last:border-0 md:grid-cols-[4rem_1fr_6rem_8rem_3rem]", i === 0 && "bg-primary/10")}>
-                      <span className={cn("display text-2xl md:text-3xl", i < 3 ? "text-primary" : "text-muted-foreground")}>{String(i + 1).padStart(2, "0")}</span>
-                      <span className="truncate font-medium">{r.name}</span>
-                      <span className="font-mono text-xs text-muted-foreground">#{r.bib}</span>
-                      <span data-pts={r.pts} className="text-right font-mono tabular-nums">0</span>
-                      <span className={cn("hidden text-right font-mono text-xs md:block", r.trend > 0 ? "text-primary" : r.trend < 0 ? "text-destructive" : "text-muted-foreground")}>{r.trend > 0 ? "▲" : r.trend < 0 ? "▼" : "—"}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+    <section ref={ref} className="bg-muted py-20 md:py-28">
+      <div className={cn(wrap, "grid gap-10 lg:grid-cols-2 lg:items-center")}>
+        <Heading eyebrow={t.rank.eyebrow} title={t.rank.title} sub={t.rank.sub} />
+        <div data-reveal className="rounded-[2rem] bg-background p-4 shadow-[0_24px_60px_-40px_rgb(0_0_0/0.35)] sm:p-6">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-xl font-semibold">{t.first.city2} · {sport === "run" ? t.rank.run : t.rank.bike}</p>
+            <span className="rounded-full border px-3 py-1 text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">{t.rank.sample}</span>
           </div>
+          <div role="group" aria-label={t.rank.sport} className="mt-4 grid grid-cols-2 rounded-full bg-muted p-1">
+            {(["run", "bike"] as const).map((s) => (
+              <button key={s} type="button" onClick={() => setSport(s)} aria-pressed={sport === s} className={cn("min-h-11 rounded-full text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring", sport === s ? "bg-foreground text-background" : "text-foreground")}>{s === "run" ? t.rank.run : t.rank.bike}</button>
+            ))}
+          </div>
+          <ol key={sport} className="mt-4 space-y-2">
+            {rows.map((r, i) => (
+              <li key={r.rank} className={cn("flex min-h-14 items-center gap-3 rounded-2xl px-3 animate-in fade-in slide-in-from-bottom-2 fill-mode-both duration-500", !r.me && "bg-muted/60")} style={{ animationDelay: `${i * 70}ms`, ...(r.me && { background: `var(--league-${r.league})`, color: leagueInk(r.league) }) }}>
+                <span className="w-7 text-right text-sm tabular-nums opacity-70">{r.rank}</span>
+                <span className="grid size-9 shrink-0 place-items-center rounded-full border-2 bg-background text-xs font-semibold text-foreground" style={{ borderColor: `var(--league-${r.league})` }} aria-hidden>{(r.me ? t.rank.you : r.name).slice(0, 2).toUpperCase()}</span>
+                <span className="min-w-0 flex-1 truncate font-medium">{r.me ? t.rank.you : r.name}<span className="ml-2 text-sm font-light opacity-70">#{r.bib}</span></span>
+                <span className="hidden rounded-full px-2.5 py-1 text-xs font-semibold sm:block" style={r.me ? { background: "white", color: "black" } : { background: `var(--league-${r.league})`, color: leagueInk(r.league) }}>{appDict[lang].leagues[r.league]}</span>
+                <span className="w-10 text-right text-lg font-semibold tabular-nums">{r.rating}</span>
+              </li>
+            ))}
+          </ol>
+          <p key={`${sport}-hint`} className="mt-4 px-1 text-[0.9375rem] font-medium animate-in fade-in duration-700">{fmt(t.rank.toPass, { n: above.rating - me.rating, name: above.name })}</p>
         </div>
       </div>
     </section>

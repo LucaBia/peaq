@@ -1,19 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { LangProvider, dict } from "@/lib/i18n";
-import { Loader } from "@/components/peaq/Loader";
 import { Nav } from "@/components/peaq/Nav";
 import { Hero } from "@/components/peaq/Hero";
 import { Marquee } from "@/components/peaq/Marquee";
-import { Disciplines } from "@/components/peaq/Disciplines";
-import { AthleteBib } from "@/components/peaq/AthleteBib";
+import { HowItWorks } from "@/components/peaq/HowItWorks";
+import { Leagues } from "@/components/peaq/Leagues";
+import { Stages } from "@/components/peaq/Stages";
+import { RaceDay } from "@/components/peaq/RaceDay";
 import { Rankings } from "@/components/peaq/Rankings";
-import { Stats } from "@/components/peaq/Stats";
-import { Events } from "@/components/peaq/Events";
-import { AppReveal } from "@/components/peaq/AppReveal";
-import { Waitlist } from "@/components/peaq/Waitlist";
+import { Community } from "@/components/peaq/Community";
+import { FirstRace } from "@/components/peaq/FirstRace";
+import { FinalCta } from "@/components/peaq/FinalCta";
 import { Footer } from "@/components/peaq/Footer";
-import { Cursor, ScrollTrigger } from "@/components/peaq/core";
+import { ScrollTrigger } from "@/components/peaq/core";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,31 +29,31 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+/** The landing, in the look of the athlete app (white, Kanit, PEAQ blue, league colours). */
 function Index() {
-  const [ready, setReady] = useState(false);
-  const done = useCallback(() => setReady(true), []);
+  // Fonts and images change the page height after the first paint: measure the scroll triggers again.
   useEffect(() => {
-    if (!ready) return;
-    const id = setTimeout(() => ScrollTrigger.refresh(), 300);
+    const id = setTimeout(() => ScrollTrigger.refresh(), 600);
     return () => clearTimeout(id);
-  }, [ready]);
+  }, []);
   return (
     <LangProvider>
-      <Loader onDone={done} />
-      <Cursor />
-      <Nav />
-      <main>
-        <Hero ready={ready} />
-        <Marquee items={["Running", "Cycling", "Identity", "Ranking", "Progress", "Community"]} />
-        <Disciplines />
-        <AthleteBib />
-        <Rankings />
-        <Stats />
-        <Events />
-        <AppReveal />
-        <Waitlist />
-      </main>
-      <Footer />
+      <div className="theme-app theme-athlete min-h-dvh overflow-x-clip">
+        <Nav />
+        <main>
+          <Hero />
+          <Marquee />
+          <HowItWorks />
+          <Leagues />
+          <Stages />
+          <RaceDay />
+          <Rankings />
+          <Community />
+          <FirstRace />
+          <FinalCta />
+        </main>
+        <Footer />
+      </div>
     </LangProvider>
   );
 }

@@ -1,22 +1,25 @@
-import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { useLang } from "@/lib/i18n";
+import { LEGAL_PATH, legalVisible } from "@/lib/legal";
 import { LangSwitch } from "./Nav";
+import { Wordmark, wrap } from "./core";
 
 export function Footer() {
   const { t } = useLang();
-  const [open, setOpen] = useState(false);
+  const link = "inline-flex min-h-11 items-center underline-offset-4 hover:underline";
   return (
-    <footer className="border-t">
-      <div className="mx-auto flex max-w-[1600px] flex-col gap-6 px-5 py-10 md:flex-row md:items-center md:justify-between md:px-10">
-        <div className="eyebrow flex items-center gap-3"><span className="size-2 rounded-full bg-primary animate-blink" /> PEAQ — {t.status}</div>
-        <div className="eyebrow flex flex-wrap items-center gap-6 text-muted-foreground">
-          <button onClick={() => setOpen(!open)} aria-expanded={open} className="hover:text-foreground">{t.footer.privacy}</button>
-          <a href="#waitlist" className="hover:text-foreground">{t.footer.contact}</a>
-          <LangSwitch />
+    <footer className="py-10">
+      <div className={wrap}>
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div><Wordmark className="w-24" /><p className="font-display mt-3 text-xl uppercase leading-none">{t.footer.tagline}</p></div>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            {/* The legal pages appear here once they are published (lib/legal.ts). */}
+            {legalVisible && <><Link to={LEGAL_PATH.privacy} className={link}>{t.footer.privacy}</Link><Link to={LEGAL_PATH.terms} className={link}>{t.footer.terms}</Link><Link to={LEGAL_PATH.cookie} className={link}>{t.footer.cookie}</Link></>}
+            <LangSwitch />
+          </div>
         </div>
-        <div className="eyebrow text-muted-foreground">© {new Date().getFullYear()} PEAQ. {t.footer.rights}</div>
+        <p className="mt-8 border-t pt-6 text-sm text-muted-foreground">© {new Date().getFullYear()} PEAQ. {t.footer.rights} {t.footer.adults}</p>
       </div>
-      {open && <p className="mx-auto max-w-[1600px] px-5 pb-10 text-sm text-muted-foreground md:px-10">{t.footer.privacyText}</p>}
     </footer>
   );
 }
