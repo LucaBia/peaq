@@ -71,7 +71,7 @@ export function ProfileScreen({ bib, username, ratings, level, xp, racesDone, up
             <span className="text-sm tabular-nums text-muted-foreground">{xp}{nextXp ? ` / ${nextXp}` : ""} {t.app.xp}</span>
           </div>
           <div className="mt-3 h-2 rounded-full bg-muted" role="progressbar" aria-valuenow={xp} aria-valuemax={nextXp ?? xp} aria-label={t.app.xp}>
-            <div className="h-2 min-w-1 rounded-full bg-primary" style={{ width: nextXp ? `${Math.min(100, (xp / nextXp) * 100)}%` : "100%" }} />
+            <div className="h-2 min-w-1 rounded-full bg-foreground" style={{ width: nextXp ? `${Math.min(100, (xp / nextXp) * 100)}%` : "100%" }} />
           </div>
           <p className="mt-3 text-xs text-muted-foreground">{nextPrize ? fmt(t.prof.nextPrize, { n: nextPrize.s, prize: nextPrize.t }) : t.prof.allPrizes}</p>
         </Link>

@@ -1,5 +1,5 @@
 import { Wordmark } from "@/components/peaq/core";
-import { leagueColorVar, type League } from "@/lib/app/rating";
+import { leagueColorVar, leagueInk, type League } from "@/lib/app/rating";
 import { useAppLang } from "@/lib/app/i18n";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +20,7 @@ export function Bib({ number, username, discipline, league, variant = "classic",
       {["left-4 top-4", "right-4 top-4", "left-4 bottom-4", "right-4 bottom-4"].map((p) => (
         <span key={p} className={cn("absolute size-3 rounded-full border-2", p)} style={{ borderColor: "oklch(0.8 0.005 95)", background: "oklch(0.93 0.004 95)" }} />
       ))}
-      <div className="absolute inset-x-0 top-0 flex h-[22%] items-center justify-between px-9" style={{ background: band, color: league === "collina" ? v.ink : "oklch(1 0 0)" }}>
+      <div className="absolute inset-x-0 top-0 flex h-[22%] items-center justify-between px-9" style={{ background: band, color: leagueInk(league) }}>
         <Wordmark className="h-[38%] w-auto" accent={false} />
         <span className="font-mono text-[0.6rem] font-bold uppercase tracking-[0.25em]">{t.leagues[league]}</span>
       </div>

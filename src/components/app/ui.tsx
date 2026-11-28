@@ -1,16 +1,19 @@
-import { forwardRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from "react";
+import { createContext, forwardRef, useContext, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Drawer } from "vaul";
 import { Check, ChevronDown, ChevronLeft, Eye, EyeOff, Loader2, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppLang } from "@/lib/app/i18n";
 
+/** True inside AppFrame: lets portalled sheets take the athlete look, while sheets opened from the admin panel keep theirs. */
+const AthleteTheme = createContext(false);
+
 /** Mobile-sized app frame. Centered card on desktop, fullscreen on phones. */
 export function AppFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-dvh bg-secondary sm:flex sm:items-center sm:justify-center sm:py-8 theme-app">
-      <div className="theme-app relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-background sm:min-h-[min(860px,calc(100dvh-4rem))] sm:overflow-hidden sm:rounded-[2rem] sm:border sm:shadow-xl">
-        {children}
+    <div className="min-h-dvh bg-secondary sm:flex sm:items-center sm:justify-center sm:py-8 theme-app theme-athlete">
+      <div className="theme-app theme-athlete relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-background sm:min-h-[min(860px,calc(100dvh-4rem))] sm:overflow-hidden sm:rounded-[2rem] sm:border sm:shadow-xl">
+        <AthleteTheme.Provider value>{children}</AthleteTheme.Provider>
       </div>
     </div>
   );
@@ -131,11 +134,12 @@ export function SelectButton({ id, value, placeholder, onClick, invalid }: { id:
 
 /** Native-style bottom sheet. */
 export function Sheet({ open, onOpenChange, title, children }: { open: boolean; onOpenChange: (o: boolean) => void; title: string; children: ReactNode }) {
+  const athlete = useContext(AthleteTheme);
   return (
     <Drawer.Root open={open} onOpenChange={onOpenChange} repositionInputs={false}>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 z-50 bg-foreground/40" />
-        <Drawer.Content className="theme-app fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-[85dvh] max-w-[430px] flex-col rounded-t-[1.75rem] bg-background outline-none">
+        <Drawer.Content className={cn("theme-app fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-[85dvh] max-w-[430px] flex-col rounded-t-[1.75rem] bg-background outline-none", athlete && "theme-athlete")}>
           <div className="mx-auto mt-3 h-1.5 w-10 rounded-full bg-border" />
           <Drawer.Title className="px-6 pb-2 pt-4 text-lg font-semibold">{title}</Drawer.Title>
           <Drawer.Description className="sr-only">{title}</Drawer.Description>
@@ -198,7 +202,7 @@ export function Segmented<V extends string>({ options, value, onChange, label }:
     <div role="group" aria-label={label} className="grid rounded-full bg-muted p-1" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
       {options.map((o) => (
         <button key={o.value} type="button" onClick={() => onChange(o.value)} aria-pressed={value === o.value}
-          className={cn("min-h-11 rounded-full text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring", value === o.value ? "bg-primary text-primary-foreground" : "text-foreground")}>
+          className={cn("min-h-11 rounded-full text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring", value === o.value ? "bg-foreground text-background" : "text-foreground")}>
           {o.label}
         </button>
       ))}

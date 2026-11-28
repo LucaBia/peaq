@@ -109,7 +109,7 @@ export function Tutorial({ bib, username, discipline, rating = PROVISIONAL_BASEL
           </div>} />
       </div>
       <BottomBar>
-        <div className="flex justify-center gap-2" aria-hidden>{Array.from({ length: SLIDES }, (_, k) => <span key={k} className={cn("h-1.5 rounded-full transition-all", k === i ? "w-6 bg-primary" : "w-1.5 bg-border")} />)}</div>
+        <div className="flex justify-center gap-2" aria-hidden>{Array.from({ length: SLIDES }, (_, k) => <span key={k} className={cn("h-1.5 rounded-full transition-all", k === i ? "w-6 bg-foreground" : "w-1.5 bg-border")} />)}</div>
         <PrimaryButton onClick={() => (last ? onDone() : go(i + 1))}>{s.next}</PrimaryButton>
       </BottomBar>
     </>

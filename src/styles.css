@@ -106,6 +106,36 @@
 
 .theme-app *, .theme-app { border-color: var(--border); }
 
+/* Athlete app with the Figma look ("App Finale"): Kanit, PEAQ blue and the league colours of the design.
+   AppFrame and the sheets add this class next to .theme-app; the admin panel keeps .theme-app alone.
+   To go back to the previous look, delete this block (and the Kanit family in __root.tsx). */
+.theme-athlete {
+  --foreground: #000000;
+  --card-foreground: #000000;
+  --popover-foreground: #000000;
+  --primary: #0c3ef2;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f2f5;
+  --secondary-foreground: #000000;
+  --muted: #f1f2f5;
+  --muted-foreground: #6b7080;
+  --border: #d9d9d9;
+  --input: #c5c9d6;
+  --ring: #0c3ef2;
+  --destructive: #b42318;
+  --success: #15803d;
+  --league-valle: #82d25a;
+  --league-collina: #f5c800;
+  --league-passo: #f58214;
+  --league-cresta: #e1232d;
+  --league-vetta: #3cb4f0;
+  --league-peaq: #0c3ef2;
+  --gradient-peaq: #0c3ef2;
+  font-family: "Kanit", system-ui, sans-serif;
+}
+/* Giant numbers and poster titles: Kanit Black Italic instead of Anton. */
+.theme-athlete .font-display { font-family: "Kanit", "Anton", sans-serif; font-style: italic; font-weight: 900; }
+
 @layer base {
   * { border-color: var(--color-border); }
   html { scroll-behavior: smooth; }

@@ -148,7 +148,7 @@ export function StageGuide({ level, xp }: { level: number; xp: number }) {
     <main className="flex flex-1 flex-col animate-in fade-in duration-300">
       <BackHeader title={g.title} to="/app" />
       <div className="space-y-6 px-4 pb-8 pt-2">
-        <section className="rounded-3xl bg-primary p-5 text-primary-foreground">
+        <section className="rounded-3xl bg-foreground p-5 text-background">
           <p className={label}>{g.yours}</p>
           <div className="mt-1 flex items-end justify-between gap-3">
             <span className="font-display text-7xl leading-none">{level}</span>
@@ -170,7 +170,7 @@ export function StageGuide({ level, xp }: { level: number; xp: number }) {
               return (
                 <li key={p.s} className="relative flex items-center gap-4 py-2.5">
                   {i < g.prizes.length - 1 && <span className="absolute left-[1.0625rem] top-1/2 h-full w-0.5 bg-border" aria-hidden />}
-                  <span className={cn("relative flex size-9 shrink-0 items-center justify-center rounded-full border-2 text-sm font-bold", done ? "border-primary bg-primary text-primary-foreground" : isNext ? "border-primary bg-background" : "bg-background text-muted-foreground")}>{p.s}</span>
+                  <span className={cn("relative flex size-9 shrink-0 items-center justify-center rounded-full border-2 text-sm font-bold", done ? "border-foreground bg-foreground text-background" : isNext ? "border-primary bg-background text-primary" : "bg-background text-muted-foreground")}>{p.s}</span>
                   <span className={cn("flex-1", done || isNext ? "font-medium" : "text-muted-foreground")}>{p.t}</span>
                 </li>
               );

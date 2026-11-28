@@ -70,7 +70,7 @@ function RankingsList({ me, sport, all, mine }: { me: RankMe; sport: RankSport; 
         <div role="group" aria-label={t.rank.filter} className="-mx-4 mt-3 flex gap-2 overflow-x-auto px-4 [scrollbar-width:none]">
           {(["all", ...[...LEAGUES].reverse()] as const).map((l) => (
             <button key={l} type="button" onClick={() => setLeague(l)} aria-pressed={league === l}
-              className={cn("min-h-11 shrink-0 rounded-full border px-4 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring", league === l && "border-primary bg-primary text-primary-foreground")}>
+              className={cn("min-h-11 shrink-0 rounded-full border px-4 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring", league === l && "border-foreground bg-foreground text-background")}>
               {l === "all" ? t.rank.all : t.leagues[l]}
             </button>
           ))}
@@ -88,7 +88,7 @@ function RankingsList({ me, sport, all, mine }: { me: RankMe; sport: RankSport; 
                 <li key={place} className="flex min-w-0 flex-col items-center">
                   <span className="relative">
                     <Avatar entry={e} className={place === 1 ? "size-[4.5rem] text-xl" : "size-14 text-base"} />
-                    <span className={cn("absolute -bottom-2 left-1/2 flex size-6 -translate-x-1/2 items-center justify-center rounded-full text-xs font-bold", e ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>{place}</span>
+                    <span className={cn("absolute -bottom-2 left-1/2 flex size-6 -translate-x-1/2 items-center justify-center rounded-full text-xs font-bold", e ? "bg-foreground text-background" : "bg-muted text-muted-foreground")}>{place}</span>
                   </span>
                   {e && <><p className="mt-3 w-full truncate text-sm font-semibold">{e.username}</p><p className="text-xs text-muted-foreground">{t.leagues[e.league]}</p><p className="text-lg font-bold tabular-nums">{e.rating}</p></>}
                 </li>
