@@ -8,7 +8,7 @@ Pagine dell'app atleti prese da Figma, scritte con i tuoi componenti e il tuo st
 
 ## Cosa c'è
 
-- **Landing nuova** (`/`): rifatta con l'aspetto dell'app (bianco, Kanit, blu, colori delle leghe) e tutte le funzioni della v1. Il pulsante principale porta a `/signup`: **la lista d'attesa non c'è più** (la tabella `waitlist` resta, non la tocco). Sezioni in `src/components/peaq/`, testi in `src/lib/i18n.tsx`, animazioni con `useGsap`, come prima. Le tue sezioni vecchie sono nella cronologia.
+- **Landing nuova** (`/`): rifatta con l'aspetto dell'app (bianco, Kanit, blu, colori delle leghe) e tutte le funzioni della v1. Il pulsante principale porta a `/signup`: **la lista d'attesa non c'è più** (la tabella `waitlist` resta, non la tocco). Sezioni in `src/components/peaq/`, testi in `src/lib/i18n.tsx`, animazioni con `useGsap`, come prima. Le tue sezioni vecchie sono nella cronologia. La sezione «L'app» mostra i componenti veri (`ProfileScreen`, `Rankings`, `EventsList`) con dati di esempio dentro tre telefoni, non immagini. Aggiunta `public/og.jpg` come anteprima dei link condivisi (indirizzo `https://peaqrace.com` scritto in `routes/index.tsx`).
 - **Accesso:** pagina `/welcome`, Apple e Google, registrazione e passi dell'onboarding con l'aspetto di Figma.
 - **App:** Profilo nuovo, Eventi (gara pilota), Classifiche (montagna ed elenco), Impostazioni (con documenti, notifiche e cambio password), Aiuto, FAQ, Regolamento, tutorial.
 - **Spiegazioni:** rating, leghe, Tappa.

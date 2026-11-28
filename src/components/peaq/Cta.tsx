@@ -28,3 +28,21 @@ export function SignupCta({ label, tone = "blue", className }: { label: string; 
     </Magnetic>
   );
 }
+
+/** On phones, a bar with the main action that slides up once the opening has scrolled away and leaves before the last block. */
+export function StickyCta() {
+  const { t } = useLang();
+  const signedIn = useSignedIn();
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const f = () => setOn(window.scrollY > 520 && window.scrollY + window.innerHeight < document.documentElement.scrollHeight - 620);
+    f(); window.addEventListener("scroll", f, { passive: true });
+    return () => window.removeEventListener("scroll", f);
+  }, []);
+  const cls = "flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground shadow-[0_18px_40px_-16px_rgb(12_62_242/0.7)] active:scale-[0.98]";
+  return (
+    <div inert={!on} className={cn("pb-safe fixed inset-x-0 bottom-0 z-40 px-4 transition-all duration-300 sm:hidden", on ? "translate-y-0 opacity-100" : "translate-y-full opacity-0")}>
+      {signedIn ? <Link to="/app" className={cls}>{t.nav.app}<ArrowRight className="size-5" aria-hidden /></Link> : <Link to="/signup" search={{}} className={cls}>{t.screens.sticky}<ArrowRight className="size-5" aria-hidden /></Link>}
+    </div>
+  );
+}

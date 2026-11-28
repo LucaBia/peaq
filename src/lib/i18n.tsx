@@ -21,6 +21,11 @@ const it = {
       { t: "Sali in classifica", d: "Dopo ogni gara cambiano il rating, la lega e la tua posizione in città." },
     ],
   },
+  screens: {
+    eyebrow: "L'app", title: "Tre schede,\ntutto qui", sub: "Sono le schermate vere dell'app, con atleti di esempio.", alt: "Tre schermate dell'app PEAQ: profilo, classifiche ed eventi",
+    items: [{ t: "Profilo", d: "Il tuo pettorale, il rating, la lega e la Tappa." }, { t: "Classifiche", d: "La montagna della tua città, da salire lega dopo lega." }, { t: "Eventi", d: "Trovi una gara, ti iscrivi e confermi la presenza." }],
+    sticky: "Crea il pettorale",
+  },
   sports: { title: "Corsa e bici.\nUn rating per ognuna.", text: "Puoi gareggiare in tutte e due: hai un rating e una lega separati per sport.", run: "Corsa", bike: "Bici", runMeta: "Rating corsa", bikeMeta: "Rating bici" },
   leagues: {
     eyebrow: "Rating e leghe", title: "Sei leghe,\ndalla Valle a PEAQ", sub: "Il rating va da 0 a 1000 e decide la tua lega. Sposta il cursore e guarda dove saresti.",
@@ -80,6 +85,11 @@ const en: typeof it = {
       { t: "Start with your league", d: "At the start you are with people at your level. Nobody is left alone at the back, nobody wins without a fight." },
       { t: "Climb the rankings", d: "After every race your rating, your league and your position in the city change." },
     ],
+  },
+  screens: {
+    eyebrow: "The app", title: "Three tabs,\nthat's all", sub: "These are the real screens of the app, with sample athletes.", alt: "Three screens of the PEAQ app: profile, rankings and events",
+    items: [{ t: "Profile", d: "Your bib, your rating, your league and your Stage." }, { t: "Rankings", d: "The mountain of your city, to climb league after league." }, { t: "Events", d: "Find a race, sign up and confirm you'll be there." }],
+    sticky: "Create your bib",
   },
   sports: { title: "Running and cycling.\nA rating for each.", text: "You can race in both: you have a separate rating and league for each sport.", run: "Running", bike: "Cycling", runMeta: "Running rating", bikeMeta: "Cycling rating" },
   leagues: {
