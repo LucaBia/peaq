@@ -191,3 +191,17 @@ export function Checkbox({ checked, onChange, children, id }: { checked: boolean
 export function Notice({ children, tone = "muted" }: { children: ReactNode; tone?: "muted" | "error" | "success" }) {
   return <div role={tone === "error" ? "alert" : "status"} className={cn("rounded-2xl p-4 text-sm", tone === "muted" && "bg-muted text-muted-foreground", tone === "error" && "bg-destructive/10 text-destructive", tone === "success" && "bg-success/10 text-success")}>{children}</div>;
 }
+
+/** Grey track with a black pill on the selected choice (Corsa/Bici, Tutte/Corsa/Bici): always the same look. */
+export function Segmented<V extends string>({ options, value, onChange, label }: { options: { value: V; label: ReactNode }[]; value: V; onChange: (v: V) => void; label: string }) {
+  return (
+    <div role="group" aria-label={label} className="grid rounded-full bg-muted p-1" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
+      {options.map((o) => (
+        <button key={o.value} type="button" onClick={() => onChange(o.value)} aria-pressed={value === o.value}
+          className={cn("min-h-11 rounded-full text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring", value === o.value ? "bg-primary text-primary-foreground" : "text-foreground")}>
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}

@@ -16,6 +16,7 @@ Da aprire quando servono (non importati per non riempire il contesto):
 - `docs/03-modello-dati-e-admin.md`: tabelle, stati, automazioni, pannello admin, ordine di costruzione.
 - `docs/04-design.md`: colori, caratteri, regole grafiche e mappa delle schermate Figma con i node id.
 - `docs/07-eventi-note-per-luca.md`: come è fatta la pagina Eventi, perché la gara pilota è nel codice e quali campi servono nel database.
+- `docs/08-classifiche-note-per-luca.md`: come è fatta la pagina Classifiche e la funzione che serve nel database per riempirla.
 - `docs/legale/`: bozze di Privacy, Termini e Cookie per l'avvocato (non pubblicare).
 
 ## Fonti di verità

@@ -4,6 +4,7 @@ import { ChevronLeft, MapPin } from "lucide-react";
 import { fmt, useAppLang } from "@/lib/app/i18n";
 import { dateParts, matchesSport, PILOT_STARTS, type AppEvent } from "@/lib/app/events";
 import { cn } from "@/lib/utils";
+import { Segmented } from "./ui";
 
 type Sport = "all" | "run" | "bike";
 
@@ -24,14 +25,7 @@ export function EventsList({ events, loading }: { events: AppEvent[]; loading?: 
   return (
     <main className="pt-safe flex flex-1 flex-col px-4 animate-in fade-in duration-300">
       <h1 className="px-2 pt-4 text-[2rem] font-bold tracking-tight">{t.app.eventsTitle}</h1>
-      <div role="group" aria-label={t.ev.filter} className="mt-4 grid grid-cols-3 rounded-full bg-muted p-1">
-        {(["all", "run", "bike"] as const).map((s) => (
-          <button key={s} type="button" onClick={() => setSport(s)} aria-pressed={sport === s}
-            className={cn("min-h-11 rounded-full text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring", sport === s ? "bg-primary text-primary-foreground" : "text-foreground")}>
-            {t.ev[s]}
-          </button>
-        ))}
-      </div>
+      <div className="mt-4"><Segmented label={t.ev.filter} value={sport} onChange={setSport} options={(["all", "run", "bike"] as const).map((s) => ({ value: s, label: t.ev[s] }))} /></div>
       {first ? (
         <div className="mt-4 space-y-3 pb-8">
           <EventPoster event={first} size="lg" />

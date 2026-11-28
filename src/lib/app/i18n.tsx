@@ -96,6 +96,16 @@ const it = {
     date: "Data", start: "Partenza", place: "Luogo", sport: "Sport", spots: "Posti", yourBib: "Il tuo pettorale",
     notFound: "Questa gara non esiste più.", backToEvents: "Torna agli eventi", info: "Informazioni",
   },
+  rank: {
+    sport: "Sport", filter: "Filtra per lega", all: "Tutti", you: "Tu",
+    yourPosition: "La tua posizione", notRanked: "non ancora in classifica", firstRace: "Corri la prima gara per entrare in classifica",
+    of: "su {n} atleti", toNext: "{n} punti a {league}", topLeague: "Sei nella lega più alta",
+    noRun: "Non hai un rating per la corsa.", noBike: "Non hai un rating per la bici.",
+    podiumEmpty: "Il podio arriva dopo la gara pilota", podiumEmptyCity: "Il podio di {city} arriva dopo la gara pilota",
+    emptyTitle: "La classifica parte con la gara pilota", emptySub: "Nessuno ha ancora corso una gara PEAQ. Dopo la prima gara qui trovi il podio della tua città e la tua posizione.",
+    seePilot: "Vedi la gara pilota", nextToBeat: "Prossimo da battere", pointsAhead: "{n} punti avanti", sameRating: "stesso rating",
+    leagueEmpty: "Nessun atleta in questa lega per ora.",
+  },
   /** Gara pilota: per ora i suoi testi stanno qui e non nel database (vedi docs/07-eventi-note-per-luca.md). */
   pilot: {
     title: "Gara pilota PEAQ", place: "Prato della Valle, Padova",
@@ -241,6 +251,16 @@ const en: AppDict = {
     emptyRun: "No running races scheduled for now.", emptyBike: "No bike races scheduled for now.",
     date: "Date", start: "Start", place: "Place", sport: "Sport", spots: "Spots", yourBib: "Your bib",
     notFound: "This race no longer exists.", backToEvents: "Back to events", info: "Information",
+  },
+  rank: {
+    sport: "Sport", filter: "Filter by league", all: "All", you: "You",
+    yourPosition: "Your position", notRanked: "not ranked yet", firstRace: "Run your first race to enter the rankings",
+    of: "of {n} athletes", toNext: "{n} points to {league}", topLeague: "You are in the top league",
+    noRun: "You don't have a running rating.", noBike: "You don't have a cycling rating.",
+    podiumEmpty: "The podium arrives after the pilot race", podiumEmptyCity: "The {city} podium arrives after the pilot race",
+    emptyTitle: "Rankings start with the pilot race", emptySub: "Nobody has raced a PEAQ race yet. After the first race you'll find your city's podium and your position here.",
+    seePilot: "See the pilot race", nextToBeat: "Next to beat", pointsAhead: "{n} points ahead", sameRating: "same rating",
+    leagueEmpty: "No athletes in this league for now.",
   },
   pilot: {
     title: "PEAQ pilot race", place: "Prato della Valle, Padova",
