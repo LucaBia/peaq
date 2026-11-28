@@ -10,7 +10,7 @@ Gentile Avvocato, le mando le bozze di tre documenti per PEAQ Race, un'app (oggi
 2. **Termini di servizio**, con il Regolamento delle gare e la Dichiarazione dell'atleta (`02-termini-di-servizio`)
 3. **Cookie policy** (`03-cookie-policy`)
 
-Saranno pubblicati su peaqrace.com e nell'app, in italiano e in inglese (fa fede l'italiano). Servono anche per la pubblicazione su App Store e Google Play e per attivare l'accesso con Google e Apple.
+Saranno pubblicati su peaqrace.com (pagine `/privacy`, `/termini` e `/cookie`, già pronte e non ancora pubbliche) e nell'app, in italiano; la traduzione inglese verrà dopo (fa fede l'italiano). Servono anche per la pubblicazione su App Store e Google Play e per attivare l'accesso con Google e Apple.
 
 ## PEAQ in breve
 
@@ -45,3 +45,9 @@ Saranno pubblicati su peaqrace.com e nell'app, in italiano e in inglese (fa fede
 Resto a disposizione per spiegare in dettaglio come funziona l'app.
 
 Giovanni Paolo Ometto · [telefono] · [email]
+
+---
+
+## Nota tecnica (per chi aggiorna i testi)
+
+Le pagine del sito leggono direttamente i file `01`, `02` e `03` di questa cartella. Per pubblicare il testo definitivo: sostituire il contenuto dei tre file tenendo la stessa forma (titoli con `#`, elenchi, tabelle), togliere le parti tra parentesi quadre, poi mettere `LEGAL_PUBLISHED = true` in `src/lib/legal.ts`. Le righe che iniziano con `> ⚖️` o `> **BOZZA` non compaiono mai sul sito.

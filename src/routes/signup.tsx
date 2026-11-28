@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { z } from "zod";
 import { AuthScreen } from "@/components/app/AuthScreen";
+import { LegalLinks } from "@/components/app/Legal";
 import { SocialAuth } from "@/components/app/SocialAuth";
 import { Body, BottomBar, Checkbox, Field, Notice, PasswordInput, PrimaryButton, TextInput, Title } from "@/components/app/ui";
 import { useAppLang } from "@/lib/app/i18n";
@@ -72,6 +73,7 @@ function Signup() {
             </Field>
             <div>
               <Checkbox id="terms" checked={terms} onChange={setTerms}>{t.auth.terms}</Checkbox>
+              <LegalLinks className="mt-2 pl-10" />
               {submitted && errs.terms && <p role="alert" className="mt-2 text-sm text-destructive">{errs.terms}</p>}
             </div>
             {err && <Notice tone="error">{err}</Notice>}
