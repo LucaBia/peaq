@@ -1,8 +1,8 @@
 # Database: cosa è stato creato il 28 novembre (note per Luca)
 
-Giovanni, con il tuo via libera, ha fatto eseguire cinque script sul progetto Supabase **Peaq** (`fojkkqefafmfkalyjabp`, quello di peaqrace.com) dall'editor SQL. Sono in `docs/sql/`, nell'ordine in cui sono stati eseguiti, identici carattere per carattere (controllato con l'impronta SHA-256 prima di ogni esecuzione).
+Giovanni, con il tuo via libera, ha fatto eseguire sei script sul progetto Supabase **Peaq** (`fojkkqefafmfkalyjabp`, quello di peaqrace.com) dall'editor SQL. Sono in `docs/sql/`, nell'ordine in cui sono stati eseguiti, identici carattere per carattere (controllato con l'impronta SHA-256 prima di ogni esecuzione).
 
-**Non sono passati da Lovable né dall'elenco delle migrazioni di Supabase**: nella pagina Migrations vedi ancora solo le tue due. Se vuoi tenerle allineate, registra questi cinque file come migrazioni e rigenera `src/integrations/supabase/types.ts`. Finché non lo fai, l'app chiama le funzioni nuove con un piccolo aiuto senza tipi (`src/lib/app/rpc.ts`).
+**Non sono passati da Lovable.** Nell'elenco delle migrazioni di Supabase invece ci sono: dopo l'esecuzione sono stati registrati a mano in `supabase_migrations.schema_migrations`, uno per file, con il testo identico (nomi `peaq_activity_log_pilot_city_ranking`, `peaq_follows_blocks_reports`, `peaq_explicit_grants`, `peaq_v1_structure`, `peaq_security_review_fixes`, `peaq_invite_only_events_policy`; la versione è l'ora della registrazione, 28 novembre 19:10 UTC, non quella dell'esecuzione). **Resta da rigenerare `src/integrations/supabase/types.ts`**: finché non è fatto, l'app chiama le funzioni nuove con un piccolo aiuto senza tipi (`src/lib/app/rpc.ts`).
 
 Al momento dell'esecuzione il database era quasi vuoto: 1 utente non confermato, nessun profilo, nessun evento, nessun admin. **Il progetto non ha backup** (piano gratuito).
 
@@ -14,6 +14,7 @@ Al momento dell'esecuzione il database era quasi vuoto: 1 utente non confermato,
 | `02-seguire-atleti.sql` | `follows`, `athlete_blocks`, `athlete_reports` con le funzioni segui / smetti, conteggi, elenchi, ricerca, profilo pubblico, segnala, blocca | Sì: `social.ts` |
 | `02b-permessi-espliciti.sql` | Toglie i permessi che Supabase dà di suo ad `anon` e `authenticated` sulle cinque tabelle sopra | — |
 | `04-correzioni-dopo-revisione.sql` | Correzioni dopo una rilettura di sicurezza: conferma della gara pilota **chiusa anche sul database** (`revoke execute`), iscrizioni e risultati non si cancellano più a cascata con la gara, ordine delle liste, `unblock_athlete`, lettura dei propri blocchi, conteggi nascosti a chi è bloccato, un solo risultato pubblicato per atleta e gara, un solo capitano per club | Sì: `social.ts` |
+| `05-gare-su-invito.sql` | Cambia la condizione della tua policy «Published events are public»: le gare **su invito** pubblicate le vede solo chi ha fatto l'accesso (prima anche i visitatori, che avrebbero letto `meeting_point` e `briefing`). Per le gare normali non cambia niente. **È l'unica modifica a un oggetto tuo oltre alle colonne di `events`**: se preferivi una lista di invitati, si rifà | — |
 | `03-struttura-v1.sql` | 17 tabelle per il resto della v1 (`game_rules`, `event_waves`, `registrations`, `payments`, `race_credits`, `results`, `rating_history`, `event_jobs`, `lobby_messages`, `clubs`, `club_members`, `club_join_requests`, `club_posts`, `content_reports`, `invite_codes`, `invites`, `reserved_numbers`) e 13 colonne facoltative in più su `events` | No: solo struttura |
 
 Regole seguite, le stesse delle tue tabelle: RLS su tutto, l'app legge solo le proprie righe (o quelle pubbliche), nessuna scrittura diretta, scritture solo da funzioni `security definer` che registrano in `activity_log`. Stati come elenchi chiusi, importi in centesimi, date in UTC.
@@ -35,7 +36,6 @@ Una prova a secco nell'editor SQL: due atleti finti creati dentro un blocco che 
 
 ## Da guardare tu
 
-- **Gare su invito** (`docs/sql/da-decidere-gare-su-invito.sql`, **non eseguito**): la tua policy «Published events are public» fa leggere le gare pubblicate anche ai visitatori. Con le colonne nuove `meeting_point` e `briefing`, una gara su invito pubblicata li mostrerebbe a tutti. La riga proposta le limita a chi ha fatto l'accesso; non l'ho eseguita perché la policy è tua.
 - **Aprire le conferme della gara pilota**: `grant execute on function public.confirm_pilot_presence(text) to authenticated;` e `PILOT_CONFIRM_OPEN = true` in `src/lib/app/events.ts`. Chiunque abbia finito la registrazione può confermare (scelta di Giovanni), massimo 40.
 - `has_role(uuid, app_role)` è eseguibile anche da `anon`: chiunque può chiedere se un certo id è admin. Se non ti serve: `revoke execute on function public.has_role(uuid, public.app_role) from public, anon;` (controlla prima che le policy per `anon` non la usino).
 - Non ci sono limiti di frequenza su segui, blocca e segnala: il registro attività potrebbe riempirsi con chiamate ripetute.

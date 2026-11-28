@@ -40,7 +40,7 @@ function Climber({ index, size = 34, avatar, children, tag, innerRef }: { index:
 }
 
 /** Mountain view (Figma E4 · Montagna): scroll up to climb the leagues, down to descend. */
-export function RankingsMountain({ me, sport, all, mine, athleteLinks }: { me: RankMe; sport: RankSport; all: RankEntry[]; mine: RankEntry | undefined; athleteLinks: boolean }) {
+export function RankingsMountain({ me, sport, all, mine, athleteLinks, still }: { me: RankMe; sport: RankSport; all: RankEntry[]; mine: RankEntry | undefined; athleteLinks: boolean; /** Shown as a picture (landing): don't scroll to the athlete. */ still?: boolean | undefined }) {
   const { t } = useAppLang();
   const meRef = useRef<HTMLDivElement>(null);
   const empty = all.length === 0;
@@ -50,7 +50,7 @@ export function RankingsMountain({ me, sport, all, mine, athleteLinks }: { me: R
   const target = mine ? nextLeague(mine.league) : null;
   const findMe = (smooth: boolean) => meRef.current?.scrollIntoView({ block: "center", behavior: smooth ? "smooth" : "auto" });
   // With a position, open on you (as in Figma); otherwise from the summit.
-  useEffect(() => { if (mine) findMe(false); }, [mine]);
+  useEffect(() => { if (mine && !still) findMe(false); }, [mine, still]);
 
   return (
     <div className="relative flex-1 overflow-x-clip" style={{ background: `linear-gradient(#b5d2ff, #eef5ff 430px, ${color("valle")} 430px)` }}>

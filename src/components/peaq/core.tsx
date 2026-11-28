@@ -96,12 +96,12 @@ export function Tilt({ children, className, max = 9 }: { children: ReactNode; cl
 }
 
 /** Small upper-case label + big title of a landing section. */
-export function Heading({ eyebrow, title, sub, className, light }: { eyebrow?: string; title: string; sub?: string; className?: string; light?: boolean }) {
+export function Heading({ eyebrow, title, sub, className, light, strong }: { eyebrow?: string; title: string; sub?: string; className?: string; light?: boolean; /** Darker supporting text, for coloured backgrounds. */ strong?: boolean }) {
   return (
     <div className={cn("max-w-2xl", className)}>
       {eyebrow && <p data-reveal className={cn("mb-4 text-[0.8125rem] font-medium uppercase tracking-[0.12em]", light ? "text-white/75" : "text-primary")}>{eyebrow}</p>}
       <h2 data-reveal className="whitespace-pre-line text-[clamp(2.25rem,6vw,4rem)] font-bold leading-[1.04] tracking-tight">{title}</h2>
-      {sub && <p data-reveal="0.1" className={cn("mt-5 text-lg", light ? "text-white/80" : "text-muted-foreground")}>{sub}</p>}
+      {sub && <p data-reveal="0.1" className={cn("mt-5 text-lg", light ? "text-white/80" : strong ? "text-[#4a4f5c]" : "text-muted-foreground")}>{sub}</p>}
     </div>
   );
 }

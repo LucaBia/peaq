@@ -11,7 +11,7 @@ export function FirstRace() {
   const ref = useRef<HTMLElement>(null);
   const { t, lang } = useLang();
   const f = t.first;
-  useReveal(ref, [lang]);
+  useReveal(ref);
   const pillCls = "rounded-full px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.08em]";
   return (
     <section ref={ref} className="pb-20 md:pb-28">

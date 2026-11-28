@@ -22,7 +22,7 @@ function Avatar({ entry, className }: { entry?: RankEntry | undefined; className
 }
 
 /** Rankings tab: the mountain (default, as in Figma) or the list, for the athlete's city and one sport. */
-export function Rankings({ me, entries, athleteLinks = false }: { me: RankMe; entries: Record<RankSport, RankEntry[]>; /** Names open the athlete's profile (only once following is switched on). */ athleteLinks?: boolean }) {
+export function Rankings({ me, entries, athleteLinks = false, still }: { me: RankMe; entries: Record<RankSport, RankEntry[]>; /** Names open the athlete's profile (only once following is switched on). */ athleteLinks?: boolean; /** Shown as a picture (landing): the mountain doesn't scroll to the athlete. */ still?: boolean }) {
   const { t } = useAppLang();
   const [sport, setSport] = useState<RankSport>(me.ratings.run || !me.ratings.bike ? "run" : "bike");
   const [view, setView] = useState<"mountain" | "list">("mountain");
@@ -42,7 +42,7 @@ export function Rankings({ me, entries, athleteLinks = false }: { me: RankMe; en
         </div>
         <div className="mt-3"><Segmented label={t.rank.sport} value={sport} onChange={setSport} options={(["run", "bike"] as const).map((s) => ({ value: s, label: t.ev[s] }))} /></div>
       </div>
-      {view === "mountain" ? <RankingsMountain key={sport} me={me} sport={sport} all={all} mine={mine} athleteLinks={athleteLinks} /> : <RankingsList key={sport} me={me} sport={sport} all={all} mine={mine} athleteLinks={athleteLinks} />}
+      {view === "mountain" ? <RankingsMountain key={sport} me={me} sport={sport} all={all} mine={mine} athleteLinks={athleteLinks} still={still} /> : <RankingsList key={sport} me={me} sport={sport} all={all} mine={mine} athleteLinks={athleteLinks} />}
     </main>
   );
 }

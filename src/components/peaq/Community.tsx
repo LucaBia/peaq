@@ -9,7 +9,7 @@ export function Community() {
   const ref = useRef<HTMLElement>(null);
   const { t, lang } = useLang();
   const c = t.community;
-  useReveal(ref, [lang]);
+  useReveal(ref);
   return (
     <section ref={ref} className="py-20 md:py-28">
       <div className={wrap}>
@@ -33,7 +33,7 @@ export function Community() {
               <div className="mt-7 space-y-2">
                 <p className="flex items-center justify-between gap-3 rounded-3xl bg-white p-4 text-black"><span className="text-sm font-medium uppercase tracking-[0.08em] text-black/60">{c.invite.you}</span><span className="text-right font-semibold">{c.invite.youGet}</span></p>
                 <ArrowDown className="mx-auto size-5 text-white/80" aria-hidden />
-                <p className="flex items-center justify-between gap-3 rounded-3xl bg-white/15 p-4"><span className="text-sm font-medium uppercase tracking-[0.08em] text-white/75">{c.invite.friend}</span><span className="text-right font-semibold">{c.invite.friendGets}</span></p>
+                <p className="flex items-center justify-between gap-3 rounded-3xl bg-white/15 p-4"><span className="text-sm font-medium uppercase tracking-[0.08em] text-white">{c.invite.friend}</span><span className="text-right font-semibold">{c.invite.friendGets}</span></p>
               </div>
               <p className="mt-5 text-sm text-white/80">{c.invite.note}</p>
             </div>

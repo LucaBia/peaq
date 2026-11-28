@@ -9,7 +9,7 @@ const ICONS = [MessagesSquare, QrCode, Flag, Trophy];
 export function RaceDay() {
   const ref = useRef<HTMLElement>(null);
   const { t, lang } = useLang();
-  useReveal(ref, [lang]);
+  useReveal(ref);
   useGsap(ref, () => {
     gsap.fromTo("[data-line]", { scaleX: 0 }, { scaleX: 1, ease: "none", scrollTrigger: { trigger: "[data-steps]", start: "top 80%", end: "top 35%", scrub: true } });
   }, []);

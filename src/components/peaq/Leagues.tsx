@@ -15,11 +15,11 @@ export function Leagues() {
   const a = appDict[lang];
   const [rating, setRating] = useState(300);
   const league = [...LEAGUES].reverse().find((l) => rating >= LEAGUE_FLOOR[l]) ?? "valle";
-  useReveal(ref, [lang]);
+  useReveal(ref);
   return (
     <section id="leagues" ref={ref} className="scroll-mt-20 py-20 transition-colors duration-700 md:py-28" style={{ background: `color-mix(in oklab, var(--league-${league}) 13%, white)` }}>
       <div className={wrap}>
-        <Heading eyebrow={t.leagues.eyebrow} title={t.leagues.title} sub={t.leagues.sub} />
+        <Heading strong eyebrow={t.leagues.eyebrow} title={t.leagues.title} sub={t.leagues.sub} />
         <div className="mt-12 grid gap-6 lg:grid-cols-2 lg:items-stretch">
           <div data-reveal className="flex flex-col justify-between rounded-[2rem] bg-background p-6 shadow-[0_24px_60px_-40px_rgb(0_0_0/0.35)] sm:p-8">
             <div className="flex items-end justify-between gap-4">
@@ -56,7 +56,7 @@ export function Leagues() {
 
         <ul className="mt-6 grid gap-4 md:grid-cols-3">
           {t.leagues.facts.map((f, i) => (
-            <li key={f.t} data-reveal={i * 0.08} className="rounded-[1.75rem] bg-background/70 p-6 backdrop-blur">
+            <li key={f.t} data-reveal={i * 0.08} className="rounded-[1.75rem] bg-background p-6">
               <h3 className="text-xl font-semibold leading-snug">{f.t}</h3>
               <p className="mt-2 text-muted-foreground">{f.d}</p>
             </li>

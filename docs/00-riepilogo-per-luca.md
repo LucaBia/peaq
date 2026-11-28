@@ -21,7 +21,7 @@ Con il tuo via libera sono stati eseguiti sul progetto Supabase di peaqrace.com 
 
 ## Cosa serve da te
 
-1. **Allineare Lovable e i tipi**: registrare i quattro script come migrazioni e rigenerare `types.ts` (`docs/11`).
+1. **Rigenerare `types.ts`** e allineare Lovable: gli script sono già registrati tra le migrazioni di Supabase (`docs/11`).
 2. **Apple e Google:** variabile di build `VITE_OAUTH_PROVIDERS=apple,google` su Cloudflare (i provider in Supabase sono già attivi).
 3. **Admin:** nel database non c'è ancora nessun admin; serve la prima riga in `user_roles`.
 4. **Da allineare** (`docs/09`): rating di partenza 300 nel codice e nel database contro 250 deciso; soglie XP delle Tappe; valori dei bonus XP.

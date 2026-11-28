@@ -25,7 +25,7 @@ export function Rankings() {
   const [sport, setSport] = useState<"run" | "bike">("run");
   const rows = SAMPLE[sport];
   const k = rows.findIndex((r) => r.me), me = rows[k]!, above = rows[k - 1]!;
-  useReveal(ref, [lang]);
+  useReveal(ref);
   return (
     <section ref={ref} className="bg-muted py-20 md:py-28">
       <div className={cn(wrap, "grid gap-10 lg:grid-cols-2 lg:items-center")}>
@@ -43,9 +43,9 @@ export function Rankings() {
           <ol key={sport} className="mt-4 space-y-2">
             {rows.map((r, i) => (
               <li key={r.rank} className={cn("flex min-h-14 items-center gap-3 rounded-2xl px-3 animate-in fade-in slide-in-from-bottom-2 fill-mode-both duration-500", !r.me && "bg-muted/60")} style={{ animationDelay: `${i * 70}ms`, ...(r.me && { background: `var(--league-${r.league})`, color: leagueInk(r.league) }) }}>
-                <span className="w-7 text-right text-sm tabular-nums opacity-70">{r.rank}</span>
+                <span className={cn("w-7 text-right text-sm tabular-nums", !r.me && "opacity-70")}>{r.rank}</span>
                 <span className="grid size-9 shrink-0 place-items-center rounded-full border-2 bg-background text-xs font-semibold text-foreground" style={{ borderColor: `var(--league-${r.league})` }} aria-hidden>{(r.me ? t.rank.you : r.name).slice(0, 2).toUpperCase()}</span>
-                <span className="min-w-0 flex-1 truncate font-medium">{r.me ? t.rank.you : r.name}<span className="ml-2 text-sm font-light opacity-70">#{r.bib}</span></span>
+                <span className="min-w-0 flex-1 truncate font-medium">{r.me ? t.rank.you : r.name}<span className={cn("ml-2 text-sm font-light", !r.me && "opacity-70")}>#{r.bib}</span></span>
                 <span className="hidden rounded-full px-2.5 py-1 text-xs font-semibold sm:block" style={r.me ? { background: "white", color: "black" } : { background: `var(--league-${r.league})`, color: leagueInk(r.league) }}>{appDict[lang].leagues[r.league]}</span>
                 <span className="w-10 text-right text-lg font-semibold tabular-nums">{r.rating}</span>
               </li>

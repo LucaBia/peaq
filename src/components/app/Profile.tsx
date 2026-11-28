@@ -89,7 +89,7 @@ export function ProfileScreen({ bib, username, ratings, level, xp, racesDone, fo
               {upcoming.map((e) => (
                 <li key={e.id}>
                   <Link to="/app/events/$eventId" params={{ eventId: e.id }} className="relative flex h-32 flex-col justify-between overflow-hidden rounded-3xl bg-black p-4 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-                    <img src={e.image} alt="" className="absolute inset-0 size-full object-cover" />
+                    <img src={e.image} alt="" loading="lazy" className="absolute inset-0 size-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/20 to-black/80" />
                     <div className="relative flex items-start justify-between gap-2">
                       <span className={cn(label, "pt-1")}>{e.startsAt ? new Date(e.startsAt).toLocaleDateString() : t.ev.dateTbd}</span>

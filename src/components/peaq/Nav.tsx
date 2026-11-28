@@ -4,24 +4,26 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLang, type Lang } from "@/lib/i18n";
 import { useSignedIn } from "./Cta";
-import { Wordmark, wrap } from "./core";
+import { ScrollTrigger, Wordmark, wrap } from "./core";
 
 export function LangSwitch({ className }: { className?: string }) {
   const { lang, setLang, t } = useLang();
   return (
     <div role="group" aria-label={t.nav.lang} className={cn("flex rounded-full border p-0.5 text-xs font-medium", className)}>
       {(["it", "en"] as Lang[]).map((l) => (
-        <button key={l} type="button" onClick={() => setLang(l)} aria-pressed={lang === l} className={cn("min-h-9 rounded-full px-3 uppercase transition-colors", lang === l ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground")}>{l}</button>
+        <button key={l} type="button" onClick={() => setLang(l)} aria-pressed={lang === l} className={cn("min-h-11 rounded-full px-3.5 uppercase transition-colors", lang === l ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground")}>{l}</button>
       ))}
     </div>
   );
 }
 
 export function Nav() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const signedIn = useSignedIn();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // A language switch changes the height of the page: measure the scroll triggers again.
+  useEffect(() => { const id = setTimeout(() => ScrollTrigger.refresh(), 150); return () => clearTimeout(id); }, [lang]);
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 24);
     f(); window.addEventListener("scroll", f, { passive: true });

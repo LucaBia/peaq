@@ -104,7 +104,8 @@
   color: var(--foreground);
 }
 
-.theme-app *, .theme-app { border-color: var(--border); }
+/* In the base layer, so that border-* utilities (focus, error, outline buttons) can override it. */
+@layer base { .theme-app *, .theme-app { border-color: var(--border); } }
 
 /* Athlete app with the Figma look ("App Finale"): Kanit, PEAQ blue and the league colours of the design.
    AppFrame and the sheets add this class next to .theme-app; the admin panel keeps .theme-app alone.

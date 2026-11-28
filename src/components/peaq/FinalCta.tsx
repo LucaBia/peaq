@@ -10,7 +10,7 @@ export function FinalCta() {
   const ref = useRef<HTMLElement>(null);
   const { t, lang } = useLang();
   const signedIn = useSignedIn();
-  useReveal(ref, [lang]);
+  useReveal(ref);
   return (
     <section ref={ref} className="px-3 pb-3">
       <div className="relative mx-auto max-w-[76rem] overflow-hidden rounded-[2.5rem] bg-[#0b0b0f] px-5 pt-20 text-center text-white md:pt-28">

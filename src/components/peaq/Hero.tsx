@@ -50,10 +50,10 @@ function BibMaker() {
         <button type="button" onClick={() => setNum(101 + Math.floor(Math.random() * 899))} aria-label={`${m.shuffle} (${num})`}
           className="flex h-12 shrink-0 items-center gap-2 rounded-full border-[1.5px] border-foreground bg-background px-5 font-medium tabular-nums transition-transform active:scale-95"><Shuffle className="size-4" aria-hidden />{num}</button>
       </div>
-      <div role="radiogroup" aria-label={m.league} className="mt-3 flex justify-between gap-1">
+      <div role="group" aria-label={m.league} className="mt-3 flex justify-between gap-0.5">
         {LEAGUES.map((l) => (
-          <button key={l} type="button" role="radio" aria-checked={league === l} aria-label={appDict[lang].leagues[l]} title={appDict[lang].leagues[l]} onClick={() => setLeague(l)}
-            className={cn("size-11 rounded-full transition-transform duration-200 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring", league === l && "scale-110 ring-2 ring-foreground ring-offset-2 ring-offset-muted")} style={{ background: `var(--league-${l})` }} />
+          <button key={l} type="button" aria-pressed={league === l} aria-label={appDict[lang].leagues[l]} title={appDict[lang].leagues[l]} onClick={() => setLeague(l)}
+            className={cn("size-11 shrink-0 rounded-full transition-transform duration-200 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring", league === l && "scale-110 ring-2 ring-foreground ring-offset-2 ring-offset-muted")} style={{ background: `var(--league-${l})` }} />
         ))}
       </div>
       <p className="mt-4 text-sm text-muted-foreground">{m.note}</p>

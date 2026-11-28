@@ -46,7 +46,7 @@ function Index() {
   }, []);
   return (
     <LangProvider>
-      <div className="theme-app theme-athlete min-h-dvh overflow-x-clip pb-20 sm:pb-0">
+      <div className="theme-app theme-athlete min-h-dvh overflow-x-clip">
         <Nav />
         <main>
           <Hero />

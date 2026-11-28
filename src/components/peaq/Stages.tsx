@@ -8,7 +8,7 @@ export function Stages() {
   const ref = useRef<HTMLElement>(null);
   const { t, lang } = useLang();
   const g = appDict[lang].guide.stage;
-  useReveal(ref, [lang]);
+  useReveal(ref);
   return (
     <section id="stages" ref={ref} className="scroll-mt-20 px-3 py-20 md:py-28">
       <div className="relative mx-auto max-w-[76rem] overflow-hidden rounded-[2.5rem] bg-[#0b0b0f] px-5 py-12 text-white sm:px-10 md:px-14 md:py-16">

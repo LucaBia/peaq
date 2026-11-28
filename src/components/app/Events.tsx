@@ -46,7 +46,7 @@ function EventPoster({ event: e, size }: { event: AppEvent; size: "lg" | "sm" })
   return (
     <Link to="/app/events/$eventId" params={{ eventId: e.id }}
       className={cn("relative flex flex-col justify-between overflow-hidden bg-black text-white transition-transform active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring", lg ? "aspect-[10/11] rounded-[1.75rem] p-5" : "aspect-[4/5] rounded-3xl p-3.5")}>
-      <img src={e.image} alt="" className="absolute inset-0 size-full object-cover" />
+      <img src={e.image} alt="" loading="lazy" className="absolute inset-0 size-full object-cover" />
       <div className={photoShade} />
       <div className="relative flex items-start justify-between gap-2">
         {d ? (
@@ -88,7 +88,7 @@ export function EventDetail({ event: e, bib, rsvp }: { event: AppEvent; bib: num
       <div className="flex-1 space-y-6 px-4 pb-6 pt-2">
         <section className="overflow-hidden rounded-3xl border">
           <div className="relative flex h-36 flex-col justify-between bg-black p-5 text-white">
-            <img src={e.image} alt="" className="absolute inset-0 size-full object-cover" />
+            <img src={e.image} alt="" loading="lazy" className="absolute inset-0 size-full object-cover" />
             <div className={photoShade} />
             <p className={cn(label, "relative")}>{[d ? d.full : t.ev.dateTbd, sport].join(" · ")}</p>
             <p className="font-display relative text-[2rem] uppercase leading-none">{e.title}</p>
