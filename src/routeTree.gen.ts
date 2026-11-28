@@ -28,6 +28,7 @@ import { Route as AuthenticatedAdminDocumentsRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminEventsRouteImport } from './routes/_authenticated/admin.events'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppAthletesRouteImport } from './routes/_authenticated/app.athletes'
 import { Route as AuthenticatedAppEventsRouteImport } from './routes/_authenticated/app.events'
 import { Route as AuthenticatedAppFaqRouteImport } from './routes/_authenticated/app.faq'
 import { Route as AuthenticatedAppHelpRouteImport } from './routes/_authenticated/app.help'
@@ -38,6 +39,7 @@ import { Route as AuthenticatedAppRatingRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAppRulesRouteImport } from './routes/_authenticated/app.rules'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
 import { Route as AuthenticatedAppStageRouteImport } from './routes/_authenticated/app.stage'
+import { Route as AuthenticatedAppAthletesUserIdRouteImport } from './routes/_authenticated/app.athletes_.$userId'
 import { Route as AuthenticatedAppEventsEventIdRouteImport } from './routes/_authenticated/app.events_.$eventId'
 import { Route as AuthenticatedAppLeaguesLeagueRouteImport } from './routes/_authenticated/app.leagues_.$league'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
@@ -140,6 +142,12 @@ const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppAthletesRoute =
+  AuthenticatedAppAthletesRouteImport.update({
+    id: '/athletes',
+    path: '/athletes',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppEventsRoute = AuthenticatedAppEventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -193,6 +201,12 @@ const AuthenticatedAppStageRoute = AuthenticatedAppStageRouteImport.update({
   path: '/stage',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppAthletesUserIdRoute =
+  AuthenticatedAppAthletesUserIdRouteImport.update({
+    id: '/athletes_/$userId',
+    path: '/athletes/$userId',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppEventsEventIdRoute =
   AuthenticatedAppEventsEventIdRouteImport.update({
     id: '/events_/$eventId',
@@ -233,6 +247,7 @@ export interface FileRoutesByFullPath {
   '/admin/documents': typeof AuthenticatedAdminDocumentsRoute
   '/admin/events': typeof AuthenticatedAdminEventsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/app/athletes': typeof AuthenticatedAppAthletesRoute
   '/app/events': typeof AuthenticatedAppEventsRoute
   '/app/faq': typeof AuthenticatedAppFaqRoute
   '/app/help': typeof AuthenticatedAppHelpRoute
@@ -245,6 +260,7 @@ export interface FileRoutesByFullPath {
   '/app/stage': typeof AuthenticatedAppStageRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/app/athletes/$userId': typeof AuthenticatedAppAthletesUserIdRoute
   '/app/events/$eventId': typeof AuthenticatedAppEventsEventIdRoute
   '/app/leagues/$league': typeof AuthenticatedAppLeaguesLeagueRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -265,6 +281,7 @@ export interface FileRoutesByTo {
   '/admin/documents': typeof AuthenticatedAdminDocumentsRoute
   '/admin/events': typeof AuthenticatedAdminEventsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/app/athletes': typeof AuthenticatedAppAthletesRoute
   '/app/events': typeof AuthenticatedAppEventsRoute
   '/app/faq': typeof AuthenticatedAppFaqRoute
   '/app/help': typeof AuthenticatedAppHelpRoute
@@ -277,6 +294,7 @@ export interface FileRoutesByTo {
   '/app/stage': typeof AuthenticatedAppStageRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/app/athletes/$userId': typeof AuthenticatedAppAthletesUserIdRoute
   '/app/events/$eventId': typeof AuthenticatedAppEventsEventIdRoute
   '/app/leagues/$league': typeof AuthenticatedAppLeaguesLeagueRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -301,6 +319,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/documents': typeof AuthenticatedAdminDocumentsRoute
   '/_authenticated/admin/events': typeof AuthenticatedAdminEventsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/_authenticated/app/athletes': typeof AuthenticatedAppAthletesRoute
   '/_authenticated/app/events': typeof AuthenticatedAppEventsRoute
   '/_authenticated/app/faq': typeof AuthenticatedAppFaqRoute
   '/_authenticated/app/help': typeof AuthenticatedAppHelpRoute
@@ -313,6 +332,7 @@ export interface FileRoutesById {
   '/_authenticated/app/stage': typeof AuthenticatedAppStageRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/app/athletes_/$userId': typeof AuthenticatedAppAthletesUserIdRoute
   '/_authenticated/app/events_/$eventId': typeof AuthenticatedAppEventsEventIdRoute
   '/_authenticated/app/leagues_/$league': typeof AuthenticatedAppLeaguesLeagueRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -337,6 +357,7 @@ export interface FileRouteTypes {
     | '/admin/documents'
     | '/admin/events'
     | '/admin/users'
+    | '/app/athletes'
     | '/app/events'
     | '/app/faq'
     | '/app/help'
@@ -349,6 +370,7 @@ export interface FileRouteTypes {
     | '/app/stage'
     | '/admin/'
     | '/app/'
+    | '/app/athletes/$userId'
     | '/app/events/$eventId'
     | '/app/leagues/$league'
     | '/lovable/email/auth/preview'
@@ -369,6 +391,7 @@ export interface FileRouteTypes {
     | '/admin/documents'
     | '/admin/events'
     | '/admin/users'
+    | '/app/athletes'
     | '/app/events'
     | '/app/faq'
     | '/app/help'
@@ -381,6 +404,7 @@ export interface FileRouteTypes {
     | '/app/stage'
     | '/admin'
     | '/app'
+    | '/app/athletes/$userId'
     | '/app/events/$eventId'
     | '/app/leagues/$league'
     | '/lovable/email/auth/preview'
@@ -404,6 +428,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/documents'
     | '/_authenticated/admin/events'
     | '/_authenticated/admin/users'
+    | '/_authenticated/app/athletes'
     | '/_authenticated/app/events'
     | '/_authenticated/app/faq'
     | '/_authenticated/app/help'
@@ -416,6 +441,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/stage'
     | '/_authenticated/admin/'
     | '/_authenticated/app/'
+    | '/_authenticated/app/athletes_/$userId'
     | '/_authenticated/app/events_/$eventId'
     | '/_authenticated/app/leagues_/$league'
     | '/lovable/email/auth/preview'
@@ -571,6 +597,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/athletes': {
+      id: '/_authenticated/app/athletes'
+      path: '/athletes'
+      fullPath: '/app/athletes'
+      preLoaderRoute: typeof AuthenticatedAppAthletesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/events': {
       id: '/_authenticated/app/events'
       path: '/events'
@@ -641,6 +674,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppStageRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/athletes_/$userId': {
+      id: '/_authenticated/app/athletes_/$userId'
+      path: '/athletes/$userId'
+      fullPath: '/app/athletes/$userId'
+      preLoaderRoute: typeof AuthenticatedAppAthletesUserIdRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/events_/$eventId': {
       id: '/_authenticated/app/events_/$eventId'
       path: '/events/$eventId'
@@ -692,6 +732,7 @@ const AuthenticatedAdminRouteWithChildren =
   AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
 
 interface AuthenticatedAppRouteChildren {
+  AuthenticatedAppAthletesRoute: typeof AuthenticatedAppAthletesRoute
   AuthenticatedAppEventsRoute: typeof AuthenticatedAppEventsRoute
   AuthenticatedAppFaqRoute: typeof AuthenticatedAppFaqRoute
   AuthenticatedAppHelpRoute: typeof AuthenticatedAppHelpRoute
@@ -703,11 +744,13 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
   AuthenticatedAppStageRoute: typeof AuthenticatedAppStageRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppAthletesUserIdRoute: typeof AuthenticatedAppAthletesUserIdRoute
   AuthenticatedAppEventsEventIdRoute: typeof AuthenticatedAppEventsEventIdRoute
   AuthenticatedAppLeaguesLeagueRoute: typeof AuthenticatedAppLeaguesLeagueRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+  AuthenticatedAppAthletesRoute: AuthenticatedAppAthletesRoute,
   AuthenticatedAppEventsRoute: AuthenticatedAppEventsRoute,
   AuthenticatedAppFaqRoute: AuthenticatedAppFaqRoute,
   AuthenticatedAppHelpRoute: AuthenticatedAppHelpRoute,
@@ -719,6 +762,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
   AuthenticatedAppStageRoute: AuthenticatedAppStageRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppAthletesUserIdRoute: AuthenticatedAppAthletesUserIdRoute,
   AuthenticatedAppEventsEventIdRoute: AuthenticatedAppEventsEventIdRoute,
   AuthenticatedAppLeaguesLeagueRoute: AuthenticatedAppLeaguesLeagueRoute,
 }

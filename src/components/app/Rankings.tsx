@@ -6,6 +6,7 @@ import { fmt, useAppLang } from "@/lib/app/i18n";
 import { LEAGUE_FLOOR, LEAGUES, leagueColorVar, leagueInk, nextLeague, type League } from "@/lib/app/rating";
 import { initials, type RankEntry, type RankMe, type RankSport } from "@/lib/app/rankings";
 import { cn } from "@/lib/utils";
+import { AthleteLink } from "./Athletes";
 import { RankingsMountain } from "./RankingsMountain";
 import { PrimaryButton, Segmented } from "./ui";
 
@@ -21,7 +22,7 @@ function Avatar({ entry, className }: { entry?: RankEntry | undefined; className
 }
 
 /** Rankings tab: the mountain (default, as in Figma) or the list, for the athlete's city and one sport. */
-export function Rankings({ me, entries }: { me: RankMe; entries: Record<RankSport, RankEntry[]> }) {
+export function Rankings({ me, entries, athleteLinks = false }: { me: RankMe; entries: Record<RankSport, RankEntry[]>; /** Names open the athlete's profile (only once following is switched on). */ athleteLinks?: boolean }) {
   const { t } = useAppLang();
   const [sport, setSport] = useState<RankSport>(me.ratings.run || !me.ratings.bike ? "run" : "bike");
   const [view, setView] = useState<"mountain" | "list">("mountain");
@@ -41,13 +42,13 @@ export function Rankings({ me, entries }: { me: RankMe; entries: Record<RankSpor
         </div>
         <div className="mt-3"><Segmented label={t.rank.sport} value={sport} onChange={setSport} options={(["run", "bike"] as const).map((s) => ({ value: s, label: t.ev[s] }))} /></div>
       </div>
-      {view === "mountain" ? <RankingsMountain key={sport} me={me} sport={sport} all={all} mine={mine} /> : <RankingsList key={sport} me={me} sport={sport} all={all} mine={mine} />}
+      {view === "mountain" ? <RankingsMountain key={sport} me={me} sport={sport} all={all} mine={mine} athleteLinks={athleteLinks} /> : <RankingsList key={sport} me={me} sport={sport} all={all} mine={mine} athleteLinks={athleteLinks} />}
     </main>
   );
 }
 
 /** List view: your card, next to beat, league filter, podium and the list. Empty until the first race is run. */
-function RankingsList({ me, sport, all, mine }: { me: RankMe; sport: RankSport; all: RankEntry[]; mine: RankEntry | undefined }) {
+function RankingsList({ me, sport, all, mine, athleteLinks }: { me: RankMe; sport: RankSport; all: RankEntry[]; mine: RankEntry | undefined; athleteLinks: boolean }) {
   const { t } = useAppLang();
   const [league, setLeague] = useState<League | "all">("all");
   const shown = league === "all" ? all : all.filter((e) => e.league === league);
@@ -114,7 +115,7 @@ function RankingsList({ me, sport, all, mine }: { me: RankMe; sport: RankSport; 
             <li key={e.userId} className={cn("flex items-center gap-3 py-3", e.userId === me.userId && "-mx-2 rounded-2xl bg-muted px-2")}>
               <span className="w-7 text-sm font-medium tabular-nums">{e.rank}</span>
               <Avatar entry={e} className="size-9 text-xs" />
-              <div className="min-w-0 flex-1"><p className="truncate font-medium">{e.userId === me.userId ? `${t.rank.you} · ${e.username}` : e.username}</p><p className="text-xs text-muted-foreground">{t.leagues[e.league]}</p></div>
+              <AthleteLink id={e.userId} on={athleteLinks && e.userId !== me.userId} className="block min-w-0 flex-1"><span className="block truncate font-medium">{e.userId === me.userId ? `${t.rank.you} · ${e.username}` : e.username}</span><span className="block text-xs text-muted-foreground">{t.leagues[e.league]}</span></AthleteLink>
               <span className="font-semibold tabular-nums">{e.rating}</span>
             </li>
           ))}

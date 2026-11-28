@@ -5,6 +5,7 @@ import { fmt, useAppLang } from "@/lib/app/i18n";
 import { initials, type RankEntry, type RankMe, type RankSport } from "@/lib/app/rankings";
 import { LEAGUE_FLOOR, LEAGUES, leagueRange, nextLeague, type League } from "@/lib/app/rating";
 import { cn } from "@/lib/utils";
+import { AthleteLink } from "./Athletes";
 
 const TOP_DOWN = [...LEAGUES].reverse(); // PEAQ on the summit, Valle at the foot
 const ROW = 58; // height of one athlete on the trail
@@ -39,7 +40,7 @@ function Climber({ index, size = 34, avatar, children, tag, innerRef }: { index:
 }
 
 /** Mountain view (Figma E4 · Montagna): scroll up to climb the leagues, down to descend. */
-export function RankingsMountain({ me, sport, all, mine }: { me: RankMe; sport: RankSport; all: RankEntry[]; mine: RankEntry | undefined }) {
+export function RankingsMountain({ me, sport, all, mine, athleteLinks }: { me: RankMe; sport: RankSport; all: RankEntry[]; mine: RankEntry | undefined; athleteLinks: boolean }) {
   const { t } = useAppLang();
   const meRef = useRef<HTMLDivElement>(null);
   const empty = all.length === 0;
@@ -113,10 +114,10 @@ export function RankingsMountain({ me, sport, all, mine }: { me: RankMe; sport: 
                     </>}
                     tag={e === ahead ? <span className={cn(label, "absolute -top-3 left-2 z-10 rounded px-1 leading-4 text-white")} style={{ background: BLUE }}>{t.rank.toBeat}</span>
                       : e === behind ? <span className={cn(label, "absolute -top-3 left-2 z-10 rounded bg-black px-1 leading-4 text-white")}>{t.rank.chasing}</span> : undefined}>
-                    <span className={pill} style={e === ahead ? { boxShadow: `0 0 0 2px ${BLUE}` } : undefined}>
+                    <AthleteLink id={e.userId} on={athleteLinks} className={pill} style={e === ahead ? { boxShadow: `0 0 0 2px ${BLUE}` } : undefined}>
                       {e.rank > 3 && <span className="text-muted-foreground">{e.rank}°</span>}
                       <span className="max-w-24 truncate font-medium" style={{ color: INK }}>{e.username}</span><span className="tabular-nums text-muted-foreground">{e.rating}</span>
-                    </span>
+                    </AthleteLink>
                   </Climber>
                 ))}
                 {unranked && (

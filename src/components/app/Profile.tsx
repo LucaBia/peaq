@@ -5,6 +5,7 @@ import type { AppEvent } from "@/lib/app/events";
 import { fmt, useAppLang } from "@/lib/app/i18n";
 import { LEAGUE_FLOOR, LEAGUES, leagueColorVar, leagueInk, nextLeague, XP_FOR_NEXT_LEVEL, type League } from "@/lib/app/rating";
 import { cn } from "@/lib/utils";
+import { Counters } from "./Athletes";
 import { Segmented } from "./ui";
 
 type Sport = "run" | "bike";
@@ -14,8 +15,10 @@ const label = "text-[0.6875rem] font-semibold uppercase tracking-[0.08em]";
 const card = "block rounded-3xl border p-5 transition-colors hover:bg-muted/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** Profile tab: league-coloured top with the bib number, then rating, Stage and upcoming races. */
-export function ProfileScreen({ bib, username, ratings, level, xp, racesDone, upcoming, actions }: {
+export function ProfileScreen({ bib, username, ratings, level, xp, racesDone, social, upcoming, actions }: {
   bib: number | null; username: string; ratings: ProfileRating[]; level: number; xp: number; racesDone: number; upcoming: AppEvent[]; actions?: ReactNode;
+  /** Followers and following: pass it only when following is switched on (see lib/app/social.ts). */
+  social?: { followers: number; following: number } | undefined;
 }) {
   const { t } = useAppLang();
   const sports = (["run", "bike"] as const).filter((s) => ratings.some((r) => r.discipline === s));
@@ -76,10 +79,12 @@ export function ProfileScreen({ bib, username, ratings, level, xp, racesDone, up
           <p className="mt-3 text-xs text-muted-foreground">{nextPrize ? fmt(t.prof.nextPrize, { n: nextPrize.s, prize: nextPrize.t }) : t.prof.allPrizes}</p>
         </Link>
 
-        <div className="flex items-center justify-between rounded-3xl border px-5 py-4">
-          <span className="text-sm text-muted-foreground">{t.prof.racesDone}</span>
-          <span className="text-2xl font-bold tabular-nums">{racesDone}</span>
-        </div>
+        {social ? <Counters items={[{ n: racesDone, label: t.soc.races }, { n: social.followers, label: t.soc.followers, to: "followers" }, { n: social.following, label: t.soc.following, to: "following" }]} /> : (
+          <div className="flex items-center justify-between rounded-3xl border px-5 py-4">
+            <span className="text-sm text-muted-foreground">{t.prof.racesDone}</span>
+            <span className="text-2xl font-bold tabular-nums">{racesDone}</span>
+          </div>
+        )}
 
         <section className="pt-3">
           <h2 className="px-1 text-xl font-bold tracking-tight">{t.prof.nextRaces}</h2>

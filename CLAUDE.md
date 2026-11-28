@@ -19,6 +19,7 @@ Da aprire quando servono (non importati per non riempire il contesto):
 - `docs/07-eventi-note-per-luca.md`: come è fatta la pagina Eventi, perché la gara pilota è nel codice e quali campi servono nel database.
 - `docs/08-classifiche-note-per-luca.md`: come è fatta la pagina Classifiche e la funzione che serve nel database per riempirla.
 - `docs/09-profilo-e-guide-note-per-luca.md`: Profilo nuovo, pagine di spiegazione (rating, leghe, Tappa) e cose da allineare con Luca.
+- `docs/10-seguire-atleti-note-per-luca.md`: Follower, Seguiti, ricerca e profilo degli altri atleti (schermate pronte ma spente) e cosa serve nel database.
 - `docs/legale/`: bozze di Privacy, Termini e Cookie per l'avvocato (non pubblicare).
 
 ## Fonti di verità

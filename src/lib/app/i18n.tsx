@@ -157,6 +157,13 @@ const it = {
       earnNote: "Ci sono XP in più anche per la prima gara e per ogni promozione: dopo la prima gara arrivi subito alla Tappa 2.",
     },
   },
+  soc: {
+    title: "Atleti", races: "Gare", followers: "Follower", following: "Seguiti", search: "Cerca atleti", follow: "Segui", followingBtn: "Seguiti",
+    count1: "1 atleta", countN: "{n} atleti", noFollowers: "Nessuno ti segue ancora.", noFollowing: "Non segui ancora nessuno. Cerca un atleta per iniziare.",
+    notFound: "Questo atleta non esiste più.", menu: "Segnala o blocca",
+    sheetBody: "Segnala un profilo falso o offensivo, oppure blocca chi non vuoi più vedere. Chi è bloccato non può seguirti né scriverti.",
+    report: "Segnala il profilo", block: "Blocca {name}", reported: "Segnalazione inviata.", actionError: "Non siamo riusciti a completare l'operazione. Riprova.",
+  },
   set: {
     title: "Impostazioni", profile: "Profilo", app: "App", account: "Account",
     bib: "Il mio pettorale", username: "Nome utente", sports: "I miei sport", medical: "Certificato medico", membership: "Tessera",
@@ -408,6 +415,13 @@ const en: AppDict = {
       ],
       earnNote: "There are extra XP for your first race and for every promotion too: after your first race you reach Stage 2 straight away.",
     },
+  },
+  soc: {
+    title: "Athletes", races: "Races", followers: "Followers", following: "Following", search: "Search athletes", follow: "Follow", followingBtn: "Following",
+    count1: "1 athlete", countN: "{n} athletes", noFollowers: "Nobody follows you yet.", noFollowing: "You don't follow anyone yet. Search for an athlete to start.",
+    notFound: "This athlete no longer exists.", menu: "Report or block",
+    sheetBody: "Report a fake or offensive profile, or block someone you no longer want to see. Blocked athletes can't follow you or write to you.",
+    report: "Report profile", block: "Block {name}", reported: "Report sent.", actionError: "We couldn't complete that. Please try again.",
   },
   set: {
     title: "Settings", profile: "Profile", app: "App", account: "Account",

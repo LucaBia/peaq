@@ -21,9 +21,10 @@ Pagine nuove dell'app atleti prese da Figma («App Finale»), scritte con i tuoi
 | Impostazioni, Lingua, Aiuto, FAQ, Regolamento | `/app/settings`, `/app/language`, `/app/help`, `/app/faq`, `/app/rules`, `/how` | `app.index.tsx` (ingranaggio al posto di lingua ed esci) |
 | Pagine delle singole leghe | `/app/leagues/:lega` | nessuno |
 | Classifiche: vista montagna | Interruttore montagna/elenco | nessuno |
+| Seguire atleti, ricerca, profili | `/app/athletes`, `/app/athletes/:userId`, contatori nel Profilo: **spenti** finché non c'è il database | nessuno |
 | Aspetto di Figma | Kanit, blu, colori delle leghe, solo nell'app atleti | `styles.css` (+1 blocco), `__root.tsx` (Kanit nel link dei font), `ui.tsx` (classe `theme-athlete`), `Bib.tsx` (colore del testo sulla fascia) |
 
-L'ultimo commit è separato apposta: se preferisci l'aspetto di prima basta annullarlo, il resto non cambia.
+Il commit «Aspetto di Figma» è separato apposta: se preferisci l'aspetto di prima basta annullarlo, il resto non cambia. (In ordine di tempo «Seguire atleti» viene dopo.)
 
 ## Come è scritto
 
@@ -37,7 +38,8 @@ L'ultimo commit è separato apposta: se preferisci l'aspetto di prima basta annu
 1. **Accesso con Apple e Google.** In Supabase (progetto di peaqrace.com) i due provider sono già attivi, configurati da Giovanni. Per mostrare i pulsanti va aggiunta la variabile di build `VITE_OAUTH_PROVIDERS=apple,google` su Cloudflare. Senza, i pulsanti non compaiono. Il secret di Apple scade il 30 maggio 2027.
 2. **Gara pilota nel database** e **conferma della presenza**: proposte in `docs/07-eventi-note-per-luca.md`. Finché non ci sono, la gara è scritta nel codice e il pulsante di conferma è spento (`PILOT_CONFIRM_OPEN`).
 3. **Classifica con i nomi**: funzione `city_ranking` proposta in `docs/08-classifiche-note-per-luca.md`. Elenco e montagna la usano già, basta collegarla in `rankingsService.city()`.
-4. **Da allineare** (`docs/09-profilo-e-guide-note-per-luca.md`): rating di partenza 300 nel codice contro 250 deciso, soglie XP delle Tappe, regole di gioco lato server.
+4. **Seguire altri atleti, ricerca e profili**: tabelle e funzioni proposte in `docs/10-seguire-atleti-note-per-luca.md`. Le schermate sono pronte e spente (`SOCIAL_OPEN`).
+5. **Da allineare** (`docs/09-profilo-e-guide-note-per-luca.md`): rating di partenza 300 nel codice contro 250 deciso, soglie XP delle Tappe, regole di gioco lato server.
 
 ## Cose da sapere
 

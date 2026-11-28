@@ -7,6 +7,7 @@ import { athleteService } from "@/lib/app/athlete";
 import { useAppLang } from "@/lib/app/i18n";
 import { rankingsService, type RankMe, type RankSport } from "@/lib/app/rankings";
 import type { League } from "@/lib/app/rating";
+import { SOCIAL_OPEN } from "@/lib/app/social";
 
 export const Route = createFileRoute("/_authenticated/app/rankings")({
   head: () => ({ meta: [
@@ -33,5 +34,5 @@ function Page() {
   const ratings: RankMe["ratings"] = {};
   for (const r of athlete.data?.ratings ?? []) if (r.discipline === "run" || r.discipline === "bike") ratings[r.discipline] = { rating: r.rating, league: r.league as League };
   const me: RankMe = { userId: user.id, username: profile.username ?? "", city: city.data?.name ?? null, ratings };
-  return <Rankings me={me} entries={{ run: run.data ?? [], bike: bike.data ?? [] }} />;
+  return <Rankings me={me} entries={{ run: run.data ?? [], bike: bike.data ?? [] }} athleteLinks={SOCIAL_OPEN} />;
 }

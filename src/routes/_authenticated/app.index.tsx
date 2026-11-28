@@ -6,6 +6,7 @@ import { Notice, PrimaryButton } from "@/components/app/ui";
 import { athleteService } from "@/lib/app/athlete";
 import { currentUserIsAdmin } from "@/lib/admin/api";
 import { pilotEvent } from "@/lib/app/events";
+import { SOCIAL_OPEN, socialService } from "@/lib/app/social";
 import { useAppLang } from "@/lib/app/i18n";
 
 export const Route = createFileRoute("/_authenticated/app/")({
@@ -22,6 +23,7 @@ function Profile() {
   const { t } = useAppLang();
   const q = useQuery({ queryKey: ["athlete", user.id], queryFn: () => athleteService.loadAll(user.id) });
   const isAdmin = useQuery({ queryKey: ["is-admin", user.id], queryFn: () => currentUserIsAdmin() });
+  const social = useQuery({ queryKey: ["social", "counts", user.id], queryFn: () => socialService.counts(user.id), enabled: SOCIAL_OPEN });
 
   if (q.isLoading) return <div className="flex flex-1 items-center justify-center"><Loader2 className="size-8 animate-spin text-muted-foreground" /></div>;
   if (q.isError || !q.data?.profile) return <div className="space-y-4 p-6"><Notice tone="error">{t.common.networkError}</Notice><PrimaryButton onClick={() => q.refetch()}>{t.common.retry}</PrimaryButton></div>;
@@ -30,7 +32,7 @@ function Profile() {
   const icon = "flex size-11 items-center justify-center rounded-full hover:bg-black/10 focus-visible:outline-2 focus-visible:outline-current";
   return (
     <ProfileScreen bib={p.bib_number} username={p.username ?? ""} ratings={ratings} level={progression?.level ?? 1} xp={progression?.xp ?? 0}
-      racesDone={progression?.events_completed ?? 0} upcoming={[pilotEvent(t)]}
+      racesDone={progression?.events_completed ?? 0} social={SOCIAL_OPEN ? social.data ?? { followers: 0, following: 0 } : undefined} upcoming={[pilotEvent(t)]}
       actions={<>
         {isAdmin.data && <Link to="/admin" aria-label={t.set.admin} className={icon}><Shield className="size-5" /></Link>}
         <Link to="/app/settings" aria-label={t.set.title} className={icon}><Settings className="size-6" /></Link>
