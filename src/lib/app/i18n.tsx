@@ -68,10 +68,10 @@ const it = {
     },
     bib: { title: "Il tuo pettorale. La tua identità.", sub: "Il tuo numero ti accompagnerà in ogni gara su PEAQ.", league: "Lega", athlete: "Atleta" },
     intro: {
-      s1: { t: "Tre spazi, un'app.", profile: "Profilo", profileD: "Pettorale, livello, rating e gare.", events: "Eventi", eventsD: "Scopri le competizioni e iscriviti.", rankings: "Classifiche", rankingsD: "Confronta le prestazioni nella tua città." },
+      s1: { t: "Tre spazi, un'app.", profile: "Profilo", profileD: "Pettorale, Tappa, rating e gare.", events: "Eventi", eventsD: "Scopri le competizioni e iscriviti.", rankings: "Classifiche", rankingsD: "Confronta le prestazioni nella tua città." },
       s2: { t: "Il tuo pettorale.", items: ["Il tuo numero è permanente.", "Il pettorale prende il colore della tua lega.", "Le gare ti fanno guadagnare esperienza.", "Potrai personalizzarne lo stile."] },
       s3: { t: "Rating e leghe.", d: "Il rating misura la tua forza competitiva e può salire o scendere con le gare. Corsa e bici hanno rating separati." },
-      s4: { t: "XP e livelli.", d: "L'XP misura l'esperienza e cresce sempre. I livelli dipendono dall'XP, le leghe dal rating.", level: "Livello 1" },
+      s4: { t: "XP e Tappe.", d: "L'XP misura l'esperienza e cresce sempre. Le Tappe dipendono dall'XP, le leghe dal rating.", level: "Tappa 1" },
       s5: { t: "Competizioni e community.", items: ["Gare di corsa e ciclismo", "Atleti di livello simile", "Classifiche cittadine", "Risultati e progressione", "Avvisi sugli eventi"], end: "Ci vediamo alla partenza.", cta: "Entra in PEAQ" },
     },
     notif: {
@@ -84,7 +84,7 @@ const it = {
   app: {
     tabs: { profile: "Profilo", events: "Eventi", rankings: "Classifiche" },
     rating: "Rating", runRating: "Rating corsa", bikeRating: "Rating bici", provisional: "Provvisorio", placement: "Gare di piazzamento {a}/{b}",
-    level: "Livello", xp: "XP", events: "Gare completate", upcoming: "Prossima gara", noUpcoming: "Nessuna gara in programma. Gli eventi arriveranno presto.",
+    level: "Tappa", xp: "XP", events: "Gare completate", upcoming: "Prossima gara", noUpcoming: "Nessuna gara in programma. Gli eventi arriveranno presto.",
     eventsTitle: "Eventi", eventsEmpty: "Le prime competizioni PEAQ sono in preparazione. Ti avviseremo quando apriranno le iscrizioni.",
     rankTitle: "Classifiche", rankEmpty: "La classifica della tua città sarà disponibile al lancio dell'ecosistema competitivo.",
     settings: "Impostazioni", city: "Città",
@@ -95,6 +95,45 @@ const it = {
     emptyRun: "Nessuna gara di corsa in programma per ora.", emptyBike: "Nessuna gara di bici in programma per ora.",
     date: "Data", start: "Partenza", place: "Luogo", sport: "Sport", spots: "Posti", yourBib: "Il tuo pettorale",
     notFound: "Questa gara non esiste più.", backToEvents: "Torna agli eventi", info: "Informazioni",
+  },
+  prof: {
+    title: "Profilo", provisionalLeft: "Provvisorio · mancano {n} gare", nextPrize: "Prossimo premio: Tappa {n} · {prize}", allPrizes: "Hai sbloccato tutti i premi.",
+    nextRaces: "Prossime gare", howRating: "Come funziona", racesDone: "Gare finite", noRating: "Nessun rating per questo sport.",
+  },
+  guide: {
+    rating: {
+      title: "Come funziona il rating",
+      items: [
+        { t: "Un numero da 0 a 1000", d: "Il rating mostra il tuo livello. Ne hai uno per la corsa e uno per la bici. Parte da quello che hai indicato alla registrazione." },
+        { t: "Cambia in base a chi batti", d: "Dopo ogni gara sale se arrivi davanti a chi ha un rating più alto, e scende se arrivi dietro a chi ne ha uno più basso. Conta solo la posizione, non il tempo: così ogni percorso è equo." },
+        { t: "Sei leghe, dalla Valle a PEAQ", d: "Il rating decide la tua lega." },
+        { t: "Le tue prime 3 gare", d: "Sono gare di piazzamento: il rating si muove più in fretta. Nelle prime 10 gare hai anche +5 per ogni arrivo." },
+        { t: "Protezioni", d: "Dopo una promozione non puoi scendere per 3 gare, e scendi di lega solo 25 punti sotto il suo limite. Il rating non scende mai più di 100 sotto quello di partenza." },
+        { t: "Partenze per lega", d: "In ogni gara si parte per lega: corri sempre con persone del tuo livello." },
+        { t: "Ritirato o assente?", d: "Il ritiro vale come ultimo posto. Se non ti presenti il rating non cambia, ma dopo due assenze senza annullare non puoi iscriverti per una settimana." },
+      ],
+      seeLeagues: "Scopri le leghe", note: "Il rating è separato dagli XP: gli XP misurano quanto gareggi e non scendono mai.",
+    },
+    leagues: {
+      title: "Le leghe", sub: "Sei leghe, dalla Valle a PEAQ. Le soglie sono uguali in tutta Italia.", range: "Rating {r}", here: "Sei qui",
+      tag: { valle: "Chi inizia", collina: "Chi ha preso il ritmo", passo: "Chi si allena con un piano", cresta: "Chi corre per vincere", vetta: "I più forti della città", peaq: "I migliori in assoluto" },
+    },
+    stage: {
+      title: "Tappa", yours: "La tua Tappa", toNext: "{n} XP alla Tappa {s}",
+      intro: "Gli XP misurano quanto gareggi: salgono a ogni gara e non scendono mai. Sono un'altra cosa rispetto al rating.",
+      prizesTitle: "Premi",
+      prizes: [
+        { s: 2, t: "Prossima gara a metà prezzo" }, { s: 3, t: "Iscrizione anticipata di 24 h" }, { s: 5, t: "Priorità in lista d'attesa" },
+        { s: 6, t: "Annulli gratis fino a 24 h prima" }, { s: 8, t: "Una gara a metà prezzo" }, { s: 10, t: "Maglia PEAQ in regalo" },
+        { s: 12, t: "Una gara gratis" }, { s: 15, t: "Iscrizione anticipata di 48 h" }, { s: 18, t: "Un'altra gara gratis" }, { s: 20, t: "Numero di pettorale da 1 a 100" },
+      ],
+      earnTitle: "Come guadagni XP",
+      earn: [
+        { v: "+100", t: "per ogni gara finita" }, { v: "+5", t: "per ogni km di corsa (+1 per ogni km di bici)" }, { v: "+60 · +40 · +25", t: "per il primo, secondo e terzo posto" },
+        { v: "+2", t: "per ogni punto di rating guadagnato" }, { v: "+50", t: "per ogni mese di fila con almeno una gara" },
+      ],
+      earnNote: "Ci sono XP in più anche per la prima gara e per ogni promozione: dopo la prima gara arrivi subito alla Tappa 2.",
+    },
   },
   rank: {
     sport: "Sport", filter: "Filtra per lega", all: "Tutti", you: "Tu",
@@ -118,6 +157,9 @@ const it = {
     starts: { valle: "Corro ogni tanto o sto iniziando (5 km in più di 30 minuti).", collina: "Corro con regolarità (5 km tra 25 e 30 minuti).", passo: "Corro forte (5 km in meno di 25 minuti)." },
     info: ["La prima gara di prova PEAQ, tra amici: serve a provare insieme app, pettorali e classifica.", "Ogni partenza dura circa 15 minuti: mentre corre un gruppo, il successivo si scalda.", "Non servono certificato medico né tessera. Dopo la gara, birra insieme."],
     cta: "Conferme aperte quando c'è la data",
+    confirm: "Conferma la presenza", chooseTitle: "Con quale lega parti?", chooseFirst: "Scegli una partenza", confirmCta: "Conferma",
+    confirmed: "Presenza confermata", confirmedHi: "Ci sei, {name}!", confirmedWith: "Parti con {league}", confirmedSub: "Ti avvisiamo appena c'è la data. Il pettorale lo ritiri alla gara.",
+    change: "Cambia partenza", cancel: "Annulla la presenza", saveError: "Non siamo riusciti a salvare. Riprova.",
   },
   admin: {
     nav: { users: "Utenti", events: "Eventi", admins: "Admin", documents: "Documenti" },
@@ -224,10 +266,10 @@ const en: AppDict = {
     },
     bib: { title: "Your bib. Your identity.", sub: "Your number will be with you in every PEAQ race.", league: "League", athlete: "Athlete" },
     intro: {
-      s1: { t: "Three spaces, one app.", profile: "Profile", profileD: "Bib, level, rating and races.", events: "Events", eventsD: "Discover competitions and register.", rankings: "Rankings", rankingsD: "Compare performance in your city." },
+      s1: { t: "Three spaces, one app.", profile: "Profile", profileD: "Bib, Stage, rating and races.", events: "Events", eventsD: "Discover competitions and register.", rankings: "Rankings", rankingsD: "Compare performance in your city." },
       s2: { t: "Your bib.", items: ["Your number is permanent.", "Your bib takes your league's colour.", "Races earn you experience.", "You'll be able to personalise its style."] },
       s3: { t: "Ratings and leagues.", d: "Your rating measures competitive strength and can rise or fall with races. Running and cycling are rated separately." },
-      s4: { t: "XP and levels.", d: "XP tracks experience and only goes up. Levels are based on XP, leagues on rating.", level: "Level 1" },
+      s4: { t: "XP and Stages.", d: "XP tracks experience and only goes up. Stages are based on XP, leagues on rating.", level: "Stage 1" },
       s5: { t: "Competitions and community.", items: ["Running and cycling races", "Athletes at comparable levels", "City rankings", "Results and progression", "Event notifications"], end: "See you at the starting line.", cta: "Enter PEAQ" },
     },
     notif: {
@@ -240,7 +282,7 @@ const en: AppDict = {
   app: {
     tabs: { profile: "Profile", events: "Events", rankings: "Rankings" },
     rating: "Rating", runRating: "Running rating", bikeRating: "Cycling rating", provisional: "Provisional", placement: "Placement races {a}/{b}",
-    level: "Level", xp: "XP", events: "Races completed", upcoming: "Next race", noUpcoming: "No races scheduled. Events are coming soon.",
+    level: "Stage", xp: "XP", events: "Races completed", upcoming: "Next race", noUpcoming: "No races scheduled. Events are coming soon.",
     eventsTitle: "Events", eventsEmpty: "The first PEAQ competitions are being prepared. We'll let you know when registration opens.",
     rankTitle: "Rankings", rankEmpty: "Your city ranking will be available when the competitive ecosystem launches.",
     settings: "Settings", city: "City",
@@ -251,6 +293,45 @@ const en: AppDict = {
     emptyRun: "No running races scheduled for now.", emptyBike: "No bike races scheduled for now.",
     date: "Date", start: "Start", place: "Place", sport: "Sport", spots: "Spots", yourBib: "Your bib",
     notFound: "This race no longer exists.", backToEvents: "Back to events", info: "Information",
+  },
+  prof: {
+    title: "Profile", provisionalLeft: "Provisional · {n} races to go", nextPrize: "Next prize: Stage {n} · {prize}", allPrizes: "You've unlocked every prize.",
+    nextRaces: "Upcoming races", howRating: "How it works", racesDone: "Races finished", noRating: "No rating for this sport.",
+  },
+  guide: {
+    rating: {
+      title: "How the rating works",
+      items: [
+        { t: "A number from 0 to 1000", d: "Your rating shows your level. You have one for running and one for cycling. It starts from what you entered when you signed up." },
+        { t: "It changes based on who you beat", d: "After each race it goes up if you finish ahead of someone with a higher rating, and down if you finish behind someone with a lower one. Only position counts, not time: that keeps every course fair." },
+        { t: "Six leagues, from Valle to PEAQ", d: "Your rating decides your league." },
+        { t: "Your first 3 races", d: "They are placement races: your rating moves faster. In your first 10 races you also get +5 for every finish." },
+        { t: "Protections", d: "After a promotion you can't go down for 3 races, and you drop a league only 25 points below its limit. Your rating never falls more than 100 below your starting one." },
+        { t: "Starts by league", d: "Every race starts by league: you always run with people at your level." },
+        { t: "Dropped out or absent?", d: "Dropping out counts as last place. If you don't show up your rating doesn't change, but after two no-shows without cancelling you can't register for a week." },
+      ],
+      seeLeagues: "See the leagues", note: "Rating is separate from XP: XP measure how much you race and never go down.",
+    },
+    leagues: {
+      title: "The leagues", sub: "Six leagues, from Valle to PEAQ. The thresholds are the same everywhere in Italy.", range: "Rating {r}", here: "You are here",
+      tag: { valle: "Just starting", collina: "Found their rhythm", passo: "Training with a plan", cresta: "Racing to win", vetta: "The strongest in town", peaq: "The best of all" },
+    },
+    stage: {
+      title: "Stage", yours: "Your Stage", toNext: "{n} XP to Stage {s}",
+      intro: "XP measure how much you race: they go up with every race and never go down. They are a different thing from your rating.",
+      prizesTitle: "Prizes",
+      prizes: [
+        { s: 2, t: "Next race at half price" }, { s: 3, t: "24 h early registration" }, { s: 5, t: "Waiting list priority" },
+        { s: 6, t: "Free cancellation up to 24 h before" }, { s: 8, t: "One race at half price" }, { s: 10, t: "A free PEAQ jersey" },
+        { s: 12, t: "One free race" }, { s: 15, t: "48 h early registration" }, { s: 18, t: "Another free race" }, { s: 20, t: "A bib number from 1 to 100" },
+      ],
+      earnTitle: "How you earn XP",
+      earn: [
+        { v: "+100", t: "for every race you finish" }, { v: "+5", t: "for every km of running (+1 for every km by bike)" }, { v: "+60 · +40 · +25", t: "for first, second and third place" },
+        { v: "+2", t: "for every rating point gained" }, { v: "+50", t: "for every month in a row with at least one race" },
+      ],
+      earnNote: "There are extra XP for your first race and for every promotion too: after your first race you reach Stage 2 straight away.",
+    },
   },
   rank: {
     sport: "Sport", filter: "Filter by league", all: "All", you: "You",
@@ -273,6 +354,9 @@ const en: AppDict = {
     starts: { valle: "I run now and then or I'm just starting (5 km in over 30 minutes).", collina: "I run regularly (5 km in 25 to 30 minutes).", passo: "I run fast (5 km in under 25 minutes)." },
     info: ["The first PEAQ test race, among friends: we try the app, the bibs and the rankings together.", "Each start lasts about 15 minutes: while one group races, the next warms up.", "No medical certificate or membership card needed. Beers together after the race."],
     cta: "Confirmations open once the date is set",
+    confirm: "Confirm you're coming", chooseTitle: "Which league do you start with?", chooseFirst: "Pick a start", confirmCta: "Confirm",
+    confirmed: "You're confirmed", confirmedHi: "You're in, {name}!", confirmedWith: "You start with {league}", confirmedSub: "We'll let you know as soon as the date is set. You'll collect your bib at the race.",
+    change: "Change start", cancel: "Cancel my spot", saveError: "We couldn't save that. Please try again.",
   },
   admin: {
     nav: { users: "Users", events: "Events", admins: "Admins", documents: "Documents" },

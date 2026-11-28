@@ -205,3 +205,14 @@ export function Segmented<V extends string>({ options, value, onChange, label }:
     </div>
   );
 }
+
+/** Header of a page opened from a tab: back arrow + title. */
+export function BackHeader({ title, to }: { title: string; to: string }) {
+  const { t } = useAppLang();
+  return (
+    <header className="pt-safe flex items-center gap-1 px-2 pb-2">
+      <Link to={to} aria-label={t.common.back} className="flex size-11 shrink-0 items-center justify-center rounded-full hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"><ChevronLeft className="size-6" /></Link>
+      <h1 className="truncate text-xl font-bold tracking-tight">{title}</h1>
+    </header>
+  );
+}

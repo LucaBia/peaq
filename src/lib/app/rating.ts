@@ -14,3 +14,6 @@ export const leagueInk = (l: League) => (l === "cresta" || l === "peaq" ? "oklch
 
 /** XP needed for the next level. Only level 1 (200 XP) is defined so far. */
 export const XP_FOR_NEXT_LEVEL: Record<number, number> = { 1: 200 };
+
+/** "0–199", "800+": the rating range of a league, for labels. */
+export const leagueRange = (l: League) => { const n = nextLeague(l); return n ? `${LEAGUE_FLOOR[l]}–${LEAGUE_FLOOR[n] - 1}` : `${LEAGUE_FLOOR[l]}+`; };

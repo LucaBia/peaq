@@ -1,10 +1,10 @@
 import { useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronLeft, MapPin } from "lucide-react";
+import { Check, ChevronLeft, MapPin } from "lucide-react";
 import { fmt, useAppLang } from "@/lib/app/i18n";
-import { dateParts, matchesSport, PILOT_STARTS, type AppEvent } from "@/lib/app/events";
+import { dateParts, matchesSport, PILOT_STARTS, type AppEvent, type PilotStart } from "@/lib/app/events";
 import { cn } from "@/lib/utils";
-import { Segmented } from "./ui";
+import { Notice, OptionList, PrimaryButton, Segmented, Sheet } from "./ui";
 
 type Sport = "all" | "run" | "bike";
 
@@ -70,7 +70,10 @@ function Field({ name, children, className }: { name: string; children: ReactNod
 }
 
 /** Event page: the ticket, then (pilot race only) how it works, the three starts and the notes. */
-export function EventDetail({ event: e, bib }: { event: AppEvent; bib: number | null | undefined }) {
+/** Confirming a spot at the pilot race. Pass it only when confirmations are open; without it the button stays off. */
+export type PilotRsvp = { name: string; start: PilotStart | null; saving: boolean; error: boolean; onConfirm: (start: PilotStart) => void; onCancel: () => void };
+
+export function EventDetail({ event: e, bib, rsvp }: { event: AppEvent; bib: number | null | undefined; rsvp?: PilotRsvp | undefined }) {
   const { t, lang } = useAppLang();
   const d = e.startsAt ? dateParts(e.startsAt, lang) : null;
   const sport = e.discipline === "both" ? `${t.ev.run} · ${t.ev.bike}` : t.ev[e.discipline];
@@ -107,35 +110,68 @@ export function EventDetail({ event: e, bib }: { event: AppEvent; bib: number | 
           </div>
           <dl className="grid grid-cols-[auto_1fr_auto] gap-x-5 p-5">
             <Field name={t.ev.yourBib}><span className="font-display text-3xl leading-none">{bib ? `#${bib}` : "—"}</span></Field>
-            {e.pilot ? <Field name={t.pilot.startWith}>{t.pilot.startWithValue}</Field> : <Field name={t.ev.sport}>{sport}</Field>}
+            {e.pilot ? <Field name={t.pilot.startWith}>{rsvp?.start ? t.leagues[rsvp.start] : t.pilot.startWithValue}</Field> : <Field name={t.ev.sport}>{sport}</Field>}
             <Field name={t.ev.spots}>{e.capacity ?? "—"}</Field>
           </dl>
         </section>
 
-        {e.pilot ? <PilotSections capacity={e.capacity ?? 0} /> : e.description && (
+        {e.pilot ? <PilotSections capacity={e.capacity ?? 0} rsvp={rsvp} /> : e.description && (
           <section><h2 className={cn(label, "px-1 text-muted-foreground")}>{t.ev.info}</h2><p className="mt-2 whitespace-pre-line px-1">{e.description}</p></section>
         )}
       </div>
 
-      {e.pilot && (
-        // Sits just above the tab bar of the app layout (3.5rem + its bottom safe area + 1px border).
-        <div className="sticky z-20 border-t bg-background/95 px-4 py-3 backdrop-blur" style={{ bottom: "calc(3.5rem + max(env(safe-area-inset-bottom), 1rem) + 1px)" }}>
-          <button type="button" disabled className="flex min-h-14 w-full items-center justify-center rounded-2xl bg-muted px-4 text-center text-base font-semibold text-muted-foreground">{t.pilot.cta}</button>
-        </div>
-      )}
+      {e.pilot && <PilotCta rsvp={rsvp} />}
     </main>
   );
 }
 
-function PilotSections({ capacity }: { capacity: number }) {
+/** Bottom bar of the pilot race: off until confirmations open, then "confirm" or "change / cancel". */
+function PilotCta({ rsvp }: { rsvp?: PilotRsvp | undefined }) {
+  const { t } = useAppLang();
+  const [open, setOpen] = useState(false);
+  const [pick, setPick] = useState<PilotStart | null>(null);
+  return (
+    // Sits just above the tab bar of the app layout (3.5rem + its bottom safe area + 1px border).
+    <div className="sticky z-20 space-y-2 border-t bg-background/95 px-4 py-3 backdrop-blur" style={{ bottom: "calc(3.5rem + max(env(safe-area-inset-bottom), 1rem) + 1px)" }}>
+      {!rsvp ? (
+        <button type="button" disabled className="flex min-h-14 w-full items-center justify-center rounded-2xl bg-muted px-4 text-center text-base font-semibold text-muted-foreground">{t.pilot.cta}</button>
+      ) : (
+        <>
+          {rsvp.error && <Notice tone="error">{t.pilot.saveError}</Notice>}
+          {rsvp.start ? (
+            <div className="grid grid-cols-2 gap-2">
+              <PrimaryButton variant="outline" loading={rsvp.saving} onClick={() => { setPick(rsvp.start); setOpen(true); }}>{t.pilot.change}</PrimaryButton>
+              <PrimaryButton variant="outline" disabled={rsvp.saving} onClick={rsvp.onCancel}>{t.pilot.cancel}</PrimaryButton>
+            </div>
+          ) : <PrimaryButton loading={rsvp.saving} onClick={() => { setPick(null); setOpen(true); }}>{t.pilot.confirm}</PrimaryButton>}
+          <Sheet open={open} onOpenChange={setOpen} title={t.pilot.chooseTitle}>
+            <OptionList options={PILOT_STARTS.map((l) => ({ value: l, label: t.leagues[l], sub: t.pilot.starts[l] }))} value={pick} onSelect={setPick} />
+            <div className="px-6 pt-4"><PrimaryButton disabled={!pick} onClick={() => { if (pick) { rsvp.onConfirm(pick); setOpen(false); } }}>{pick ? t.pilot.confirmCta : t.pilot.chooseFirst}</PrimaryButton></div>
+          </Sheet>
+        </>
+      )}
+    </div>
+  );
+}
+
+function PilotSections({ capacity, rsvp }: { capacity: number; rsvp?: PilotRsvp | undefined }) {
   const { t } = useAppLang();
   const h2 = "text-xl font-bold tracking-tight";
   return (
     <>
-      <div className="rounded-3xl bg-muted p-5">
-        <p className="font-semibold">{fmt(t.pilot.inviteTitle, { n: capacity })}</p>
-        <p className="mt-1 text-sm text-muted-foreground">{t.pilot.inviteSub}</p>
-      </div>
+      {rsvp?.start ? (
+        <div className="rounded-3xl bg-success/10 p-5">
+          <p className={cn(label, "flex items-center gap-1.5")}><Check className="size-4 text-success" aria-hidden />{t.pilot.confirmed}</p>
+          <p className="mt-1 text-2xl font-bold leading-tight">{fmt(t.pilot.confirmedHi, { name: rsvp.name })}</p>
+          <p className="mt-1 font-semibold">{fmt(t.pilot.confirmedWith, { league: t.leagues[rsvp.start] })}</p>
+          <p className="mt-2 text-sm text-muted-foreground">{t.pilot.confirmedSub}</p>
+        </div>
+      ) : (
+        <div className="rounded-3xl bg-muted p-5">
+          <p className="font-semibold">{fmt(t.pilot.inviteTitle, { n: capacity })}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t.pilot.inviteSub}</p>
+        </div>
+      )}
 
       <section className="px-1">
         <h2 className={h2}>{t.pilot.howTitle}</h2>

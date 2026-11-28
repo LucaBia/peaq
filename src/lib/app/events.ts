@@ -27,6 +27,21 @@ export type AppEvent = {
 
 export const PILOT_EVENT_ID = "gara-pilota";
 export const PILOT_STARTS = ["valle", "collina", "passo"] as const;
+export type PilotStart = (typeof PILOT_STARTS)[number];
+
+/** Turn on when the date is set AND the database functions below exist. Until then the button says confirmations are closed. */
+export const PILOT_CONFIRM_OPEN = false;
+
+/**
+ * Confirming a spot at the pilot race. Nothing is saved yet: the database has no place for it.
+ * Wire these three to the functions proposed in docs/07-eventi-note-per-luca.md, then flip PILOT_CONFIRM_OPEN.
+ */
+export const pilotService = {
+  /** The start the athlete confirmed with, or null if they haven't confirmed. */
+  async myStart(): Promise<PilotStart | null> { return null; },
+  async confirm(_start: PilotStart): Promise<void> { throw new Error("pilot_confirm_not_available"); },
+  async cancel(): Promise<void> { throw new Error("pilot_confirm_not_available"); },
+};
 
 /**
  * The pilot race lives in code for now: the `events` table needs a date (`starts_at` is NOT NULL) and has no

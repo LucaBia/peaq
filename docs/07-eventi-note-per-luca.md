@@ -35,9 +35,46 @@ Quando la tabella avrà questi campi basta pubblicare la gara dal pannello admin
 
 Mancano anche, per i bollini «Iscritto» ed «Esaurito» dei manifesti: una tabella delle iscrizioni e il numero di iscritti per gara.
 
-## Pulsante «Conferma la presenza»
+## Conferma della presenza alla gara pilota
 
-Per ora è spento e dice «Conferme aperte quando c'è la data». Quando ci sarà la data servirà una funzione nel database (stile `claim_bib`) che salvi la conferma e la partenza scelta (Valle, Collina o Passo), più l'elenco degli invitati.
+La parte visiva è fatta e provata con dati finti: pulsante «Conferma la presenza», foglio con le tre partenze (Valle, Collina, Passo), card verde «Presenza confermata · Parti con Collina», pulsanti «Cambia partenza» e «Annulla la presenza».
+
+**Nell'app è spenta**: `PILOT_CONFIRM_OPEN = false` in `src/lib/app/events.ts`, e il pulsante dice «Conferme aperte quando c'è la data». Niente viene salvato, perché nel database non c'è ancora dove.
+
+Per accenderla servono tre cose, poi basta collegarle a `pilotService` (stesso file) e mettere `PILOT_CONFIRM_OPEN = true`:
+
+```sql
+create table public.pilot_confirmations (
+  user_id uuid primary key references public.athlete_profiles(user_id) on delete cascade,
+  start_league text not null check (start_league in ('valle','collina','passo')),
+  confirmed_at timestamptz not null default now()
+);
+alter table public.pilot_confirmations enable row level security;
+grant select on public.pilot_confirmations to authenticated;
+create policy "Own confirmation read" on public.pilot_confirmations for select to authenticated
+  using (user_id = auth.uid() or public.has_role(auth.uid(), 'admin'));
+
+-- Conferma o cambia partenza: massimo 40 posti.
+create or replace function public.confirm_pilot_presence(_start text)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if _start not in ('valle','collina','passo') then raise exception 'invalid_start'; end if;
+  if not exists (select 1 from public.pilot_confirmations where user_id = auth.uid())
+     and (select count(*) from public.pilot_confirmations) >= 40 then raise exception 'full'; end if;
+  insert into public.pilot_confirmations (user_id, start_league) values (auth.uid(), _start)
+  on conflict (user_id) do update set start_league = excluded.start_league;
+end $$;
+
+create or replace function public.cancel_pilot_presence()
+returns void language sql security definer set search_path = public as $$
+  delete from public.pilot_confirmations where user_id = auth.uid();
+$$;
+```
+
+Da decidere con Giovanni:
+- **Chi può confermare**: chiunque abbia un account (proposta sopra, gli inviti si fanno a voce) oppure solo una lista di invitati.
+- **Rating di partenza dalla partenza scelta**: proposta Valle 150, Collina 250, Passo 350 (`docs/05-gara-pilota.md`).
+- Elenco dei confermati nel pannello admin, con la partenza scelta e il numero di pettorale.
 
 ## Differenze volute rispetto a Figma
 

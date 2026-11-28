@@ -27,7 +27,10 @@ import { Route as AuthenticatedAdminEventsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppEventsRouteImport } from './routes/_authenticated/app.events'
+import { Route as AuthenticatedAppLeaguesRouteImport } from './routes/_authenticated/app.leagues'
 import { Route as AuthenticatedAppRankingsRouteImport } from './routes/_authenticated/app.rankings'
+import { Route as AuthenticatedAppRatingRouteImport } from './routes/_authenticated/app.rating'
+import { Route as AuthenticatedAppStageRouteImport } from './routes/_authenticated/app.stage'
 import { Route as AuthenticatedAppEventsEventIdRouteImport } from './routes/_authenticated/app.events_.$eventId'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
@@ -124,12 +127,27 @@ const AuthenticatedAppEventsRoute = AuthenticatedAppEventsRouteImport.update({
   path: '/events',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppLeaguesRoute = AuthenticatedAppLeaguesRouteImport.update({
+  id: '/leagues',
+  path: '/leagues',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
 const AuthenticatedAppRankingsRoute =
   AuthenticatedAppRankingsRouteImport.update({
     id: '/rankings',
     path: '/rankings',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppRatingRoute = AuthenticatedAppRatingRouteImport.update({
+  id: '/rating',
+  path: '/rating',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppStageRoute = AuthenticatedAppStageRouteImport.update({
+  id: '/stage',
+  path: '/stage',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
 const AuthenticatedAppEventsEventIdRoute =
   AuthenticatedAppEventsEventIdRouteImport.update({
     id: '/events_/$eventId',
@@ -163,7 +181,10 @@ export interface FileRoutesByFullPath {
   '/admin/events': typeof AuthenticatedAdminEventsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/app/events': typeof AuthenticatedAppEventsRoute
+  '/app/leagues': typeof AuthenticatedAppLeaguesRoute
   '/app/rankings': typeof AuthenticatedAppRankingsRoute
+  '/app/rating': typeof AuthenticatedAppRatingRoute
+  '/app/stage': typeof AuthenticatedAppStageRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/events/$eventId': typeof AuthenticatedAppEventsEventIdRoute
@@ -184,7 +205,10 @@ export interface FileRoutesByTo {
   '/admin/events': typeof AuthenticatedAdminEventsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/app/events': typeof AuthenticatedAppEventsRoute
+  '/app/leagues': typeof AuthenticatedAppLeaguesRoute
   '/app/rankings': typeof AuthenticatedAppRankingsRoute
+  '/app/rating': typeof AuthenticatedAppRatingRoute
+  '/app/stage': typeof AuthenticatedAppStageRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/events/$eventId': typeof AuthenticatedAppEventsEventIdRoute
@@ -209,7 +233,10 @@ export interface FileRoutesById {
   '/_authenticated/admin/events': typeof AuthenticatedAdminEventsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/app/events': typeof AuthenticatedAppEventsRoute
+  '/_authenticated/app/leagues': typeof AuthenticatedAppLeaguesRoute
   '/_authenticated/app/rankings': typeof AuthenticatedAppRankingsRoute
+  '/_authenticated/app/rating': typeof AuthenticatedAppRatingRoute
+  '/_authenticated/app/stage': typeof AuthenticatedAppStageRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/events_/$eventId': typeof AuthenticatedAppEventsEventIdRoute
@@ -234,7 +261,10 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/users'
     | '/app/events'
+    | '/app/leagues'
     | '/app/rankings'
+    | '/app/rating'
+    | '/app/stage'
     | '/admin/'
     | '/app/'
     | '/app/events/$eventId'
@@ -255,7 +285,10 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/users'
     | '/app/events'
+    | '/app/leagues'
     | '/app/rankings'
+    | '/app/rating'
+    | '/app/stage'
     | '/admin'
     | '/app'
     | '/app/events/$eventId'
@@ -279,7 +312,10 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/events'
     | '/_authenticated/admin/users'
     | '/_authenticated/app/events'
+    | '/_authenticated/app/leagues'
     | '/_authenticated/app/rankings'
+    | '/_authenticated/app/rating'
+    | '/_authenticated/app/stage'
     | '/_authenticated/admin/'
     | '/_authenticated/app/'
     | '/_authenticated/app/events_/$eventId'
@@ -428,11 +464,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppEventsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/leagues': {
+      id: '/_authenticated/app/leagues'
+      path: '/leagues'
+      fullPath: '/app/leagues'
+      preLoaderRoute: typeof AuthenticatedAppLeaguesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/rankings': {
       id: '/_authenticated/app/rankings'
       path: '/rankings'
       fullPath: '/app/rankings'
       preLoaderRoute: typeof AuthenticatedAppRankingsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/rating': {
+      id: '/_authenticated/app/rating'
+      path: '/rating'
+      fullPath: '/app/rating'
+      preLoaderRoute: typeof AuthenticatedAppRatingRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/stage': {
+      id: '/_authenticated/app/stage'
+      path: '/stage'
+      fullPath: '/app/stage'
+      preLoaderRoute: typeof AuthenticatedAppStageRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/events_/$eventId': {
@@ -480,14 +537,20 @@ const AuthenticatedAdminRouteWithChildren =
 
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppEventsRoute: typeof AuthenticatedAppEventsRoute
+  AuthenticatedAppLeaguesRoute: typeof AuthenticatedAppLeaguesRoute
   AuthenticatedAppRankingsRoute: typeof AuthenticatedAppRankingsRoute
+  AuthenticatedAppRatingRoute: typeof AuthenticatedAppRatingRoute
+  AuthenticatedAppStageRoute: typeof AuthenticatedAppStageRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppEventsEventIdRoute: typeof AuthenticatedAppEventsEventIdRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppEventsRoute: AuthenticatedAppEventsRoute,
+  AuthenticatedAppLeaguesRoute: AuthenticatedAppLeaguesRoute,
   AuthenticatedAppRankingsRoute: AuthenticatedAppRankingsRoute,
+  AuthenticatedAppRatingRoute: AuthenticatedAppRatingRoute,
+  AuthenticatedAppStageRoute: AuthenticatedAppStageRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppEventsEventIdRoute: AuthenticatedAppEventsEventIdRoute,
 }
